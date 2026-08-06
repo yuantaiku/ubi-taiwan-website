@@ -54,4 +54,15 @@ references-info/
 
 ## 部署
 
-`npm run build` 後將 `dist/` 部署至任何靜態主機（GitHub Pages、Netlify、Cloudflare Pages 免費方案皆可）。
+### 預覽站（現行）
+
+Push 到 `main` 分支即自動部署至 GitHub Pages：
+
+- 預覽網址：https://yuantaiku.github.io/ubi-taiwan-website/
+- 預覽站帶有 `noindex`（不會被搜尋引擎收錄），並由 CI 自動改寫子路徑。
+- 流程見 `.github/workflows/deploy.yml`。
+
+### 正式上線（未來）
+
+正式站部署於網域根目錄（ubitaiwan.org）時：`npm run build` 產出 `dist/` 直接部署即可，
+原始碼皆以根路徑撰寫，無需改寫；記得移除 CI 中的 `PREVIEW_DEPLOY` 環境變數以解除 noindex。
