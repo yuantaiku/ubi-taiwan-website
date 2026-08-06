@@ -1,0 +1,13 @@
+# 相依與建置產物
+node_modules/
+dist/
+.astro/
+
+# 內部資料：不進入公開 repo
+references-info/
+docs/
+
+# 本機設定
+.claude/
+.DS_Store
+*.log

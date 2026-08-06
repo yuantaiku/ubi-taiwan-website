@@ -1,0 +1,576 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// 「生活自由計畫」專頁
+// 內容來源：references-info/生活自由計畫-網頁內容素材.md
+// 本頁採獨立的無障礙優先（accessibility-first）NGO 樣式，
+// 不沿用全站 design system 的視覺，但共用導覽與頁尾以維持動線一致。
+
+const steps = [
+  {
+    n: '1',
+    name: '報名',
+    date: '2026/07/20 – 2026/08/31',
+    desc: '開放公開報名。JUJI 會員於截止日前在 JUJI 官方活動頁填寫並送出報名問卷，即符合參加資格。',
+    now: true,
+  },
+  {
+    n: '2',
+    name: '公布',
+    date: '2026/09/07',
+    desc: '從所有報名者中隨機抽出 15 位候選人並公布名單。',
+  },
+  {
+    n: '3',
+    name: '決選',
+    date: '2026/09/08 – 2026/10/31',
+    desc: '15 位候選人受邀參與訪談，由 UBI Taiwan 以專業問卷與深度訪談完成評估，選出 3 位計畫主角。',
+  },
+  {
+    n: '4',
+    name: '啟動',
+    date: '2026/11 – 2027/10',
+    desc: '計畫正式展開：每月 10,000 元準時入帳，為期完整一年。',
+  },
+];
+
+const promises = [
+  {
+    title: '不是借款，也不是交換',
+    desc: '這筆錢不需要償還，也沒有任何形式的條件交換。它是一份支持你生活的基本收入。',
+  },
+  {
+    title: '無條件、不限用途',
+    desc: '每月一萬如何改寫生活？你的選擇，你的自由。我們不審查、不過問、不評價你的用途。',
+  },
+  {
+    title: '隨時可以退出',
+    desc: '參與過程中若有任何考量，你隨時可以選擇退出。UBI Taiwan 會全程陪伴。',
+  },
+];
+
+const faqs = [
+  {
+    q: '這是一筆借款嗎？之後需要還嗎？',
+    a: '不需要。這不是借款，也不是任何形式的條件交換。這是一筆無條件的基本收入，支持你按照自己的想法生活。',
+  },
+  {
+    q: '這筆錢可以用在哪些地方？',
+    a: '沒有任何使用限制。付房租、進修、照顧家人、償還債務、儲蓄，或單純讓生活喘一口氣——你的選擇，你的自由。',
+  },
+  {
+    q: '誰可以報名？怎麼報名？',
+    a: '只要是 JUJI 會員，於報名期間（2026/07/20 – 2026/08/31）在 JUJI 官方活動頁填寫報名問卷並送出，皆符合參加資格。報名入口請見本頁「立即報名」按鈕。',
+  },
+  {
+    q: '中途可以退出嗎？',
+    a: '可以。參與者隨時都可以選擇退出計畫，UBI Taiwan 全程陪伴，也會尊重你的每一個決定。',
+  },
+  {
+    q: '我的個人資料與這筆資金如何被管理？',
+    a: '計畫每月定期發放並進行財務稽核，確保資金流向透明。研究資料在去識別化後，才會用於公開的影響力報告與研究報告書。',
+  },
+  {
+    q: '為什麼要做這個實驗？',
+    a: '「發錢給大家，人們會不會就不工作了？」與其爭論，不如用真實的實驗回答。我們將透過一年的追蹤研究與紀錄片，讓台灣社會看見基本收入帶來的真實改變。',
+  },
+];
+---
+
+<BaseLayout
+  title="生活自由計畫｜每月一萬・改寫生活｜UBI Taiwan"
+  description="台灣首例由企業贊助的基本收入實驗：3 位參與者、每月 10,000 元、連續 12 個月、無條件不限用途。JUJI 攜手 UBI Taiwan，邀你一起改寫生活。報名至 2026/08/31 止。"
+  current="life-freedom"
+  ogImage="/images/og-life-freedom.png"
+>
+  <div class="lf">
+    <!-- Hero -->
+    <section class="lf-hero" aria-labelledby="lf-title">
+      <div class="lf-container">
+        <p class="lf-hero__kicker">台灣首例・企業贊助的基本收入實驗</p>
+        <h1 id="lf-title">生活自由計畫</h1>
+        <p class="lf-hero__slogan">每月一萬・改寫生活</p>
+        <p class="lf-hero__lead">
+          3 位主角，每月 10,000 元，連續 12 個月。<br />
+          無條件、不限用途——即將改寫自己獨一無二的生命故事。
+        </p>
+        <div class="lf-hero__actions">
+          <a class="lf-btn lf-btn--primary" href="https://juji.tw/juji-ubi-esg" rel="noopener">立即報名</a>
+          <a class="lf-btn lf-btn--ghost" href="#how">計畫怎麼進行</a>
+        </div>
+        <p class="lf-hero__deadline">公開報名進行中，至 2026/08/31 止</p>
+        <svg class="lf-hero__wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0,60 C240,20 480,90 720,55 C960,20 1200,80 1440,45 L1440,90 L0,90 Z" fill="currentColor" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- 三個關鍵數字 -->
+    <section class="lf-section" aria-labelledby="lf-numbers-title">
+      <div class="lf-container">
+        <h2 id="lf-numbers-title" class="visually-hidden">計畫關鍵數字</h2>
+        <dl class="lf-numbers">
+          <div class="lf-numbers__item">
+            <dt>參與主角</dt>
+            <dd><span class="lf-numbers__value">3</span> 位</dd>
+          </div>
+          <div class="lf-numbers__item">
+            <dt>每月基本收入</dt>
+            <dd><span class="lf-numbers__value">1</span> 萬元</dd>
+          </div>
+          <div class="lf-numbers__item">
+            <dt>完整期間</dt>
+            <dd><span class="lf-numbers__value">12</span> 個月</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- 為什麼 -->
+    <section class="lf-section lf-section--tint" aria-labelledby="lf-why-title">
+      <div class="lf-container lf-narrow">
+        <h2 id="lf-why-title">為什麼台灣需要這場實驗？</h2>
+        <p class="lf-lead">
+          台灣的實質薪資已停滯超過二十年；AI 正在快速改寫工作的樣貌；
+          年輕世代中，每三位 35 歲以下的勞工，就有一位薪資低於最低工資。
+          當「努力工作」不再保證「好好生活」，社會需要新的答案。
+        </p>
+        <p class="lf-lead">
+          無條件基本收入（UBI）是世界各國正在探索的制度解方：
+          以個人為單位，定期、無條件發放現金，保障每個人的基本生活與實質自由。
+          這場實驗，就是要用台灣自己的真實故事與數據，回答台灣社會的疑問。
+        </p>
+        <blockquote class="lf-quote">
+          <p>我們希望有一天，社會上每個人都能夠好好地生活，而不只是生存。</p>
+          <cite>— UBI Taiwan</cite>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- 三大保證 -->
+    <section class="lf-section" aria-labelledby="lf-promise-title">
+      <div class="lf-container">
+        <h2 id="lf-promise-title">中選之後，你會獲得什麼？</h2>
+        <p class="lf-lead lf-narrow-text">
+          每月 10,000 元，連續 12 個月固定入帳，總計 12 萬元。以及三個重要的承諾：
+        </p>
+        <ul class="lf-promises" role="list">
+          {promises.map((p, i) => (
+            <li class="lf-promises__item">
+              <span class="lf-promises__num" aria-hidden="true">{i + 1}</span>
+              <h3>{p.title}</h3>
+              <p>{p.desc}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- 流程 -->
+    <section id="how" class="lf-section lf-section--tint" aria-labelledby="lf-how-title">
+      <div class="lf-container">
+        <h2 id="lf-how-title">如何成為計畫主角？</h2>
+        <p class="lf-lead lf-narrow-text">四個階段，從報名到啟動，每一步都公開透明。</p>
+        <ol class="lf-steps">
+          {steps.map((s) => (
+            <li class="lf-steps__item">
+              <div class="lf-steps__badge" aria-hidden="true">{s.n}</div>
+              <div class="lf-steps__body">
+                <h3>
+                  {s.name}
+                  {s.now && <span class="lf-steps__now">進行中</span>}
+                </h3>
+                <p class="lf-steps__date">{s.date}</p>
+                <p>{s.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- 研究與透明 -->
+    <section class="lf-section" aria-labelledby="lf-research-title">
+      <div class="lf-container lf-narrow">
+        <h2 id="lf-research-title">不只是發錢，更是嚴謹的研究</h2>
+        <p class="lf-lead">
+          一年之間，UBI Taiwan 將與 3 位主角進行共 6 次深度訪談
+          （發放前 1 次、期間 4 次、發放後 1 次），並針對未中選的候選人
+          進行對照組問卷調查。所有資金每月定期稽核，流向完全透明。
+        </p>
+        <ul class="lf-outputs" role="list">
+          <li><strong>階段性報告</strong>——發放第 6 個月公開初步觀察</li>
+          <li><strong>影響力報告</strong>——面向大眾，聚焦主角的生命變化</li>
+          <li><strong>研究報告書</strong>——面向學術，完整研究設計與分析</li>
+          <li><strong>實驗紀錄片</strong>——5 至 8 分鐘影片，記錄真實的改變</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="lf-section lf-section--tint" aria-labelledby="lf-faq-title">
+      <div class="lf-container lf-narrow">
+        <h2 id="lf-faq-title">常見問題</h2>
+        <div class="lf-faq">
+          {faqs.map((f) => (
+            <details class="lf-faq__item">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- 主辦單位 -->
+    <section class="lf-section" aria-labelledby="lf-org-title">
+      <div class="lf-container lf-narrow">
+        <h2 id="lf-org-title">誰在推動這個計畫？</h2>
+        <p class="lf-lead">
+          本計畫由金融科技品牌 <strong>JUJI 招財麻吉</strong> 贊助、
+          <strong>UBI Taiwan（台灣無條件基本收入協會）</strong>規劃執行。
+          UBI Taiwan 成立於 2017 年，是 BIEN（基本收入全球網絡）台灣代表組織，
+          已完成台灣首次單親家庭基本收入實驗，並持續推動政策研究與國際交流。
+        </p>
+        <p class="lf-org-links">
+          <a class="lf-link" href="/about/">認識 UBI Taiwan →</a>
+          <a class="lf-link" href="https://juji.tw/juji-ubi-esg" rel="noopener">JUJI 官方活動頁 →</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="join" class="lf-cta" aria-labelledby="lf-cta-title">
+      <div class="lf-container lf-narrow">
+        <h2 id="lf-cta-title">準備好改寫你的生活了嗎？</h2>
+        <p class="lf-cta__lead">
+          本計畫與 JUJI 招財麻吉（Gogolook 集團）合作，報名與活動詳情請見 JUJI 官方活動頁。
+        </p>
+        <div class="lf-hero__actions">
+          <a class="lf-btn lf-btn--light" href="https://juji.tw/juji-ubi-esg" rel="noopener">
+            前往 JUJI 活動頁報名
+          </a>
+          <a class="lf-btn lf-btn--ghost-light" href="/support/">支持這場實驗</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* =====================================================================
+     生活自由計畫 專屬樣式（獨立於全站 design system）
+     設計原則：無障礙優先（WCAG 2.2 AA）
+     - 內文字級 1.125rem 起跳、行高 1.9
+     - 所有前景/背景配色對比 ≥ 4.5:1
+     - 不依賴顏色傳達資訊；焦點狀態明顯
+     ===================================================================== */
+  .lf {
+    /* 頁面專屬 tokens：暖色大地色系，與全站藍色識別區隔 */
+    --lf-cream: #FBF6EE;
+    --lf-cream-deep: #F3EADC;
+    --lf-teal: #14555A;      /* 對白色對比 8.6:1 */
+    --lf-teal-deep: #0D3E42;
+    --lf-terracotta: #B4451F; /* 對米白對比 5.6:1 */
+    --lf-ink: #26221C;
+    --lf-ink-soft: #4D463C;
+    --lf-radius: 16px;
+
+    background: var(--lf-cream);
+    color: var(--lf-ink);
+    font-size: 1.125rem;
+    line-height: 1.9;
+  }
+
+  .lf-container {
+    max-width: 68rem;
+    margin-inline: auto;
+    padding-inline: var(--space-6);
+  }
+  .lf-narrow { max-width: 46rem; }
+  .lf-narrow-text { max-width: 46rem; }
+
+  .lf h2 {
+    font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+    color: var(--lf-teal-deep);
+    margin-bottom: var(--space-6);
+  }
+  .lf h3 { font-size: 1.3rem; color: var(--lf-teal-deep); }
+
+  .lf-lead { font-size: 1.2rem; color: var(--lf-ink-soft); }
+
+  .lf-section { padding-block: var(--space-16); }
+  .lf-section--tint { background: var(--lf-cream-deep); }
+
+  /* Hero */
+  .lf-hero {
+    position: relative;
+    background: var(--lf-teal);
+    color: #FFFFFF;
+    text-align: center;
+    padding-block: var(--space-24) calc(var(--space-24) + 2rem);
+    overflow: hidden;
+  }
+  .lf-hero__kicker {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 999px;
+    padding: var(--space-2) var(--space-6);
+    font-weight: var(--font-bold);
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-6);
+  }
+  .lf-hero h1 {
+    font-size: clamp(2.6rem, 7vw, 4.2rem);
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
+    margin-bottom: var(--space-3);
+  }
+  .lf-hero__slogan {
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    font-weight: var(--font-bold);
+    letter-spacing: 0.3em;
+    color: #F5D9A8;
+    margin-bottom: var(--space-6);
+  }
+  .lf-hero__lead { font-size: 1.2rem; max-width: 38rem; margin-inline: auto; }
+  .lf-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    justify-content: center;
+    margin-top: var(--space-8);
+  }
+  .lf-hero__deadline {
+    margin-top: var(--space-4);
+    font-weight: var(--font-bold);
+    color: #F5D9A8;
+    letter-spacing: 0.05em;
+  }
+  .lf-hero__wave {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 3.5rem;
+    color: var(--lf-cream);
+  }
+
+  /* 按鈕：大點擊面積（≥ 44px），高對比 */
+  .lf-btn {
+    display: inline-block;
+    min-height: 48px;
+    padding: var(--space-3) var(--space-8);
+    border-radius: 999px;
+    font-size: 1.125rem;
+    font-weight: var(--font-bold);
+    text-decoration: none;
+    border: 2px solid transparent;
+  }
+  .lf-btn--primary { background: var(--lf-terracotta); color: #FFFFFF; }
+  .lf-btn--primary:hover { background: #93381A; color: #FFFFFF; }
+  .lf-btn--ghost {
+    border-color: rgba(255, 255, 255, 0.75);
+    color: #FFFFFF;
+  }
+  .lf-btn--ghost:hover { background: rgba(255, 255, 255, 0.12); color: #FFFFFF; }
+  .lf-btn--light { background: #FFFFFF; color: var(--lf-teal-deep); }
+  .lf-btn--light:hover { background: #F5D9A8; color: var(--lf-teal-deep); }
+  .lf-btn--ghost-light {
+    border-color: rgba(255, 255, 255, 0.75);
+    color: #FFFFFF;
+  }
+  .lf-btn--ghost-light:hover { background: rgba(255, 255, 255, 0.12); color: #FFFFFF; }
+
+  /* 關鍵數字 */
+  .lf-numbers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin: 0;
+    text-align: center;
+  }
+  .lf-numbers__item {
+    background: #FFFFFF;
+    border-radius: var(--lf-radius);
+    padding: var(--space-8) var(--space-4);
+    box-shadow: 0 2px 12px rgba(38, 34, 28, 0.08);
+  }
+  .lf-numbers__item dt {
+    font-size: 1rem;
+    color: var(--lf-ink-soft);
+    margin-bottom: var(--space-2);
+  }
+  .lf-numbers__item dd { margin: 0; font-size: 1.4rem; font-weight: var(--font-bold); color: var(--lf-teal-deep); }
+  .lf-numbers__value {
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: var(--lf-terracotta);
+    line-height: 1;
+  }
+
+  /* 引言 */
+  .lf-quote {
+    margin: var(--space-8) 0 0;
+    padding: var(--space-6) var(--space-8);
+    background: #FFFFFF;
+    border-inline-start: 6px solid var(--lf-terracotta);
+    border-radius: 0 var(--lf-radius) var(--lf-radius) 0;
+  }
+  .lf-quote p {
+    font-size: 1.3rem;
+    font-weight: var(--font-bold);
+    color: var(--lf-teal-deep);
+    margin-bottom: var(--space-2);
+  }
+  .lf-quote cite { font-style: normal; color: var(--lf-ink-soft); }
+
+  /* 三大保證 */
+  .lf-promises {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+  .lf-promises__item {
+    background: #FFFFFF;
+    border-radius: var(--lf-radius);
+    padding: var(--space-8) var(--space-6);
+    box-shadow: 0 2px 12px rgba(38, 34, 28, 0.08);
+  }
+  .lf-promises__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--lf-teal);
+    color: #FFFFFF;
+    font-size: 1.4rem;
+    font-weight: 900;
+    margin-bottom: var(--space-4);
+  }
+
+  /* 流程 */
+  .lf-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-6);
+  }
+  .lf-steps__item {
+    display: flex;
+    gap: var(--space-6);
+    background: #FFFFFF;
+    border-radius: var(--lf-radius);
+    padding: var(--space-6);
+    box-shadow: 0 2px 12px rgba(38, 34, 28, 0.08);
+  }
+  .lf-steps__badge {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--lf-terracotta);
+    color: #FFFFFF;
+    font-size: 1.6rem;
+    font-weight: 900;
+  }
+  .lf-steps__body h3 { margin-bottom: var(--space-1); }
+  .lf-steps__body p:last-child { margin-bottom: 0; }
+  .lf-steps__date {
+    font-weight: var(--font-bold);
+    color: var(--lf-terracotta);
+    margin-bottom: var(--space-2);
+  }
+  .lf-steps__now {
+    display: inline-block;
+    vertical-align: middle;
+    margin-inline-start: var(--space-2);
+    padding: 0 var(--space-3);
+    border-radius: 999px;
+    background: var(--lf-terracotta);
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+  }
+  .lf-org-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+  }
+
+  /* 研究產出 */
+  .lf-outputs {
+    list-style: none;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .lf-outputs li {
+    background: #FFFFFF;
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-6);
+    border-inline-start: 4px solid var(--lf-teal);
+  }
+
+  /* FAQ：原生 details/summary，鍵盤與讀屏器皆可用 */
+  .lf-faq { display: grid; gap: var(--space-3); }
+  .lf-faq__item {
+    background: #FFFFFF;
+    border-radius: var(--radius-sm);
+    padding: 0;
+    overflow: hidden;
+  }
+  .lf-faq__item summary {
+    cursor: pointer;
+    padding: var(--space-4) var(--space-6);
+    font-weight: var(--font-bold);
+    font-size: 1.15rem;
+    color: var(--lf-teal-deep);
+    list-style-position: inside;
+  }
+  .lf-faq__item summary:hover { background: var(--lf-cream); }
+  .lf-faq__item[open] summary { border-bottom: 1px solid var(--lf-cream-deep); }
+  .lf-faq__item p { padding: var(--space-4) var(--space-6); margin: 0; }
+
+  .lf-link {
+    color: var(--lf-teal);
+    font-weight: var(--font-bold);
+    text-underline-offset: 4px;
+  }
+
+  /* CTA */
+  .lf-cta {
+    background: var(--lf-teal-deep);
+    color: #FFFFFF;
+    text-align: center;
+    padding-block: var(--space-24);
+  }
+  .lf-cta h2 { color: #FFFFFF; }
+  .lf-cta__lead { font-size: 1.2rem; color: #D8E8E4; }
+
+  /* 焦點狀態：深色區塊上用亮色 focus ring */
+  .lf-hero :focus-visible,
+  .lf-cta :focus-visible {
+    outline: 3px solid #F5D9A8;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 760px) {
+    .lf-numbers, .lf-promises { grid-template-columns: 1fr; }
+    .lf-steps__item { flex-direction: column; gap: var(--space-3); }
+    .lf-section { padding-block: var(--space-12); }
+  }
+</style>

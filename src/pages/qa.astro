@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// 常見問答：內容對應 ubitaiwan.org/zh/qa/
+
+// FAQPage 結構化資料：讓搜尋結果可直接顯示問答摘要
+const faqJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '什麼是基本收入 UBI？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: '基本收入 (UBI) 政策主張由政府無條件、不做資格審查、定期向每個公民發放一定金額的現金，以滿足每一位公民最基本的生活條件。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '為何 UBI Taiwan 要推行基本收入？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'UBI Taiwan 相信基本收入是提升社會整體韌性的解方，保障基本的生活條件，真正給予實質的自由，讓人們在動盪的社會中仍能衷於自我。',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '基本收入的錢從哪裡來？',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'UBI Taiwan 期待從財政開源節流與創新社會制度兩大面向著手：透過營業稅、碳稅等稅制與時俱進創造財源，並提出「個人所得稅回徵機制」——無條件發放搭配隔年度報稅回徵，實現低門檻、高彈性、高預測性的基本收入政策。',
+      },
+    },
+  ],
+});
+---
+
+<BaseLayout
+  title="常見問答｜UBI Taiwan"
+  description="關於無條件基本收入（UBI）的常見問答：什麼是 UBI、為何推行、錢從哪裡來。"
+  current="qa"
+>
+  <section class="section">
+    <div class="container container--narrow">
+      <h1>常見問答</h1>
+      <p>
+        不論你是剛接觸這個概念，還是已經深入了解但仍有一些不解之處，我們的問答部分將幫助你釐清基本收入的原理、效益及可能帶來的挑戰，歡迎和我們一起探索這個被譽為未來社會安全網的革新政策。
+      </p>
+
+      <div class="faq">
+        <details class="faq__item" open>
+          <summary>等等！我好像還不知道什麼是基本收入 UBI</summary>
+          <div class="faq__body">
+            <p>
+              基本收入 (UBI) 政策主張由政府無條件、不做資格審查、定期向每個公民發放一定金額的現金，以滿足每一位公民最基本的生活條件。
+            </p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>為何 UBI Taiwan 要推行基本收入？</summary>
+          <div class="faq__body">
+            <p>
+              世界的變化越加迅速且不可預測，不論是科技、疫情、戰爭、氣候變化和地緣政治等挑戰都層出不窮，為了因應社會和經濟型態劇烈變革的衝擊，每一個人都需要具備更強的韌性，來面對生命中的不確定性，確保社會發展的長期穩定
+            </p>
+            <p>
+              UBI Taiwan 相信基本收入是提升社會整體韌性的解方，保障基本的生活條件，真正給予實質的自由，讓人們在動盪的社會中仍能衷於自我，擁有不需隨波逐流的底氣
+            </p>
+          </div>
+        </details>
+
+        <details class="faq__item">
+          <summary>讓我們實際一點，錢從哪裡來呢？</summary>
+          <div class="faq__body">
+            <p>
+              當我們談論到了基本收入的財政來源，UBI Taiwan 期待從 2 大面向拋磚引玉，包含 1) 財政開源節流、2) 創新社會制度
+            </p>
+            <p>
+              財政的討論方向有百百種可能性，在參考國際案例時亦需要因地制宜，我們期待能夠透過包含營業稅、大數據稅、機器人稅、能源稅、碳稅等潛在稅制的與時俱進，創造可延續的財源；並且整合社福總歸戶、縮減行政官僚的規模，降低整體社會運行的成本，並將節省的財政預算透過基本收入交還給人民
+            </p>
+            <p>
+              關於如何邁向實踐基本收入的未來，UBI Taiwan 認為創新的社會制度至關重要，計劃提出「個人所得稅回徵機制」概念：透過無條件發放搭配隔年度報稅的回徵機制，以實現低門檻、高彈性、高預測性的基本收入政策
+            </p>
+            <ul>
+              <li>
+                <strong>無條件發放</strong>：與其思考如何聰明地決定把錢發給誰，不如無條件的發放後，透過隔年度的所得稅申報來達成「後排富」效果，可以更加省力且高效地實現資源的利用效率
+              </li>
+              <li>
+                <strong>回徵機制</strong>：設定明確的基本收入所得稅回徵級距，可向高收入群體進行 100% 回徵，同時也保障低收入群體不會受到回徵，能夠在公平和效率的天秤取得平衡
+              </li>
+              <li>
+                <strong>政策彈性</strong>：政府可依據當年實際的財政情況，調整所得稅回徵級距，以應對全球經濟變化和社會的緊急需求，不僅降低政策落地的執行門檻，更有助於提高政策的可持續性
+              </li>
+              <li>
+                <strong>數據導向</strong>：通過歷史的稅收分析，政府可精準預測每年可回徵的稅額，換言之政府可基於數據進行基本收入財政規劃，提高政策的精確性和透明度
+              </li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <nav class="qa-more" aria-label="其他主題問答">
+        <h2>其他主題的問答</h2>
+        <ul role="list">
+          <li>
+            <a href="/life-freedom/#lf-faq-title">關於「生活自由計畫」的問答 →</a>
+            <span>報名資格、金額用途、退出機制</span>
+          </li>
+          <li>
+            <a href="/support/#faq-title">關於捐款的問答 →</a>
+            <span>收據、抵稅、定期定額、愛心碼</span>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <script type="application/ld+json" set:html={faqJsonLd} />
+</BaseLayout>
+
+<style>
+  .faq { display: grid; gap: var(--space-3); margin-top: var(--space-8); }
+  .faq__item {
+    background: var(--color-white);
+    border: 1px solid var(--color-ink-300);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .faq__item summary {
+    cursor: pointer;
+    padding: var(--space-4) var(--space-6);
+    font-weight: var(--font-bold);
+    font-size: var(--text-lg);
+    color: var(--color-brand-800);
+    list-style-position: inside;
+  }
+  .faq__item summary:hover { background: var(--color-brand-50); }
+  .faq__item[open] summary { border-bottom: 1px solid var(--color-ink-100); }
+  .faq__body { padding: var(--space-4) var(--space-6); }
+  .faq__body li { margin-bottom: var(--space-3); }
+
+  .qa-more { margin-top: var(--space-12); }
+  .qa-more h2 { font-size: var(--text-xl); }
+  .qa-more ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .qa-more li {
+    background: var(--color-brand-50);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4) var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+  .qa-more a { font-weight: var(--font-bold); text-decoration: none; }
+  .qa-more a:hover { text-decoration: underline; }
+  .qa-more span { color: var(--color-ink-500); font-size: var(--text-sm); }
+</style>

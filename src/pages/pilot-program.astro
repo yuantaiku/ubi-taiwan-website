@@ -1,0 +1,277 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// 實驗計畫：內容對應 ubitaiwan.org/zh/pilot-program/
+// 2026-08 調整：補回原站影片區塊、更新實驗完成狀態（2023/09–2025/08）、
+// 新增紀錄片與成果區塊（資料來源：2025 年度報告書）
+
+const steps = [
+  {
+    img: '/images/Frame-3.webp',
+    title: '選定受試家庭',
+    desc: '透過相關單位媒合，我們找到一位願意參與計劃的單親媽媽，于媽媽（化名），她獨自扶養一個 10 歲的孩子。',
+  },
+  {
+    img: '/images/Frame-1.webp',
+    title: '每月發放現金',
+    desc: '2023 年 9 月起正式展開實驗：第一年每月發放 10,000 元、第二年每月 5,000 元，至 2025 年 8 月完成，為期兩年。',
+  },
+  {
+    img: '/images/Frame-4.webp',
+    title: '修復關係',
+    desc: '生活費變多，于媽媽添購新傢俱，並在兩份工作的空檔之間，找到了一份薪水更高的正職。她與兒子也有更多機會享受「生活」、關係更親近。',
+  },
+  {
+    img: '/images/Frame-5.webp',
+    title: '成為後盾',
+    desc: '在計畫實施期間時，于媽媽被診斷出癌症，基本收入不僅改善了關鍵的經濟援助，幫助承受突如其來的衝擊。',
+  },
+];
+
+const results = [
+  { text: '遠見｜每月發一萬，台灣首場「基本收入」實驗如何改變單親家庭生活？', href: 'https://www.gvm.com.tw/article/123339', tag: '新聞' },
+  { text: 'PeoPo｜台灣首場「無條件基本收入」實驗，給人發錢可行嗎？', href: 'https://www.peopo.org/news/816985', tag: '新聞' },
+  { text: '基本收入不是夢想：台灣啟動首場 UBI 制度實驗，打開政策想像的第一槍', href: 'https://basicincome.org/news/2025/08/%e5%9f%ba%e6%9c%ac%e6%94%b6%e5%85%a5%e4%b8%8d%e6%98%af%e5%a4%a2%e6%83%b3%ef%bc%9a%e5%8f%b0%e7%81%a3%e5%95%9f%e5%8b%95%e9%a6%96%e5%a0%b4ubi%e5%88%b6%e5%ba%a6%e5%af%a6%e9%a9%97%ef%bc%8c%e6%89%93/', tag: '新聞' },
+  { text: '台灣基本收入實驗｜紀錄片精華版', href: 'https://drive.google.com/file/d/1f53_SoG7F2s0tFhLCFgYCJzkJ77C-S-Z/view', tag: '影音' },
+];
+---
+
+<BaseLayout
+  title="實驗計畫｜UBI Taiwan"
+  description="台灣首次基本收入實驗：單親家庭基本收入實驗（2023–2025）已完成，每月無條件現金支持一個單親家庭兩年，成果以紀錄片與研究報告呈現。"
+  current="pilot-program"
+>
+  <section class="section section--subtle">
+    <div class="container">
+      <p class="pilot-status">
+        <span class="pilot-status__badge">實驗已完成</span>
+        2023/09 – 2025/08・紀錄片已於 2025 年 8 月首映
+      </p>
+      <h1>
+        邀請你，一起參與亞太最重要的基本收入里程碑－<br />單親家庭基本收入實驗
+      </h1>
+      <h2>為什麼要進行實驗？</h2>
+      <p class="container--narrow" style="margin-inline: 0;">
+        在 AI 趨勢對於當前工作以及貧富差距的影響下，在台灣試行基本收入實驗，理解基本收入在台灣在地的可能性，更成為刻不容緩的議題。
+      </p>
+      <dl class="pilot-numbers" aria-label="實驗關鍵數字">
+        <div class="pilot-numbers__item">
+          <dt>受試家庭</dt>
+          <dd><strong>1</strong> 戶單親家庭</dd>
+        </div>
+        <div class="pilot-numbers__item">
+          <dt>無條件現金</dt>
+          <dd>每月 <strong>10,000</strong> 元起</dd>
+        </div>
+        <div class="pilot-numbers__item">
+          <dt>實驗期間</dt>
+          <dd>完整 <strong>2</strong> 年</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="video-title">
+    <div class="container container--narrow">
+      <h2 id="video-title">三分鐘，邀請你透過影片理解實驗計畫</h2>
+      <div class="video-frame">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/o5hvdauG9Ho"
+          title="三分鐘理解 UBI Taiwan 基本收入實驗計畫"
+          loading="lazy"
+          allowfullscreen
+          allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--muted" aria-labelledby="intro-title">
+    <div class="container">
+      <h2 id="intro-title">實驗介紹與成果</h2>
+      <p class="container--narrow" style="margin-inline: 0;">
+        本次基本收入實驗計畫，我們將實驗族群，鎖定在因特殊條件而無法獲得政府資源的「單親家庭」，我們希望透過這次的實驗，了解基本收入對於「教育」、「脫貧」的質化意義。
+      </p>
+      <p>
+        <a
+          class="btn btn--outline"
+          href="https://drive.google.com/file/d/1M1iAoz7yvQdWFmVjjf6DnmEquVGZGQEg/view"
+          rel="noopener"
+        >實驗計畫書</a>
+      </p>
+      <div class="grid grid--4" style="margin-top: var(--space-8);">
+        {steps.map((s) => (
+          <div class="card pilot-step">
+            <img src={s.img} alt="" width="72" height="72" loading="lazy" />
+            <h3>{s.title}</h3>
+            <p>{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="story-title">
+    <div class="container container--narrow">
+      <h2 id="story-title">受試者的故事</h2>
+      <img
+        src="/images/紀錄片截圖-4.webp"
+        alt="基本收入實驗紀錄片畫面：于媽媽的日常生活"
+        loading="lazy"
+        style="border-radius: var(--radius-md); margin-bottom: var(--space-6);"
+      />
+      <p>
+        台灣有許多貧窮的家庭，因為資格審查或資訊複雜的問題，導致他們與政府的補助擦身而過，跌入貧窮的漩渦之中。于媽媽是本次基本收入計劃的受試者，單親撫養一個剛國小畢業的小孩。當初仰賴社區的立法委員幫忙，于媽媽才突破在地公所的資格審查，獲得低收入戶的資格。
+      </p>
+
+      <h3>現有社會福利政策的缺失</h3>
+      <p>
+        低收入戶的資格僅能提供「費用減免」，而非「金錢上的支援」。這種資助方式僅能在某種程度上緩解生活壓力，但並不能改變經濟困境，<strong>沒有能力積累財富或提升生活品質</strong>，只能持續投入於低薪勞務工作中，剛獲得微薄薪資馬上就轉交給房東，每月只剩下一萬元作為支撐兩個人的生活費，為此她經常節省餐費，吃肉對現代人而言稀鬆平常，對她卻變成奢侈。出身自問題重重的家庭，她不奢求血親的支援，只求不被打擾、借錢就萬分感激。
+      </p>
+
+      <h3>每月 1 萬元的現金補助</h3>
+      <p>
+        以上的困境，是台灣不少人的縮影，對他們而言，一萬元的基本收入，已經是支撐他們突破貧窮困境的關鍵力量，提供他們在極為忙碌、迷惘、憂鬱的生活中，一個喘息、停頓的空間。
+      </p>
+
+      <h3>基本收入實驗的道路上，我們並不孤單</h3>
+      <p>
+        無條件基本收入，在全球掀起熱烈討論，包含芬蘭、加拿大、美國等先進國家，都開始嘗試無條件基本收入的實驗，Chat GPT 創辦人 Sam Altman，也曾經在美國西雅圖資助過基本收入實驗計畫。
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--subtle" aria-labelledby="outcome-title">
+    <div class="container container--narrow">
+      <h2 id="outcome-title">實驗成果：從一個家庭的改變，到公共的討論</h2>
+      <img
+        src="/images/25-08-02_11-39-43-1024x683.webp"
+        alt="實驗紀錄片放映會映後座談現場"
+        loading="lazy"
+        style="border-radius: var(--radius-md); margin-bottom: var(--space-6);"
+      />
+      <p>
+        兩年實驗歷程被拍攝成紀錄片，於 2025 年 8 月在新北市府中 15 舉行首映，吸引 140 位支持者、NGO 夥伴、政治人物與企業代表到場，遠見、公視等媒體報導。映後座談邀請 BIEN 全球主席 Sarath Davala、加州大學柏克萊社會福利學院副教授張祐綾、紀錄片導演顏子為與實驗主角于媽媽跨國連線對話。
+      </p>
+      <ul class="outcome-links" role="list">
+        {results.map((r) => (
+          <li>
+            <span class="outcome-links__tag">{r.tag}</span>
+            <a href={r.href} rel="noopener">{r.text}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="next-title">
+    <div class="container container--narrow">
+      <h2 id="next-title">下一步：生活自由計畫</h2>
+      <p>
+        單親家庭實驗證明了一件事：穩定的基本收入，真的能改變一個家庭的生活軌跡。
+        2026 年，UBI Taiwan 攜手 JUJI 招財麻吉推出第二階段擴大實驗——「生活自由計畫」，
+        台灣首例由企業贊助的基本收入實驗，正在公開報名中。
+      </p>
+      <div class="next-actions">
+        <a class="btn btn--primary" href="/life-freedom/">認識生活自由計畫</a>
+        <a class="btn btn--warm" href="https://juji.tw/juji-ubi-esg" rel="noopener">立即報名</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .pilot-status {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-weight: var(--font-bold);
+    color: var(--color-ink-700);
+    margin-bottom: var(--space-4);
+  }
+  .pilot-status__badge {
+    background: var(--color-success);
+    color: var(--color-white);
+    border-radius: var(--radius-full);
+    padding: var(--space-1) var(--space-4);
+    font-size: var(--text-sm);
+    letter-spacing: 0.05em;
+  }
+
+  .pilot-numbers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    margin: var(--space-8) 0 0;
+    max-width: 46rem;
+  }
+  .pilot-numbers__item {
+    background: var(--color-white);
+    border-top: 4px solid var(--color-brand-500);
+    border-radius: var(--radius-sm);
+    padding: var(--space-4);
+    box-shadow: var(--shadow-sm);
+  }
+  .pilot-numbers__item dt {
+    font-size: var(--text-sm);
+    color: var(--color-ink-500);
+    margin-bottom: var(--space-1);
+  }
+  .pilot-numbers__item dd { margin: 0; color: var(--color-brand-800); }
+  .pilot-numbers__item strong {
+    font-size: var(--text-2xl);
+    font-weight: 900;
+    color: var(--color-brand-600);
+  }
+  @media (max-width: 560px) {
+    .pilot-numbers { grid-template-columns: 1fr; }
+  }
+
+  .video-frame {
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .video-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .pilot-step img { margin-bottom: var(--space-3); object-fit: contain; }
+
+  .outcome-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .outcome-links li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    background: var(--color-white);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+  }
+  .outcome-links__tag {
+    flex: 0 0 auto;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    color: var(--color-brand-700);
+    background: var(--color-brand-100);
+    border-radius: var(--radius-full);
+    padding: 0 var(--space-3);
+    line-height: 1.8;
+  }
+
+  .next-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+</style>
