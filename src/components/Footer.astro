@@ -17,10 +17,10 @@
       <nav aria-label="頁尾導覽：了解更多">
         <h2 class="site-footer__title">了解更多</h2>
         <ul>
-          <li><a href="/qa/">常見問答</a></li>
-          <li><a href="/pilot-program/">實驗計畫</a></li>
-          <li><a href="/about/">關於我們</a></li>
-          <li><a href="/articles/">基本收入二三事</a></li>
+          <li><a href="/ubi/">什麼是基本收入</a></li>
+          <li><a href="/ubi/faq/">基本收入大哉問</a></li>
+          <li><a href="/experiment/">台灣的實驗</a></li>
+          <li><a href="/impact/">行動里程碑</a></li>
           <li><a href="/life-freedom/">生活自由計畫</a></li>
         </ul>
       </nav>
@@ -31,7 +31,7 @@
         </p>
         <ul>
           <li><a href="/support/">捐款支持</a></li>
-          <li><a href="/credit-donate/">捐款徵信</a></li>
+          <li><a href="/about/transparency/">捐款徵信</a></li>
         </ul>
       </nav>
       <div>
@@ -43,13 +43,21 @@
           <li><a href="https://www.facebook.com/TaiwanUBI" rel="noopener">Facebook</a></li>
           <li><a href="https://www.instagram.com/ubitaiwan/" rel="noopener">Instagram</a></li>
           <li><a href="https://www.youtube.com/@ubitaiwan" rel="noopener">YouTube</a></li>
+          <li><a href="/about/press/">媒體專區</a></li>
         </ul>
       </div>
     </div>
-    <p class="site-footer__copyright">
-      UBI Taiwan 台灣無條件基本收入協會<br />
-      Copyright © 2025 UBI Taiwan – All Rights Reserved.
-    </p>
+    <div class="site-footer__legal">
+      <p class="site-footer__orgname">社團法人台灣無條件基本收入協會</p>
+      <dl class="site-footer__reg">
+        <div><dt>立案字號</dt><dd>台內團字第 1070077614 號</dd></div>
+        <div><dt>統一編號</dt><dd>74342501</dd></div>
+        <div><dt>主管機關</dt><dd>內政部</dd></div>
+      </dl>
+      <p class="site-footer__copyright">
+        Copyright © 2026 UBI Taiwan – All Rights Reserved.
+      </p>
+    </div>
   </div>
 </footer>
 
@@ -85,13 +93,33 @@
   .site-footer a { color: var(--color-brand-200); text-decoration: none; }
   .site-footer a:hover { color: var(--color-white); text-decoration: underline; }
   .site-footer__social { margin-top: var(--space-4); }
-  .site-footer__copyright {
+  .site-footer__legal {
     margin-top: var(--space-12);
     padding-top: var(--space-6);
     border-top: 1px solid var(--color-brand-800);
+  }
+  .site-footer__orgname {
+    color: var(--color-white);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--space-3);
+  }
+  .site-footer__reg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    margin: 0 0 var(--space-4);
     font-size: var(--text-sm);
     color: var(--color-brand-300);
-    line-height: 1.8;
+  }
+  .site-footer__reg div { display: flex; gap: var(--space-2); }
+  .site-footer__reg dt { color: var(--color-brand-200); }
+  .site-footer__reg dt::after { content: '：'; }
+  .site-footer__reg dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .site-footer__copyright {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-brand-300);
   }
   @media (max-width: 860px) {
     .site-footer__grid { grid-template-columns: 1fr 1fr; }

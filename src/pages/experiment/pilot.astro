@@ -1,0 +1,519 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import pilot from '../../data/pilot-content.json';
+
+// 第一階段：單親家庭基本收入實驗（2023/09–2025/08）。
+// 依團隊規格改版為七個區塊（docs/content-specs/02-pilot-program.md），文案逐字採用。
+//
+// 區塊三的互動：規格要求「點開會翻頁的方塊，四個都點開的話于媽媽造型就會變化」。
+// 于媽媽的插畫素材尚未進 repo，因此改以「四張都翻開後才揭露總結」保留同樣的互動意圖
+// ——探索完四個面向才看得到結論。插畫到位後可掛在 .reveal 內取代／補強文字揭露。
+//
+// TODO（影片素材）：區塊二目前嵌的是 2023 年的募資宣傳片（YouTube o5hvdauG9Ho，
+// 實際標題「UBI Taiwan2023募資宣傳」），是改版前舊頁沿用的素材，只是暫代。
+// 這一格應該換成 2025/08 紀錄片首映會播放的「前導片」——需向團隊索取原始影片並上架。
+// 另有兩支尚未公開的素材，公開後一併補上：
+//   - 于媽媽個人短片（規格書提到 JUJI 官網預計有 2 分鐘版本）
+//   - 紀錄片完整版（2025第一次UBI實驗計畫播映版本_20250803.mp4）
+
+const {
+  heroLines, why, howLead, howAmounts, howTail, questions,
+  yuQuote, yuStory, cards, cardsSummary, voices,
+  doc, media, academic, partners, next,
+} = pilot;
+---
+
+<BaseLayout
+  title="第一階段：單親家庭基本收入實驗｜UBI Taiwan"
+  description="台灣第一場基本收入實驗：2023 年 9 月起，為一個單親家庭連續兩年提供無條件現金。第一年每月 1 萬元、第二年每月 5 千元，並以影像與深度訪談記錄兩年之中的轉變。"
+  current="experiment-pilot"
+  ogImage="/images/紀錄片截圖-4.webp"
+>
+  <!-- ── 0. Hero ───────────────────────────────────────── -->
+  <section class="hero">
+    <img class="hero__bg" src="/images/紀錄片截圖-4.webp" alt="" aria-hidden="true" width="1600" height="900" />
+    <div class="hero__veil" aria-hidden="true"></div>
+    <div class="container hero__inner">
+      <p class="hero__kicker">第一階段 · 2023–2025 · 已完成</p>
+      <h1 class="hero__title">台灣第一場基本收入實驗</h1>
+      <p class="hero__sub">從一個家庭開始，重新想像我們的社會</p>
+      <div class="hero__lines">
+        {heroLines.map((l) => <p>{l}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 1. 這場行動的開始 ─────────────────────────────── -->
+  <section class="section" aria-labelledby="begin-title">
+    <div class="container">
+      <h2 id="begin-title" class="sec-title">這場行動的開始</h2>
+
+      <div class="begin">
+        <article class="begin__main">
+          <h3>為什麼台灣需要這個實驗？</h3>
+          <div class="begin__prose">
+            {why.map((l) => <p>{l}</p>)}
+          </div>
+        </article>
+
+        <div class="begin__side">
+          <article class="panel">
+            <h3>我們如何進行這次實驗？</h3>
+            {howLead.map((l) => <p>{l}</p>)}
+            <dl class="amounts">
+              {howAmounts.map((a) => {
+                const [term, value] = a.split('：');
+                return <div><dt>{term}</dt><dd>{value}</dd></div>;
+              })}
+            </dl>
+            {howTail.map((l) => <p>{l}</p>)}
+          </article>
+
+          <article class="panel panel--accent">
+            <h3>這個實驗想回答什麼？</h3>
+            <ul class="asks">
+              {questions.map((q) => <li>{q}</li>)}
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 2. 于媽媽的故事 ───────────────────────────────── -->
+  <section class="section section--subtle" aria-labelledby="story-title">
+    <div class="container">
+      <h2 id="story-title" class="sec-title">受試者于媽媽的故事</h2>
+
+      <div class="story">
+        <div class="story__media">
+          <figure class="story__video">
+            <div class="video-frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/o5hvdauG9Ho"
+                title="三分鐘理解 UBI Taiwan 基本收入實驗計畫"
+                loading="lazy"
+                allowfullscreen
+                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+              ></iframe>
+            </div>
+            <figcaption>
+              三分鐘認識這場實驗（2023 年實驗啟動時拍攝）。
+              <span class="story__pending">于媽媽的個人短片與完整紀錄片公開後，會再補上連結。</span>
+            </figcaption>
+          </figure>
+          <blockquote class="story__quote">
+            <p>{yuQuote.text}</p>
+            <cite>{yuQuote.by}</cite>
+          </blockquote>
+        </div>
+        <div class="story__text">
+          {yuStory.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3. 實驗帶來的啟發（翻頁卡）────────────────────── -->
+  <section class="section" aria-labelledby="insight-title" data-flipdeck>
+    <div class="container">
+      <div class="insight__head">
+        <div>
+          <h2 id="insight-title" class="sec-title">實驗帶來的啟發</h2>
+          <p class="insight__hint">四個面向，翻開卡片看見改變。</p>
+        </div>
+        <p class="insight__count" data-count aria-live="polite">已翻開 0 / 4</p>
+      </div>
+
+      <ul class="deck">
+        {cards.map((c) => (
+          <li>
+            <button type="button" class="flip" aria-pressed="false">
+              <span class="flip__inner">
+                <span class="flip__face flip__face--front">
+                  <span class="flip__title">{c.title}</span>
+                  <span class="flip__cue">翻開</span>
+                </span>
+                <span class="flip__face flip__face--back">
+                  <span class="flip__q">{c.quote}</span>
+                  <span class="flip__points">
+                    {c.points.map((p) => <span class="flip__point">{p}</span>)}
+                  </span>
+                </span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      <div class="reveal" data-reveal hidden>
+        {cardsSummary.map((line, i) => (
+          <p class={i === cardsSummary.length - 1 ? 'reveal__punch' : 'reveal__line'}>{line}</p>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4. 專家與公眾人物 ─────────────────────────────── -->
+  <section class="section section--inverse" aria-labelledby="voices-title">
+    <div class="container">
+      <h2 id="voices-title" class="sec-title sec-title--light">專家與公眾人物怎麼看？</h2>
+      <ul class="voices">
+        {voices.map((v) => (
+          <li class="voice">
+            <p class="voice__q">{v.quote}</p>
+            <p class="voice__who">
+              <span class="voice__name">{v.name}</span>
+              <span class="voice__role">{v.role}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+      <!-- 見證者照片（紀錄片截圖-5/-9/-11、葛如鈞.png）尚未進 repo，到位後加入 .voice 內圖片欄 -->
+    </div>
+  </section>
+
+  <!-- ── 5. 紀錄片 ─────────────────────────────────────── -->
+  <section class="section section--muted" aria-labelledby="doc-title">
+    <div class="container">
+      <div class="doc">
+        <div>
+          <p class="eyebrow">2025 年 8 月首映</p>
+          <h2 id="doc-title">基本收入實驗紀錄片</h2>
+          {doc.map((p) => <p>{p}</p>)}
+          <p class="doc__pending">完整紀錄片公開後，此處會加上觀看連結。</p>
+        </div>
+        <ul class="doc__stats">
+          <li><b>140+</b><span>首映會出席人數</span></li>
+          <li><b>2</b><span>年的影像追蹤</span></li>
+          <li><b>7</b><span>則媒體報導</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6. 影響力成果 ─────────────────────────────────── -->
+  <section class="section" aria-labelledby="impact-title">
+    <div class="container">
+      <h2 id="impact-title" class="sec-title">影響力成果</h2>
+
+      <div class="cols">
+        <div>
+          <h3 class="cols__h">媒體報導</h3>
+          <ul class="reports">
+            {media.map((m) => (
+              <li><span class="reports__outlet">{m.outlet}</span><span class="reports__t">{m.title}</span></li>
+            ))}
+          </ul>
+          <p class="cols__note"><a href="/about/press/">完整媒體報導請見媒體專區 →</a></p>
+        </div>
+
+        <div>
+          <h3 class="cols__h">學術發表</h3>
+          <ul class="acad">
+            {academic.map((a) => <li>{a}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="cols__h cols__h--wide">合作夥伴</h3>
+      <ul class="partners">
+        {partners.map((p) => <li>{p}</li>)}
+      </ul>
+      <!-- 夥伴 logo 尚未進 repo；好吉光與北投婦女支持培力中心的 logo 無文字／過長，需另行處理 -->
+    </div>
+  </section>
+
+  <!-- ── 7. 下一步 ─────────────────────────────────────── -->
+  <section class="section section--subtle" aria-labelledby="next-title">
+    <div class="container">
+      <p class="eyebrow">第二階段 · 2026–2027</p>
+      <h2 id="next-title">下一步：擴大實驗</h2>
+      <div class="nextblock">
+        {next.map((p) => <p>{p}</p>)}
+      </div>
+      <div class="nextblock__cta">
+        <a class="btn btn--primary" href="/life-freedom/">認識生活自由計畫</a>
+        <a class="btn btn--warm" href="/support/">捐款支持</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .sec-title { font-size: var(--text-2xl); margin-bottom: var(--space-8); }
+  .sec-title--light { color: var(--color-white); }
+
+  /* ── Hero ── */
+  .hero { position: relative; isolation: isolate; min-height: 78vh; display: grid; align-items: end; }
+  .hero__bg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 30%; z-index: -2;
+  }
+  .hero__veil {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(22,58,84,.32) 0%, rgba(22,58,84,.55) 45%, rgba(22,58,84,.88) 100%);
+  }
+  .hero__inner { padding-block: var(--space-24) var(--space-16); color: var(--color-white); }
+  .hero__kicker {
+    font-size: var(--text-sm); font-weight: var(--font-bold);
+    letter-spacing: .14em; color: var(--color-brand-200); margin-bottom: var(--space-4);
+  }
+  .hero__title {
+    font-size: clamp(2rem, 5.4vw, var(--text-4xl));
+    color: var(--color-white); margin-bottom: var(--space-3); text-wrap: balance;
+  }
+  .hero__sub {
+    font-size: var(--text-xl); font-weight: var(--font-medium);
+    color: var(--color-brand-100); margin-bottom: var(--space-8);
+  }
+  .hero__lines {
+    max-width: var(--container-narrow); color: var(--color-brand-100);
+    line-height: var(--leading-loose);
+  }
+  .hero__lines p { margin-bottom: var(--space-2); }
+
+  /* ── 1. 開始 ── */
+  .begin { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--space-8); }
+  .begin__main h3 { font-size: var(--text-xl); margin-bottom: var(--space-6); }
+  .begin__prose { line-height: var(--leading-loose); color: var(--color-ink-700); }
+  .begin__prose p { margin-bottom: var(--space-2); }
+  .begin__side { display: grid; gap: var(--space-6); align-content: start; }
+  .panel {
+    padding: var(--space-6);
+    border: 1px solid var(--color-ink-300);
+    border-top: 3px solid var(--color-brand-600);
+    background: var(--color-white);
+  }
+  .panel--accent { border-top-color: var(--color-warm-500); }
+  .panel h3 { font-size: var(--text-lg); margin-bottom: var(--space-4); }
+  .panel p { color: var(--color-ink-700); margin-bottom: var(--space-3); }
+
+  .amounts { display: grid; gap: var(--space-2); margin: var(--space-4) 0; }
+  .amounts > div {
+    display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4);
+    padding: var(--space-2) 0; border-bottom: 1px dashed var(--color-ink-300);
+  }
+  .amounts dt { color: var(--color-ink-700); font-size: var(--text-sm); }
+  .amounts dd {
+    margin: 0; font-weight: var(--font-bold); font-variant-numeric: tabular-nums;
+    color: var(--color-brand-700);
+  }
+
+  .asks { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-4); }
+  .asks li {
+    position: relative; padding-left: var(--space-6);
+    color: var(--color-ink-700); line-height: var(--leading-normal);
+  }
+  .asks li::before {
+    content: '?'; position: absolute; left: 0; top: -1px;
+    font-weight: 900; color: var(--color-warm-500);
+  }
+
+  /* ── 2. 故事 ── */
+  .story { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--space-12); align-items: start; }
+  .story__video { margin: 0; }
+  .video-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-brand-900);
+  }
+  .video-frame iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; border: 0;
+  }
+  .story__video figcaption {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-ink-700);
+    line-height: var(--leading-normal);
+  }
+  .story__pending {
+    display: block; margin-top: var(--space-1);
+    font-size: var(--text-xs); color: var(--color-ink-500);
+  }
+  .story__quote {
+    margin: var(--space-6) 0 0; padding-left: var(--space-6);
+    border-left: 3px solid var(--color-warm-500);
+  }
+  .story__quote p {
+    font-size: var(--text-lg); font-weight: var(--font-bold);
+    color: var(--color-brand-800); line-height: var(--leading-normal); margin-bottom: var(--space-3);
+  }
+  .story__quote p::before { content: '「'; }
+  .story__quote p::after { content: '」'; }
+  .story__quote cite { font-style: normal; font-size: var(--text-sm); color: var(--color-ink-500); }
+  .story__text { line-height: var(--leading-loose); color: var(--color-ink-700); font-size: var(--text-lg); }
+
+  /* ── 3. 翻頁卡 ── */
+  .insight__head {
+    display: flex; flex-wrap: wrap; justify-content: space-between;
+    align-items: flex-end; gap: var(--space-4); margin-bottom: var(--space-8);
+  }
+  .insight__head .sec-title { margin-bottom: var(--space-1); }
+  .insight__hint { margin: 0; color: var(--color-ink-500); font-size: var(--text-sm); }
+  .insight__count {
+    margin: 0; font-size: var(--text-sm); font-weight: var(--font-bold);
+    color: var(--color-brand-700); font-variant-numeric: tabular-nums;
+  }
+
+  .deck {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6);
+  }
+  .flip {
+    display: block; width: 100%; padding: 0; border: 0; background: transparent;
+    cursor: pointer; perspective: 1400px; font-family: inherit; text-align: left;
+  }
+  .flip__inner {
+    display: grid; position: relative; min-height: 17rem;
+    transition: transform 620ms var(--ease-out); transform-style: preserve-3d;
+  }
+  .flip[aria-pressed='true'] .flip__inner { transform: rotateY(180deg); }
+  .flip__face {
+    grid-area: 1 / 1; display: flex; flex-direction: column;
+    padding: var(--space-8); border-radius: var(--radius-md);
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  }
+  .flip__face--front {
+    justify-content: center; align-items: center; gap: var(--space-4);
+    background: var(--color-brand-50); border: 1px solid var(--color-brand-200);
+    transition: background var(--duration-base) var(--ease-out);
+  }
+  .flip:hover .flip__face--front { background: var(--color-brand-100); }
+  .flip__title { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--color-brand-800); }
+  .flip__cue {
+    font-size: var(--text-xs); letter-spacing: .18em; color: var(--color-ink-500);
+    border: 1px solid var(--color-ink-300); border-radius: var(--radius-full);
+    padding: var(--space-1) var(--space-4);
+  }
+  .flip__face--back {
+    transform: rotateY(180deg);
+    background: var(--color-white); border: 1px solid var(--color-brand-600);
+    border-top: 3px solid var(--color-warm-500);
+    gap: var(--space-4);
+  }
+  .flip__q {
+    font-size: var(--text-lg); font-weight: var(--font-bold);
+    color: var(--color-brand-800); line-height: var(--leading-normal);
+  }
+  .flip__q::before { content: '「'; }
+  .flip__q::after { content: '」'; }
+  .flip__points { display: grid; gap: var(--space-2); }
+  .flip__point {
+    position: relative; padding-left: var(--space-4);
+    font-size: var(--text-sm); color: var(--color-ink-700); line-height: var(--leading-normal);
+  }
+  .flip__point::before {
+    content: ''; position: absolute; left: 0; top: .62em;
+    width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--color-brand-400);
+  }
+
+  .reveal {
+    margin-top: var(--space-12); padding: var(--space-12) var(--space-8);
+    text-align: center; border-top: 2px solid var(--color-warm-500);
+    animation: rise 700ms var(--ease-out) both;
+  }
+  .reveal__line { font-size: var(--text-lg); color: var(--color-ink-700); margin-bottom: var(--space-3); }
+  .reveal__punch {
+    font-size: clamp(1.75rem, 4.5vw, var(--text-4xl)); font-weight: 900;
+    color: var(--color-brand-700); margin: 0; text-wrap: balance;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flip__inner { transition: none; }
+    .reveal { animation: none; }
+  }
+
+  /* ── 4. 見證 ── */
+  .voices { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-8); }
+  .voice {
+    display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: var(--space-6); align-items: baseline;
+    padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-brand-800);
+  }
+  .voice:last-child { border-bottom: 0; padding-bottom: 0; }
+  .voice__q {
+    margin: 0; font-size: var(--text-xl); font-weight: var(--font-bold);
+    color: var(--color-white); line-height: var(--leading-tight); text-wrap: balance;
+  }
+  .voice__q::before { content: '「'; }
+  .voice__q::after { content: '」'; }
+  .voice__who { display: grid; gap: var(--space-1); margin: 0; }
+  .voice__name { font-weight: var(--font-bold); color: var(--color-brand-100); }
+  .voice__role { font-size: var(--text-sm); color: var(--color-brand-300); }
+
+  /* ── 5. 紀錄片 ── */
+  .doc { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: var(--space-12); align-items: start; }
+  .doc p { color: var(--color-ink-700); line-height: var(--leading-loose); }
+  .doc__pending { font-size: var(--text-sm); color: var(--color-ink-500); }
+  .doc__stats { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-6); }
+  .doc__stats li { display: grid; gap: var(--space-1); border-left: 3px solid var(--color-brand-500); padding-left: var(--space-4); }
+  .doc__stats b { font-size: var(--text-3xl); line-height: 1; color: var(--color-brand-700); font-variant-numeric: tabular-nums; }
+  .doc__stats span { font-size: var(--text-sm); color: var(--color-ink-500); }
+
+  /* ── 6. 影響力 ── */
+  .cols { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-12); }
+  .cols__h {
+    font-size: var(--text-lg); padding-bottom: var(--space-2);
+    border-bottom: 2px solid var(--color-ink-900); margin-bottom: var(--space-4);
+  }
+  .cols__h--wide { margin-top: var(--space-16); }
+  .cols__note { margin-top: var(--space-4); font-size: var(--text-sm); }
+
+  .reports { list-style: none; margin: 0; padding: 0; display: grid; }
+  .reports li {
+    display: grid; grid-template-columns: 6rem 1fr; gap: var(--space-4);
+    padding: var(--space-3) 0; border-bottom: 1px solid var(--color-ink-100); align-items: baseline;
+  }
+  .reports__outlet { font-size: var(--text-sm); font-weight: var(--font-bold); color: var(--color-brand-700); }
+  .reports__t { font-size: var(--text-sm); color: var(--color-ink-700); line-height: 1.6; }
+
+  .acad { margin: 0; padding-left: var(--space-6); display: grid; gap: var(--space-4); }
+  .acad li { color: var(--color-ink-700); font-size: var(--text-sm); line-height: var(--leading-normal); }
+
+  .partners { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .partners li {
+    padding: var(--space-3) var(--space-6); border: 1px solid var(--color-ink-300);
+    border-radius: var(--radius-full); font-size: var(--text-sm); color: var(--color-ink-700);
+  }
+
+  /* ── 7. 下一步 ── */
+  .nextblock { max-width: var(--container-narrow); color: var(--color-ink-700); line-height: var(--leading-loose); }
+  .nextblock__cta { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-8); }
+
+  @media (max-width: 960px) {
+    .begin, .story, .doc, .cols { grid-template-columns: 1fr; gap: var(--space-8); }
+    .voice { grid-template-columns: 1fr; gap: var(--space-3); }
+  }
+  @media (max-width: 640px) {
+    .deck { grid-template-columns: 1fr; }
+    .reports li { grid-template-columns: 1fr; gap: var(--space-1); }
+    .hero { min-height: 68vh; }
+  }
+</style>
+
+<script>
+  // 翻頁卡：四張都翻開後才揭露總結——探索完四個面向才看得到結論。
+  const deck = document.querySelector('[data-flipdeck]');
+  if (deck) {
+    const flips = Array.from(deck.querySelectorAll<HTMLButtonElement>('.flip'));
+    const counter = deck.querySelector<HTMLElement>('[data-count]');
+    const reveal = deck.querySelector<HTMLElement>('[data-reveal]');
+    const seen = new Set<number>();
+
+    flips.forEach((flip, i) => {
+      flip.addEventListener('click', () => {
+        const open = flip.getAttribute('aria-pressed') === 'true';
+        flip.setAttribute('aria-pressed', String(!open));
+        if (!open) seen.add(i);
+
+        if (counter) counter.textContent = `已翻開 ${seen.size} / ${flips.length}`;
+        if (reveal && seen.size === flips.length && reveal.hidden) reveal.hidden = false;
+      });
+    });
+  }
+</script>

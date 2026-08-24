@@ -46,7 +46,7 @@ const articles = [
 
 <BaseLayout
   title="基本收入二三事｜UBI Taiwan"
-  description="UBI Taiwan 的文章專欄：基本收入的觀念、實驗報導、遊行紀實與組織札記。"
+  description="UBI Taiwan 的文章專欄：基本收入的觀念釐清、各國實驗報導、台灣遊行紀實與組織札記，從稅制財源到勞動未來，帶你從不同角度理解基本收入。"
   current="articles"
 >
   <section class="section">
@@ -55,17 +55,20 @@ const articles = [
       <p class="container--narrow" style="margin-inline: 0;">
         關於基本收入的觀念釐清、實驗報導、遊行紀實與組織札記。
       </p>
-      <div class="grid grid--3">
+      <!-- 原本是三欄等寬卡片；改為圖文並列的長列，標題可讀性更高 -->
+      <ul class="posts">
         {articles.map((a) => (
-          <article class="card article-card">
-            <img src={a.img} alt="" loading="lazy" class="article-card__img" />
-            <p class="eyebrow">{a.category}</p>
-            <h2 class="article-card__title">
-              <a href={a.href} rel="noopener">{a.title}</a>
-            </h2>
-          </article>
+          <li class="post">
+            <a class="post__link" href={a.href} rel="noopener">
+              <img class="post__img" src={a.img} alt="" loading="lazy" />
+              <span class="post__body">
+                <span class="post__cat">{a.category}</span>
+                <span class="post__title">{a.title}</span>
+              </span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
       <p class="articles-more">
         更多文章持續發布於
         <a href="https://medium.com/@taiwanbasicincome" rel="noopener">UBI Taiwan 的 Medium 專欄 →</a>
@@ -95,4 +98,41 @@ const articles = [
   .article-card__title a { color: var(--color-ink-900); text-decoration: none; }
   .article-card__title a:hover { color: var(--color-brand-700); text-decoration: underline; }
   .articles-more { margin-top: var(--space-8); font-weight: var(--font-bold); }
+  /* ── 文章列表（原三欄等寬卡片）── */
+  .posts { list-style: none; margin: var(--space-8) 0 0; padding: 0; }
+  .post { border-top: 1px solid var(--color-ink-300); }
+  .post:last-child { border-bottom: 1px solid var(--color-ink-300); }
+  .post__link {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: center;
+    padding: var(--space-5) var(--space-4) var(--space-5) 0;
+    text-decoration: none;
+    color: var(--color-ink-900);
+    transition: background var(--duration-base) var(--ease-out);
+  }
+  .post__link:hover { background: var(--surface-subtle); }
+  .post__img {
+    width: 100%; aspect-ratio: 3 / 2; object-fit: cover;
+    border-radius: var(--radius-sm);
+  }
+  .post__body { display: grid; gap: var(--space-2); }
+  .post__cat {
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    letter-spacing: .1em;
+    color: var(--color-brand-600);
+  }
+  .post__title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-normal);
+    text-wrap: balance;
+  }
+  .post__link:hover .post__title { color: var(--color-brand-700); }
+  @media (max-width: 640px) {
+    .post__link { grid-template-columns: 1fr; gap: var(--space-3); }
+    .post__img { max-width: 20rem; }
+  }
 </style>

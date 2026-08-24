@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 // 關於我們：內容對應 ubitaiwan.org/zh/about/
 // 2026-08 調整：補充組織架構與志工招募區塊（資料來源：2025 年度報告書、行動里程碑頁），
@@ -26,7 +26,7 @@ const groups = [
 <BaseLayout
   title="關於我們｜UBI Taiwan"
   description="UBI Taiwan 台灣無條件基本收入協會：願景與文化、組織團隊與工作組介紹，以及加入志工的方式。"
-  current="about"
+  current="about-index"
 >
   <section class="section section--subtle">
     <div class="container container--narrow">
@@ -51,7 +51,7 @@ const groups = [
       <h2 id="team-title">組織團隊</h2>
       <ul class="team" role="list">
         {team.map((m) => (
-          <li class="card team__member">
+          <li class="team__member">
             {m.img ? (
               <img class="team__photo" src={m.img} alt={`${m.name} 個人照`} width="88" height="88" loading="lazy" />
             ) : (
@@ -75,7 +75,7 @@ const groups = [
       </p>
       <ul class="groups" role="list">
         {groups.map((g) => (
-          <li class="card">
+          <li class="group">
             <h3 class="groups__name">{g.name}</h3>
             <p>{g.desc}</p>
           </li>
@@ -185,4 +185,16 @@ const groups = [
     background: rgba(255, 255, 255, 0.1);
     color: var(--color-white);
   }
+  /* 拿掉 .card 後補上各自的界定：成員用細框、工作組用上緣色線 */
+  .team__member {
+    background: var(--color-white);
+    border: 1px solid var(--color-ink-300);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+  }
+  .group {
+    border-top: 3px solid var(--color-brand-600);
+    padding-top: var(--space-4);
+  }
+  .group p { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
 </style>
