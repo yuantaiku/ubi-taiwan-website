@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 
 // 關於我們：內容對應 ubitaiwan.org/zh/about/
 // 2026-08 調整：補充組織架構與志工招募區塊（資料來源：2025 年度報告書、行動里程碑頁），
@@ -28,10 +29,17 @@ const groups = [
   description="UBI Taiwan 台灣無條件基本收入協會：願景與文化、組織團隊與工作組介紹，以及加入志工的方式。"
   current="about-index"
 >
+  <PageHero
+    image="/images/DSCF3040.webp"
+    alt="UBI Taiwan 成員在室內聚會的合影，十多位夥伴或坐或站，面對鏡頭微笑"
+    eyebrow="UBI Taiwan"
+    title="願景與文化"
+    focus="center 40%"
+    width={1024} heightAttr={683}
+  />
+
   <section class="section section--subtle">
     <div class="container container--narrow">
-      <p class="eyebrow">UBI Taiwan</p>
-      <h1>願景與文化</h1>
       <h2>我們重視每位夥伴的聲音</h2>
       <p>
         開放、參與、共治共決是我們的核心精神。社會改革並非一蹴而就，但我們相信，我們正在討論的社會制度與願景無比重要。

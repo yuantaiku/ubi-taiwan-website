@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
 
 // 國際交流列表頁。
 // 這頁存在的理由是結構性的：改版前 2023／2024 各佔一個下拉選單位置，
@@ -48,16 +49,15 @@ const events = [
   description="UBI Taiwan 歷年參與的基本收入國際高峰會：2025 巴西里約、2024 英國巴斯、2023 南韓。發表台灣經驗、建立國際連結，並爭取到 2027 印太高峰會主辦權。"
   current="impact-intl"
 >
-  <section class="head">
-    <div class="container">
-      <p class="eyebrow">我們的行動</p>
-      <h1>國際交流</h1>
-      <p class="head__lead">
-        基本收入是一場跨國的運動。UBI Taiwan 連續參與 BIEN 全球高峰會，
-        把台灣的實驗成果與政策想像帶到國際場合，也把世界的經驗帶回台灣。
-      </p>
-    </div>
-  </section>
+  <PageHero
+    image="/images/PXL_20250827_121433240-scaled.webp"
+    alt="2025 BIEN 全球大會開幕現場，講台上一排與談人，台下坐滿來自各國的參與者，投影幕寫著 Conferência Global"
+    eyebrow="我們的行動"
+    title="國際交流"
+    lead="基本收入是一場跨國的運動。UBI Taiwan 連續參與 BIEN 全球高峰會，把台灣的實驗成果與政策想像帶到國際場合，也把世界的經驗帶回台灣。"
+    focus="center 45%"
+    width={1600} heightAttr={1205}
+  />
 
   <section class="section">
     <div class="container">
