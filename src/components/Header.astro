@@ -6,6 +6,9 @@ const { current = '' } = Astro.props;
 // 導覽原則：選單只放「類別」，單筆紀錄一律收進列表頁。
 // 新增年份（國際交流、年度報告）只進列表頁，不得再直接掛進選單，
 // 否則選單長度會隨年份線性成長——這正是改版前的結構問題。
+// 註：item.highlight 會在該項加上 NEW 徽章。2026-08 起無人使用——
+// 「生活自由計畫」報名將於 2026/08/31 截止，已從頂層收回「台灣的實驗」底下。
+// 機制保留供未來新頁上線時標示（例如 2027 印太高峰會）。
 const navItems = [
   {
     label: '認識基本收入',
@@ -45,7 +48,6 @@ const navItems = [
       { href: '/about/transparency/', label: '捐款徵信', key: 'about-transparency' },
     ],
   },
-  { href: '/life-freedom/', label: '生活自由計畫', key: 'life-freedom', highlight: true },
 ];
 ---
 
