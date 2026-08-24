@@ -126,29 +126,14 @@ a:hover { color: var(--color-brand-700); }
 }
 .btn--warm:hover { background: var(--color-warm-600); color: var(--color-white); }
 
-/* 卡片 */
-.card {
-  background: var(--color-white);
-  border: 1px solid var(--color-ink-300);
-  border-radius: var(--radius-md);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
-}
+/* 通用的 .card 與 .grid--2/3/4 已於 2026-08 移除。
+   理由：理事長明確要求「少點卡片或看起來制式的元素」，
+   而這兩個通用類別讓每一區都很容易被排成一列等寬方框。
+   現在各區塊依內容性質自訂版型（細線分隔、編號條列、左右交錯、錯位橫列），
+   相關寫法可參考 index.astro 的 .asks / .forces、support.astro 的 .creed / .works。
+   請不要為了省事把它們加回來。 */
 
-/* 格線 */
-.grid {
-  display: grid;
-  gap: var(--space-6);
-}
-.grid--2 { grid-template-columns: repeat(2, 1fr); }
-.grid--3 { grid-template-columns: repeat(3, 1fr); }
-.grid--4 { grid-template-columns: repeat(4, 1fr); }
-
-@media (max-width: 860px) {
-  .grid--3, .grid--4 { grid-template-columns: repeat(2, 1fr); }
-}
 @media (max-width: 560px) {
-  .grid--2, .grid--3, .grid--4 { grid-template-columns: 1fr; }
   .section { padding-block: var(--space-12); }
 }
 

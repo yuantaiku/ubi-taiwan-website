@@ -44,6 +44,28 @@ const pillars = [
   },
 ];
 
+// ＃生活，本該如此 ____
+// 這是品牌自己的填空機制，不是一句靜態標語：
+// 「生活」鼓勵追求生活、拋開生存焦慮；「本該」象徵選擇權與主動權；
+// 「如此____」以填空傳達多元可能性（references-info/生活自由計畫-網頁內容素材.md）。
+// 擺攤時是讓民眾在板子上自己填，官網用輪替把同樣的意思做出來。
+// 用詞皆取自站內既有文案，未另行杜撰：
+//   安心 ← 2025 年度報告書標題「生活，本該如此安心」
+//   自然／健康／快樂／餘裕 ← 願景四支柱「更自然、更健康、更快樂、更有餘裕的生活著」
+//   自由 ← 生活自由計畫
+//   任性 ← 「帶著一點點任性去選擇，自己認為『本該如此』的生活方式」
+const fillWords = ['安心', '自由', '快樂', '健康', '自然', '有餘裕', '任性'];
+
+// 真人填過的答案。全部出自現場照片，逐字轉錄，未經潤飾——
+// 這些字就在 public/images 的照片裡，任何人都可以自己核對。
+const answers = [
+  { text: '吃想吃的！', where: '2024 浪人季．白板' },
+  { text: '環遊世界！', where: '2024 浪人季．白板' },
+  { text: '溜水啦！', where: '2024 浪人季．白板' },
+  { text: '不想再窮忙，好好來做郎', where: '2025 島嶼新日常發表會．手寫牌' },
+  { text: '生活，不是生存', where: '2025 島嶼新日常發表會．手舉牌' },
+];
+
 const partners = [
   { img: '/images/bienlogo-thumb-1.webp', name: 'BIEN 基本收入全球網絡' },
   { img: '/images/BIKN_Logo-1.webp', name: 'BIKN 韓國基本收入網絡' },
@@ -66,7 +88,20 @@ const partners = [
         那麼總該有一天，我們都不再需要<br />
         <em>為了溫飽而工作、為了生存而焦慮</em>
       </h1>
-      <p class="hero__tag">＃生活，本該如此</p>
+      <p class="hero__tag">
+        <span aria-hidden="true">
+          ＃生活，本該如此
+          <span class="fill">
+            {fillWords.map((w, i) => (
+              <span class:list={['fill__word', { 'is-on': i === 0 }]}>{w}</span>
+            ))}
+            <span class="fill__all">{fillWords.join('、')}</span>
+          </span>
+        </span>
+        <span class="visually-hidden">
+          ＃生活，本該如此——{fillWords.join('、')}
+        </span>
+      </p>
       <div class="hero__actions">
         <a class="btn btn--primary" href="#ubi">認識基本收入</a>
         <a class="btn btn--outline" href="/life-freedom/">生活自由計畫</a>
@@ -78,15 +113,24 @@ const partners = [
   <section class="section" aria-labelledby="scenarios-title">
     <div class="container">
       <h2 id="scenarios-title">在不同人生跑道中的你，是否也曾不約而同地想過…</h2>
-      <div class="grid grid--3">
+      <!--
+        原本是三張等寬卡片。這三段其實是三個不同的人在問自己的問題，
+        排成一列等寬卡片會讓它們看起來像三個並列的功能項目。
+        改成左右交錯的編輯式長列，讓問題本身當主角，照片退為配角。
+      -->
+      <ol class="asks">
         {scenarios.map((s) => (
-          <div class="card scenario">
-            <img src={s.img} alt="" loading="lazy" class="scenario__img" />
-            <h3>{s.title}</h3>
-            <p>{s.desc}</p>
-          </div>
+          <li class="ask">
+            <figure class="ask__figure">
+              <img src={s.img} alt="" loading="lazy" />
+            </figure>
+            <div class="ask__body">
+              <h3 class="ask__q">{s.title}</h3>
+              <p class="ask__d">{s.desc}</p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   </section>
 
@@ -100,19 +144,88 @@ const partners = [
     </div>
   </section>
 
+  <!--
+    已經有人填過了。
+    「＃生活本該如此 ____」不是一句標語，是協會擺攤與活動時遞出去的填空題：
+    浪人季的白板、紀錄片首映會的卡片、新書發表會的手舉牌。
+    這一區把那些真實的手寫答案放回網站上——照片與文字都在 public/images 裡可以核對。
+  -->
+  <section class="section wall" aria-labelledby="wall-title">
+    <div class="container">
+      <div class="wall__head">
+        <h2 id="wall-title">已經有人填過了</h2>
+        <p>
+          這幾年擺攤、放映、發表會，我們把同一張空白卡片遞出去，
+          問每一個願意停下腳步的人：如果不必為生存煩惱，你的生活本該是什麼樣子？
+        </p>
+      </div>
+
+      <div class="wall__grid">
+        <figure class="wall__photo wall__photo--card">
+          <img
+            src="/images/25-08-02_10-13-59.webp"
+            alt="紀錄片首映會現場，一位觀眾手持印有「＃生活本該如此 ______」的空白卡片，另一人正用手機拍下"
+            width="1024" height="683" loading="lazy"
+          />
+          <figcaption>我們遞出去的，是一張空白的卡片</figcaption>
+        </figure>
+
+        <ul class="wall__notes">
+          {answers.map((a) => (
+            <li class="note">
+              <p class="note__pre">生活，本該如此</p>
+              <p class="note__text">{a.text}</p>
+              <p class="note__where">{a.where}</p>
+            </li>
+          ))}
+        </ul>
+
+        <figure class="wall__photo wall__photo--board">
+          <img
+            src="/images/20241005-06_浪人季_「生活本該如此」互動-scaled-r2uo2eds01212w0737i5ndsnjlbg90ru6w8r78fofk.webp"
+            alt="浪人季擺攤現場，一位戴橘色毛帽的參與者正在白板上寫下自己的答案，板上已有「吃想吃的！」「環遊世界！」等字跡"
+            width="600" height="600" loading="lazy"
+          />
+          <figcaption>2024 浪人季，有人寫「吃想吃的」，有人寫「環遊世界」</figcaption>
+        </figure>
+
+        <figure class="wall__photo wall__photo--signs">
+          <img
+            src="/images/PXL_20251001_125859436.webp"
+            alt="島嶼新日常新書發表會，眾人舉著手寫與印製的牌子合影，投影幕上是「A Sentence to Capture Your Ideal ＃生活本該如此」"
+            width="1024" height="771" loading="lazy"
+          />
+          <figcaption>2025 新書發表會，答案從卡片變成了手舉牌</figcaption>
+        </figure>
+
+        <figure class="wall__photo wall__photo--house">
+          <img
+            src="/images/25-08-02_12-03-31-1024x683.webp"
+            alt="紀錄片首映會滿場觀眾在戲院內合影，眾人以雙手比出 UBI Taiwan 的手勢"
+            width="1024" height="683" loading="lazy"
+          />
+          <figcaption>2025 紀錄片首映會，140 多個人坐滿了一間戲院</figcaption>
+        </figure>
+      </div>
+
+      <p class="wall__ask">那你呢？</p>
+    </div>
+  </section>
+
   <!-- 四大支柱 -->
   <section class="section" aria-labelledby="pillars-title">
     <div class="container">
-      <h2 id="pillars-title" class="visually-hidden">基本收入帶來的四種力量</h2>
-      <div class="grid grid--4">
+      <h2 id="pillars-title">基本收入帶來的四種力量</h2>
+      <!-- 原本是四張等寬卡片；改為高低錯開、以細線相連的橫列，去掉方框感 -->
+      <ul class="forces">
         {pillars.map((p) => (
-          <div class="card pillar">
+          <li class="force">
             <img src={p.img} alt="" width="72" height="72" loading="lazy" />
             <h3>{p.title}</h3>
             <p>{p.desc}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 
@@ -196,7 +309,11 @@ const partners = [
           </div>
         </details>
 
-        <p class="ubi-more"><a href="/qa/">更多常見問答 →</a></p>
+        <ul class="ubi-more">
+          <li><a href="/ubi/">什麼是基本收入：定義與五大條件 →</a></li>
+          <li><a href="/ubi/world/">全球進程：13 個國家與組織的實例 →</a></li>
+          <li><a href="/ubi/faq/">基本收入大哉問：14 個常見疑問 →</a></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -220,7 +337,7 @@ const partners = [
           >2020 年台灣第一次 UBI 共好時代遊行</a>
         </li>
         <li>
-          <a href="/pilot-program/">2023 年台灣第一個 UBI 實驗計畫</a>
+          <a href="/experiment/pilot/">2023 年台灣第一個 UBI 實驗計畫</a>
         </li>
       </ul>
     </div>
@@ -286,15 +403,218 @@ const partners = [
     margin-top: var(--space-6);
   }
 
-  .scenario__img {
+  /* 填空：所有詞疊在同一格，容器寬度＝最長的詞，切換時版面不跳動 */
+  .fill {
+    position: relative;
+    display: inline-grid;
+    vertical-align: baseline;
+    padding: 0 var(--space-2) var(--space-1);
+    border-bottom: 3px solid var(--color-warm-500);
+  }
+  .fill__word {
+    grid-area: 1 / 1;
+    text-align: center;
+    white-space: nowrap;
+  }
+  /* 備援清單不能參與 grid 定寬，否則填空框會被撐成整串詞的長度 */
+  .fill__all {
+    position: absolute;
+    visibility: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .fill__word {
+    opacity: 0;
+    transform: translateY(0.32em);
+    transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out);
+  }
+  /* 錯開進退場：舊詞先離開，新詞才進來，避免兩個詞疊在一起糊掉 */
+  .fill__word.is-on {
+    opacity: 1;
+    transform: none;
+    transition-delay: 200ms;
+  }
+  .fill__word.is-out {
+    opacity: 0;
+    transform: translateY(-0.32em);
+    transition-duration: 220ms;
+    transition-delay: 0ms;
+  }
+  /* 減少動態：完全不輪替，改一次列出所有可能性——
+     填空要傳達的是「多元可能」，靜態清單同樣說得完，不需要動畫 */
+  @media (prefers-reduced-motion: reduce) {
+    .fill { display: inline; border-bottom-width: 2px; }
+    .fill__word { display: none; }
+    .fill__all { position: static; visibility: visible; white-space: normal; }
+  }
+
+  /* ── 已經有人填過了 ────────────────────────────────
+     刻意不用等寬卡片格線：照片大小不一、各自帶一點傾斜，
+     像是把現場的紙片與照片釘在牆上，而不是排進表格。 */
+  .wall { background: var(--surface-subtle); overflow: hidden; }
+  .wall__head { max-width: var(--container-narrow); margin-bottom: var(--space-12); }
+  .wall__head p {
+    color: var(--color-ink-700);
+    font-size: var(--text-lg);
+    line-height: var(--leading-loose);
+    margin: 0;
+  }
+
+  .wall__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-8) var(--space-6);
+    align-items: start;
+  }
+
+  .wall__photo { margin: 0; }
+  .wall__photo img {
     width: 100%;
-    aspect-ratio: 3 / 2;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .wall__photo figcaption {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-ink-500);
+    line-height: var(--leading-normal);
+  }
+  .wall__photo:hover img { transform: rotate(0) scale(1.015); }
+
+  .wall__photo--card   { grid-column: 1 / span 5;  }
+  .wall__notes         { grid-column: 6 / span 7;  }
+  .wall__photo--board  { grid-column: 1 / span 4;  }
+  .wall__photo--signs  { grid-column: 5 / span 4;  }
+  .wall__photo--house  { grid-column: 9 / span 4;  }
+
+  .wall__photo--card img   { transform: rotate(-1.4deg); }
+  .wall__photo--board img  { transform: rotate(1.6deg); }
+  .wall__photo--signs img  { transform: rotate(-0.8deg); }
+  .wall__photo--house img  { transform: rotate(1deg); }
+
+  /* 手寫答案：不用假的手寫字體，字就是字，手寫感留給照片本身 */
+  .wall__notes { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-4); }
+  .note {
+    background: var(--color-white);
+    border-left: 4px solid var(--color-warm-500);
+    padding: var(--space-4) var(--space-6);
+    box-shadow: var(--shadow-sm);
+  }
+  .note:nth-child(even) { margin-left: var(--space-8); }
+  .note__pre {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-ink-500);
+  }
+  .note__text {
+    margin: var(--space-1) 0 var(--space-2);
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--color-brand-800);
+    line-height: var(--leading-tight);
+  }
+  .note__where { margin: 0; font-size: var(--text-xs); color: var(--color-ink-500); }
+
+  .wall__ask {
+    margin: var(--space-16) 0 0;
+    text-align: center;
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--color-brand-700);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wall__photo img { transform: none !important; }
+  }
+
+  @media (max-width: 900px) {
+    .wall__grid { grid-template-columns: repeat(6, 1fr); }
+    .wall__photo--card  { grid-column: 1 / span 6; }
+    .wall__notes        { grid-column: 1 / span 6; }
+    .wall__photo--board { grid-column: 1 / span 3; }
+    .wall__photo--signs { grid-column: 4 / span 3; }
+    .wall__photo--house { grid-column: 1 / span 6; }
+    .note:nth-child(even) { margin-left: 0; }
+  }
+
+  /* ── 三個自問（原三張等寬卡片）── */
+  .asks { list-style: none; margin: var(--space-8) 0 0; padding: 0; counter-reset: ask; }
+  .ask {
+    counter-increment: ask;
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: var(--space-8) var(--space-12);
+    align-items: center;
+    padding-block: var(--space-12);
+    border-top: 1px solid var(--color-ink-300);
+  }
+  .ask:last-child { border-bottom: 1px solid var(--color-ink-300); }
+  /* 左右交錯：第二則把圖放到右邊 */
+  .ask:nth-child(even) { direction: rtl; }
+  .ask:nth-child(even) > * { direction: ltr; }
+
+  .ask__figure { margin: 0; }
+  .ask__figure img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     object-position: center 30%; /* 窄螢幕裁切時保留人物臉部 */
-    border-radius: var(--radius-sm);
-    margin-bottom: var(--space-4);
+    border-radius: var(--radius-md);
   }
-  .scenario h3 { font-size: var(--text-lg); }
+  .ask__q {
+    position: relative;
+    font-size: var(--text-xl);
+    line-height: var(--leading-normal);
+    color: var(--color-brand-800);
+    margin-bottom: var(--space-4);
+    text-wrap: balance;
+  }
+  .ask__q::before {
+    content: counter(ask, decimal-leading-zero);
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 900;
+    letter-spacing: .1em;
+    color: var(--color-warm-500);
+    margin-bottom: var(--space-2);
+  }
+  .ask__d { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
+
+  /* ── 四種力量（原四張等寬卡片）── */
+  .forces {
+    list-style: none;
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-8);
+    position: relative;
+  }
+  /* 一條細線把四項串起來，取代四個各自獨立的方框 */
+  .forces::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 36px;
+    height: 1px;
+    background: var(--color-brand-200);
+  }
+  .force { position: relative; }
+  .force:nth-child(even) { margin-top: var(--space-8); }
+  .force img { width: 72px; height: 72px; object-fit: contain; margin-bottom: var(--space-3); }
+  .force h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .force p { margin: 0; color: var(--color-ink-700); font-size: var(--text-sm); line-height: var(--leading-loose); }
+
+  @media (max-width: 900px) {
+    .ask { grid-template-columns: 1fr; gap: var(--space-4); padding-block: var(--space-8); }
+    .ask:nth-child(even) { direction: ltr; }
+    .forces { grid-template-columns: repeat(2, 1fr); gap: var(--space-8) var(--space-6); }
+    .forces::before { display: none; }
+    .force:nth-child(even) { margin-top: 0; }
+  }
+  @media (max-width: 520px) {
+    .forces { grid-template-columns: 1fr; }
+  }
 
   .vision__q {
     color: var(--color-brand-800);
@@ -303,7 +623,7 @@ const partners = [
   }
   .vision__a { font-size: var(--text-lg); color: var(--color-ink-700); }
 
-  .pillar img { margin-bottom: var(--space-3); width: 72px; height: 72px; object-fit: contain; }
+
 
   /* 生活自由計畫 宣傳帶 */
   .promo {
@@ -365,7 +685,16 @@ const partners = [
   .ubi-faq[open] summary { border-bottom: 1px solid var(--color-ink-100); }
   .ubi-faq__body { padding: var(--space-4) var(--space-6) var(--space-2); }
   .ubi-faq__body li { margin-bottom: var(--space-3); }
-  .ubi-more { margin-top: var(--space-6); font-weight: var(--font-bold); }
+  .ubi-more {
+    list-style: none;
+    margin: var(--space-6) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+    font-weight: var(--font-bold);
+  }
+  .ubi-more a { text-decoration: none; }
+  .ubi-more a:hover { text-decoration: underline; }
 
   /* 關於我們區塊的行動按鈕 */
   .about-actions {
@@ -445,3 +774,37 @@ const partners = [
     opacity: 1;
   }
 </style>
+
+<script>
+  // ＃生活，本該如此 ____ 的輪替。
+  // 使用者要求減少動態時完全不跑，改由 CSS 顯示完整詞彙清單。
+  const fill = document.querySelector<HTMLElement>('.fill');
+  const words = Array.from(document.querySelectorAll<HTMLElement>('.fill__word'));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (fill && words.length > 1 && !reduce.matches) {
+    let i = 0;
+    let timer = 0;
+
+    const step = () => {
+      const prev = words[i];
+      i = (i + 1) % words.length;
+      prev.classList.remove('is-on');
+      prev.classList.add('is-out');
+      words[i].classList.remove('is-out');
+      words[i].classList.add('is-on');
+      window.setTimeout(() => prev.classList.remove('is-out'), 460);
+    };
+
+    const play = () => { timer ||= window.setInterval(step, 2600); };
+    const pause = () => { window.clearInterval(timer); timer = 0; };
+
+    play();
+
+    // 滑鼠停留時暫停，讓人看得完；離開再繼續
+    fill.addEventListener('mouseenter', pause);
+    fill.addEventListener('mouseleave', play);
+    // 分頁切到背景時不空轉
+    document.addEventListener('visibilitychange', () => (document.hidden ? pause() : play()));
+  }
+</script>

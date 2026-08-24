@@ -3,29 +3,48 @@
 // 僅新增「生活自由計畫」一項；以語意化 nav + aria 屬性確保無障礙。
 const { current = '' } = Astro.props;
 
+// 導覽原則：選單只放「類別」，單筆紀錄一律收進列表頁。
+// 新增年份（國際交流、年度報告）只進列表頁，不得再直接掛進選單，
+// 否則選單長度會隨年份線性成長——這正是改版前的結構問題。
 const navItems = [
-  { href: '/pilot-program/', label: '實驗計畫', key: 'pilot-program' },
   {
-    label: '了解 UBI',
+    label: '認識基本收入',
     key: 'ubi',
     children: [
+      { href: '/ubi/', label: '什麼是基本收入', key: 'ubi-what' },
+      { href: '/ubi/world/', label: '全球進程', key: 'ubi-world' },
+      { href: '/ubi/faq/', label: '基本收入大哉問', key: 'ubi-faq' },
+      { href: '/ubi/reading/', label: '延伸閱讀', key: 'ubi-reading' },
       { href: '/articles/', label: '基本收入二三事', key: 'articles' },
-      { href: '/qa/', label: '常見問答', key: 'qa' },
     ],
   },
   {
-    label: '我們在做什麼',
-    key: 'what-we-do',
+    label: '台灣的實驗',
+    key: 'experiment',
     children: [
-      { href: '/ubi-taiwan/2025report-impact/', label: '2025年度報告書', key: 'report2025' },
-      { href: '/2024report-impact/', label: '2024年度報告書', key: 'report2024' },
-      { href: '/國際交流-2024英國巴斯bien高峰會/', label: '國際交流-2024英國巴斯BIEN高峰會', key: 'intl2024' },
-      { href: '/2023-korea-basic-income-summit/', label: '國際交流-2023韓國高峰會', key: 'intl2023' },
-      { href: '/impacts/', label: '行動里程碑', key: 'impacts' },
-      { href: '/press/', label: '媒體專區', key: 'press' },
+      { href: '/experiment/', label: '實驗總覽', key: 'experiment-overview' },
+      { href: '/experiment/pilot/', label: '第一階段：單親家庭實驗', key: 'experiment-pilot' },
+      { href: '/life-freedom/', label: '第二階段：生活自由計畫', key: 'life-freedom' },
     ],
   },
-  { href: '/about/', label: '關於我們', key: 'about' },
+  {
+    label: '我們的行動',
+    key: 'impact',
+    children: [
+      { href: '/impact/', label: '行動里程碑', key: 'impact-milestones' },
+      { href: '/impact/international/', label: '國際交流', key: 'impact-intl' },
+      { href: '/impact/annual/', label: '年度報告', key: 'impact-annual' },
+    ],
+  },
+  {
+    label: '關於我們',
+    key: 'about',
+    children: [
+      { href: '/about/', label: '願景與團隊', key: 'about-index' },
+      { href: '/about/press/', label: '媒體專區', key: 'about-press' },
+      { href: '/about/transparency/', label: '捐款徵信', key: 'about-transparency' },
+    ],
+  },
   { href: '/life-freedom/', label: '生活自由計畫', key: 'life-freedom', highlight: true },
 ];
 ---

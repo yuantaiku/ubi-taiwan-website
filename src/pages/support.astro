@@ -103,14 +103,15 @@ const faqs = [
     <div class="container">
       <h1>支持 UBI Taiwan，讓基本收入成為改變社會的力量</h1>
       <h2>UBI Taiwan 的社會願景與理念</h2>
-      <div class="grid grid--2">
+      <!-- 原本是四張等寬卡片；內容本來就有編號，改用大編號條列即可 -->
+      <ol class="creed">
         {visions.map((v) => (
-          <div class="card">
-            <h3>{v.title}</h3>
+          <li class="creed__item">
+            <h3>{v.title.replace(/^\d+\.\s*/, '')}</h3>
             <p>{v.desc}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   </section>
 
@@ -120,17 +121,22 @@ const faqs = [
       <p class="container--narrow" style="margin-inline: 0;">
         基本收入不僅僅是理論上的探討，它對整個社會具有深遠的影響力。你的捐款將支持 UBI Taiwan 在台灣推動的一系列重要專案，讓更多人了解並參與這場具變革性的行動。
       </p>
-      <div class="grid grid--3" style="margin-top: var(--space-8);">
+      <!-- 原本是九張等寬卡片，九個方框排成三列非常制式；改為索引式條列 -->
+      <dl class="works">
         {projects.map((p) => (
-          <div class="card">
-            <h3 style="font-size: var(--text-lg);">{p.title}</h3>
-            <p>{p.desc}</p>
-            {p.href && <a href={p.href} rel={p.href.startsWith('http') ? 'noopener' : undefined}>
-              {p.href.startsWith('http') ? '前往觀看' : '前往閱讀'}
-            </a>}
+          <div class="work">
+            <dt>
+              {p.title}
+              {p.href && (
+                <a class="work__link" href={p.href} rel={p.href.startsWith('http') ? 'noopener' : undefined}>
+                  {p.href.startsWith('http') ? '前往觀看 →' : '前往閱讀 →'}
+                </a>
+              )}
+            </dt>
+            <dd>{p.desc}</dd>
           </div>
         ))}
-      </div>
+      </dl>
     </div>
   </section>
 
@@ -140,21 +146,25 @@ const faqs = [
       <p class="container--narrow" style="margin-inline: 0;">
         地瓜（蕃薯）象徵著台灣人即便在艱苦的環境中，依然展現不屈不撓的生命力。歡迎用適合你的方式（地瓜），一起打造更美好的台灣。
       </p>
-      <div class="grid grid--4" style="margin-top: var(--space-8);">
+      <!--
+        級距本來就是要並排比較的，所以保留橫排；但拿掉方框與陰影，
+        改以圖像和一條細線界定，避免又變成四個一模一樣的盒子。
+      -->
+      <ul class="tiers">
         {tiers.map((t) => (
-          <div class="card tier">
+          <li class="tier">
             <img src={t.img} alt="" loading="lazy" class="tier__img" />
-            <h3>{t.name}</h3>
+            <h3 class="tier__name">{t.name}</h3>
             <p class="tier__tagline">{t.tagline}</p>
-            <ul>
-              <li>{t.monthly}</li>
-              <li>{t.once}</li>
-            </ul>
+            <dl class="tier__amounts">
+              <div><dt>每月定額</dt><dd>{t.monthly.replace('每月定額 ', '')}</dd></div>
+              <div><dt>單筆捐款</dt><dd>{t.once.replace('單筆捐款 ', '')}</dd></div>
+            </dl>
             <p class="tier__desc">{t.desc}</p>
             <a class="btn btn--warm" href={t.monthlyHref} rel="noopener">贊助支持</a>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
       <p style="margin-top: var(--space-8);">
         <a
           class="btn btn--outline"
@@ -175,7 +185,7 @@ const faqs = [
       </div>
 
       <p class="credit-note">
-        我們定期辦理公開徵信：<a href="/credit-donate/">查看各月份捐款明細 →</a>
+        我們定期辦理公開徵信：<a href="/about/transparency/">查看各月份捐款明細 →</a>
       </p>
     </div>
   </section>
@@ -186,14 +196,15 @@ const faqs = [
       <p class="container--narrow" style="margin-inline: 0;">
         UBI Taiwan 將你的支持投入各項行動，從人才培育到組織串聯，從國際連結到實驗計畫，讓基本收入的理念在台灣扎根成長。
       </p>
-      <div class="grid grid--4" style="margin-top: var(--space-8);">
+      <!-- 原本是四張等寬卡片；改為以細線分隔的橫列 -->
+      <ol class="usage">
         {usage.map((u) => (
-          <div class="card">
-            <h3 style="font-size: var(--text-lg);">{u.title}</h3>
+          <li class="usage__item">
+            <h3>{u.title}</h3>
             <p>{u.desc}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   </section>
 
@@ -213,21 +224,113 @@ const faqs = [
 </BaseLayout>
 
 <style>
-  .tier { text-align: center; display: flex; flex-direction: column; }
-  .tier__img { width: 100%; max-width: 10rem; margin: 0 auto var(--space-3); }
-  .tier h3 { margin-bottom: var(--space-1); }
-  .tier__tagline { color: var(--color-ink-500); font-size: var(--text-sm); }
-  .tier ul {
+  /* ── 願景理念（原四張等寬卡片）── */
+  .creed { list-style: none; margin: var(--space-8) 0 0; padding: 0; counter-reset: creed; }
+  .creed__item {
+    counter-increment: creed;
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: var(--space-6);
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--color-ink-300);
+    align-items: start;
+  }
+  .creed__item:last-child { border-bottom: 1px solid var(--color-ink-300); }
+  .creed__item::before {
+    content: counter(creed, decimal-leading-zero);
+    font-size: var(--text-2xl);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--color-brand-300);
+    font-variant-numeric: tabular-nums;
+  }
+  .creed__item h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+  .creed__item p { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
+
+  /* ── 專案索引（原九張等寬卡片）── */
+  .works { margin: var(--space-8) 0 0; display: grid; }
+  .work {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--space-4) var(--space-8);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--color-ink-300);
+    align-items: baseline;
+  }
+  .work:last-child { border-bottom: 1px solid var(--color-ink-300); }
+  .work dt {
+    font-weight: var(--font-bold);
+    font-size: var(--text-lg);
+    color: var(--color-brand-800);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+  .work__link { font-size: var(--text-sm); font-weight: var(--font-regular); white-space: nowrap; }
+  .work dd { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
+
+  /* ── 地瓜級距（保留並排比較，去掉方框）── */
+  .tiers {
     list-style: none;
+    margin: var(--space-8) 0 0;
     padding: 0;
-    margin: 0 0 var(--space-3);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+  .tier {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding-top: var(--space-6);
+    border-top: 3px solid var(--color-warm-500);
+  }
+  .tier__img {
+    width: 100%; max-width: 11rem;
+    margin: 0 auto var(--space-4);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .tier:hover .tier__img { transform: translateY(-6px); }
+  .tier__name { margin-bottom: var(--space-1); }
+  .tier__tagline { color: var(--color-ink-500); font-size: var(--text-sm); margin-bottom: var(--space-4); }
+  .tier__amounts { margin: 0 0 var(--space-4); display: grid; gap: var(--space-2); }
+  .tier__amounts > div { display: grid; gap: 2px; }
+  .tier__amounts dt { font-size: var(--text-xs); color: var(--color-ink-500); }
+  .tier__amounts dd {
+    margin: 0;
     font-weight: var(--font-bold);
     color: var(--color-brand-800);
-    display: grid;
-    gap: var(--space-1);
+    font-variant-numeric: tabular-nums;
   }
-  .tier__desc { flex: 1; }
+  .tier__desc { flex: 1; font-size: var(--text-sm); color: var(--color-ink-700); }
   .tier .btn { align-self: center; }
+
+  /* ── 經費使用（原四張等寬卡片）── */
+  .usage { list-style: none; margin: var(--space-8) 0 0; padding: 0; }
+  .usage__item {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    gap: var(--space-4) var(--space-8);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--color-ink-300);
+    align-items: baseline;
+  }
+  .usage__item:last-child { border-bottom: 1px solid var(--color-ink-300); }
+  .usage__item h3 { font-size: var(--text-lg); margin: 0; color: var(--color-brand-800); }
+  .usage__item p { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tier:hover .tier__img { transform: none; }
+  }
+  @media (max-width: 900px) {
+    .tiers { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .creed__item { grid-template-columns: 1fr; gap: var(--space-2); }
+    .work, .usage__item { grid-template-columns: 1fr; gap: var(--space-2); }
+    .tiers { grid-template-columns: 1fr; }
+  }
 
   .lovecode {
     display: flex;

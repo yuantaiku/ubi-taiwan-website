@@ -21,6 +21,8 @@ function rewrite(file) {
   let s = readFileSync(file, 'utf8');
   // href="/..." 與 src="/..."（排除 //、http、已含前綴者）
   s = s.replaceAll(/(href|src)="\/(?!\/)/g, `$1="${BASE}/`);
+  // meta refresh 的 content="0; url=/..."（轉址頁用，不走 href/src）
+  s = s.replaceAll(/(content="\d+;\s*url=)\/(?!\/)/g, `$1${BASE}/`);
   // canonical 與 og 標籤維持 ubitaiwan.org 絕對網址，不受影響
   writeFileSync(file, s);
 }

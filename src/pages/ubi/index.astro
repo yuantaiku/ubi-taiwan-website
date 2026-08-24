@@ -1,0 +1,466 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ubi from '../../data/ubi-content.json';
+
+// 認識基本收入的第一頁：定義、BIEN 五大條件、誰在支持。
+// 文案逐字取自團隊規格（docs/content-specs/01-what-is-ubi.md），本頁不改寫內容。
+// 五大條件依規格採「icon 橫排 + 下方顯示詳細說明」，以 tablist 讓說明可切換，
+// 避免五段長文一次攤開變成制式清單。
+
+const { intro, bienLead, criteria, supporters, taiwan } = ubi;
+
+// icon 對應五大條件，順序與 criteria 一致
+const icons = ['calendar', 'cash', 'people', 'person-check', 'clipboard-x'];
+---
+
+<BaseLayout
+  title="什麼是基本收入（UBI）｜UBI Taiwan"
+  description="基本收入（UBI）是定期、無條件發放給所有人的現金。認識 BIEN 定義的五大條件，以及祖克柏、馬斯克、辛頓、阿特曼、楊安澤、李在明等人為何支持。"
+  current="ubi-what"
+>
+  <!-- ── Hero ─────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">認識基本收入</p>
+      <h1 class="hero__title">
+        <span class="hero__letters" aria-hidden="true">
+          <span class="hero__letter"><b>U</b><i>niversal</i><em>人人皆有</em></span>
+          <span class="hero__letter"><b>B</b><i>asic</i><em>基本生活</em></span>
+          <span class="hero__letter"><b>I</b><i>ncome</i><em>收入</em></span>
+        </span>
+        <span class="visually-hidden">Universal Basic Income．全民基本收入</span>
+        <span class="hero__zh">什麼是基本收入？</span>
+      </h1>
+      <div class="hero__lead">
+        {intro.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 五大條件 ──────────────────────────────────────── -->
+  <section class="section section--subtle" aria-labelledby="criteria-title">
+    <div class="container">
+      <p class="eyebrow">BIEN 定義</p>
+      <h2 id="criteria-title">符合基本收入的五個條件</h2>
+      <p class="criteria__lead">{bienLead}</p>
+
+      <div class="criteria">
+        <div class="criteria__tabs" role="tablist" aria-label="基本收入的五個條件">
+          {criteria.map((c, i) => (
+            <button
+              type="button"
+              role="tab"
+              class="crit"
+              id={`crit-tab-${i}`}
+              aria-controls={`crit-panel-${i}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+            >
+              <span class="crit__icon" aria-hidden="true">
+                <span class="crit__blob"></span>
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  {icons[i] === 'calendar' && (
+                    <>
+                      <rect x="8" y="12" width="32" height="28" rx="3" />
+                      <path d="M8 20h32M16 8v8M32 8v8" />
+                      <path d="M16 27h4M26 27h4M16 34h4M26 34h4" />
+                    </>
+                  )}
+                  {icons[i] === 'cash' && (
+                    <>
+                      <rect x="6" y="14" width="36" height="20" rx="3" />
+                      <circle cx="24" cy="24" r="5" />
+                      <path d="M12 20v8M36 20v8" />
+                    </>
+                  )}
+                  {icons[i] === 'people' && (
+                    <>
+                      <circle cx="24" cy="14" r="5" />
+                      <path d="M14 38c0-5.5 4.5-10 10-10s10 4.5 10 10" />
+                      <circle cx="10" cy="21" r="4" /><circle cx="38" cy="21" r="4" />
+                      <path d="M4 38c0-4 2.7-7 6-7M44 38c0-4-2.7-7-6-7" />
+                    </>
+                  )}
+                  {icons[i] === 'person-check' && (
+                    <>
+                      <circle cx="20" cy="16" r="6" />
+                      <path d="M8 38c0-6.6 5.4-12 12-12 2 0 3.9.5 5.5 1.4" />
+                      <path d="M28 32l4.5 4.5L42 27" />
+                    </>
+                  )}
+                  {icons[i] === 'clipboard-x' && (
+                    <>
+                      <rect x="11" y="10" width="26" height="30" rx="3" />
+                      <path d="M18 10V7h12v3" />
+                      <path d="M17 20h14M17 26h9" />
+                      <circle cx="34" cy="33" r="7" fill="var(--surface-subtle)" />
+                      <path d="M31 30l6 6M37 30l-6 6" />
+                    </>
+                  )}
+                </svg>
+              </span>
+              <span class="crit__zh">{c.zh}</span>
+              <span class="crit__en">{c.en}</span>
+            </button>
+          ))}
+        </div>
+
+        {criteria.map((c, i) => (
+          <div
+            class="criteria__panel"
+            role="tabpanel"
+            id={`crit-panel-${i}`}
+            aria-labelledby={`crit-tab-${i}`}
+            hidden={i !== 0}
+          >
+            <h3>{c.zh}<span class="criteria__panel-en">{c.en}</span></h3>
+            <p>{c.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 誰在支持 ──────────────────────────────────────── -->
+  <section class="section" aria-labelledby="supporters-title">
+    <div class="container">
+      <p class="eyebrow">跨產業、跨國界</p>
+      <h2 id="supporters-title">哪些人支持基本收入？</h2>
+
+      <ol class="sup">
+        {supporters.map((s, i) => (
+          <li class="sup__item">
+            <div class="sup__quote">
+              <p class="sup__q">{s.quote}</p>
+              <p class="sup__who">
+                <span class="sup__name">{s.name}</span>
+                <span class="sup__role">{s.role}</span>
+              </p>
+            </div>
+            <p class="sup__desc">{s.desc}</p>
+          </li>
+        ))}
+      </ol>
+      <!--
+        規格建議搭配名人照片左右穿插；六張頭像尚未進 repo 且肖像授權未確認，
+        因此先以引言為主體的排版呈現。照片到位後可在 .sup__item 內加入圖片欄。
+      -->
+    </div>
+  </section>
+
+  <!-- ── 基本收入在台灣 ────────────────────────────────── -->
+  <section class="section section--subtle" aria-labelledby="tw-title">
+    <div class="container">
+      <div class="tw">
+        <figure class="tw__figure">
+          <img
+            src="/images/LYT-3158-202012131607936493813-qt8a6hpk0snheyxhg3k3lifd161t4q3f02foah3a2g.webp"
+            alt="2020 年台灣第一次基本收入遊行，參與者高舉標語與「BASIC INCOME MARCH 走向共好」的布條沿街前進"
+            width="300" height="300" loading="lazy"
+          />
+          <figcaption>2020 年，台灣第一次基本收入遊行</figcaption>
+        </figure>
+        <div class="tw__body">
+          <p class="eyebrow">回到這座島</p>
+          <h2 id="tw-title">基本收入在台灣</h2>
+          {taiwan.map((p) => <p>{p}</p>)}
+          <p class="tw__link"><a href="/impact/">看 UBI Taiwan 的行動里程碑 →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 下一步 ────────────────────────────────────────── -->
+  <section class="section section--muted" aria-labelledby="next-title">
+    <div class="container">
+      <h2 id="next-title" class="next__title">接下來</h2>
+      <ul class="next">
+        <li>
+          <a href="/ubi/world/">
+            <span class="next__label">全球進程</span>
+            <span class="next__desc">13 個國家與組織的政策、倡議與實驗，基本收入在世界各地實際發生的樣子。</span>
+          </a>
+        </li>
+        <li>
+          <a href="/ubi/faq/">
+            <span class="next__label">基本收入大哉問</span>
+            <span class="next__desc">會讓人不想工作嗎？錢從哪裡來？會通膨嗎？14 個最常被問到的問題。</span>
+          </a>
+        </li>
+        <li>
+          <a href="/experiment/">
+            <span class="next__label">台灣的實驗</span>
+            <span class="next__desc">UBI Taiwan 做了台灣第一場基本收入實驗，兩年，一個單親家庭。</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    padding-block: var(--space-24) var(--space-16);
+    background:
+      radial-gradient(ellipse 70% 120% at 85% 0%, var(--color-brand-50), transparent 70%),
+      var(--surface-page);
+  }
+  .hero__eyebrow {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    letter-spacing: 0.14em;
+    color: var(--color-brand-600);
+    margin-bottom: var(--space-6);
+  }
+  .hero__title { margin-bottom: var(--space-8); }
+  .hero__letters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-12);
+    margin-bottom: var(--space-6);
+  }
+  .hero__letter {
+    display: grid;
+    grid-template-areas: 'big en' 'big zh';
+    grid-template-columns: auto 1fr;
+    column-gap: var(--space-3);
+    align-items: center;
+  }
+  .hero__letter b {
+    grid-area: big;
+    font-size: clamp(3.5rem, 9vw, 5.5rem);
+    line-height: 0.85;
+    font-weight: 900;
+    color: var(--color-brand-500);
+  }
+  .hero__letter i {
+    grid-area: en;
+    font-style: normal;
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    color: var(--color-ink-500);
+    align-self: end;
+  }
+  .hero__letter em {
+    grid-area: zh;
+    font-style: normal;
+    font-size: var(--text-lg);
+    font-weight: var(--font-bold);
+    color: var(--color-ink-900);
+    align-self: start;
+  }
+  .hero__zh {
+    display: block;
+    font-size: var(--text-3xl);
+    color: var(--color-ink-900);
+  }
+  .hero__lead {
+    max-width: var(--container-narrow);
+    font-size: var(--text-lg);
+    line-height: var(--leading-loose);
+    color: var(--color-ink-700);
+  }
+
+  /* ── 五大條件 ── */
+  .criteria__lead {
+    max-width: var(--container-narrow);
+    color: var(--color-ink-700);
+    margin-bottom: var(--space-8);
+  }
+  .criteria__tabs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-4);
+  }
+  .crit {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-2);
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--color-ink-700);
+    transition: border-color var(--duration-base) var(--ease-out),
+                color var(--duration-base) var(--ease-out);
+  }
+  .crit__icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    color: var(--color-ink-900);
+  }
+  .crit__blob {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-full);
+    background: var(--color-brand-200);
+    transition: transform var(--duration-base) var(--ease-out),
+                background var(--duration-base) var(--ease-out);
+  }
+  .crit svg { position: relative; width: 48px; height: 48px; }
+  .crit__zh { font-weight: var(--font-bold); font-size: var(--text-base); }
+  .crit__en { font-size: var(--text-xs); color: var(--color-ink-500); letter-spacing: 0.04em; }
+
+  .crit:hover .crit__blob { transform: scale(1.12); }
+  .crit[aria-selected='true'] {
+    border-bottom-color: var(--color-brand-600);
+    color: var(--color-brand-700);
+  }
+  .crit[aria-selected='true'] .crit__blob {
+    background: var(--color-warm-500);
+    transform: scale(1.15);
+  }
+
+  .criteria__panel {
+    margin-top: var(--space-6);
+    padding: var(--space-6) var(--space-8);
+    background: var(--color-white);
+    border-left: 3px solid var(--color-brand-600);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    max-width: var(--container-narrow);
+  }
+  .criteria__panel h3 {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .criteria__panel-en {
+    font-size: var(--text-sm);
+    font-weight: var(--font-regular);
+    color: var(--color-ink-500);
+    letter-spacing: 0.04em;
+  }
+  .criteria__panel p { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
+
+  /* ── 支持者 ── */
+  .sup { list-style: none; margin: var(--space-8) 0 0; padding: 0; counter-reset: sup; }
+  .sup__item {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--space-8);
+    align-items: start;
+    padding-block: var(--space-12);
+    border-top: 1px solid var(--color-ink-300);
+  }
+  .sup__item:nth-child(even) { direction: rtl; }
+  .sup__item:nth-child(even) > * { direction: ltr; }
+
+  .sup__q {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    line-height: var(--leading-tight);
+    color: var(--color-brand-800);
+    margin-bottom: var(--space-4);
+    text-wrap: balance;
+  }
+  .sup__q::before { content: '「'; }
+  .sup__q::after { content: '」'; }
+  .sup__who { display: grid; gap: var(--space-1); margin: 0; }
+  .sup__name { font-weight: var(--font-bold); }
+  .sup__role { font-size: var(--text-sm); color: var(--color-ink-500); }
+  .sup__desc { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
+
+  /* ── 基本收入在台灣 ── */
+  .tw {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--space-12);
+    align-items: center;
+  }
+  .tw__figure { margin: 0; }
+  .tw__figure img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transform: rotate(-1.5deg);
+  }
+  .tw__figure figcaption {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-ink-500);
+  }
+  .tw__body p { color: var(--color-ink-700); line-height: var(--leading-loose); }
+  .tw__link { font-weight: var(--font-bold); margin-top: var(--space-6); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tw__figure img { transform: none; }
+  }
+
+  /* ── 下一步 ── */
+  .next__title { margin-bottom: var(--space-6); }
+  .next { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); }
+  .next a {
+    display: grid;
+    grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+    gap: var(--space-2) var(--space-8);
+    align-items: baseline;
+    padding: var(--space-6) var(--space-4) var(--space-6) 0;
+    border-top: 1px solid var(--color-ink-300);
+    text-decoration: none;
+    color: var(--color-ink-900);
+    transition: padding-left var(--duration-base) var(--ease-out),
+                background var(--duration-base) var(--ease-out);
+  }
+  .next li:last-child a { border-bottom: 1px solid var(--color-ink-300); }
+  .next a:hover { padding-left: var(--space-4); background: var(--color-white); }
+  .next__label { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--color-brand-700); }
+  .next__label::after { content: ' →'; }
+  .next__desc { color: var(--color-ink-700); font-size: var(--text-base); }
+
+  @media (max-width: 860px) {
+    .tw { grid-template-columns: 1fr; gap: var(--space-6); }
+    .criteria__tabs { grid-template-columns: repeat(3, 1fr); }
+    .sup__item { grid-template-columns: 1fr; gap: var(--space-4); padding-block: var(--space-8); }
+    .sup__item:nth-child(even) { direction: ltr; }
+    .next a { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .hero { padding-block: var(--space-16) var(--space-12); }
+    .criteria__tabs { grid-template-columns: repeat(2, 1fr); }
+    .criteria__panel { padding: var(--space-4) var(--space-6); }
+  }
+</style>
+
+<script>
+  // 五大條件：tablist 鍵盤操作（左右鍵切換、Home/End 跳首尾）
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.crit'));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('.criteria__panel'));
+
+  function select(index: number, focus = true) {
+    tabs.forEach((tab, i) => {
+      const on = i === index;
+      tab.setAttribute('aria-selected', String(on));
+      tab.tabIndex = on ? 0 : -1;
+      panels[i].hidden = !on;
+    });
+    if (focus) tabs[index]?.focus();
+  }
+
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(i, false));
+    tab.addEventListener('keydown', (e) => {
+      const keys: Record<string, number> = {
+        ArrowRight: (i + 1) % tabs.length,
+        ArrowLeft: (i - 1 + tabs.length) % tabs.length,
+        Home: 0,
+        End: tabs.length - 1,
+      };
+      if (e.key in keys) {
+        e.preventDefault();
+        select(keys[e.key]);
+      }
+    });
+  });
+</script>
