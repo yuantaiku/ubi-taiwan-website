@@ -128,12 +128,17 @@ Push 到 `main` 分支即自動部署至 GitHub Pages：
 - **`public/robots.txt` 在預覽站是無效的**：GitHub Pages 專案站把它放在
   `/<repo>/robots.txt`，而爬蟲只讀網域根目錄的 robots.txt。這反而是正確的結果——
   noindex 必須讓爬蟲讀得到頁面才會生效，用 robots.txt 擋反而會讓 noindex 失效。
+- **預覽建置不產生 sitemap**（`astro.config.mjs` 依 `PREVIEW_DEPLOY` 判斷）。
+  sitemap 內的網址一律以 `site` 設定為準，也就是正式網域，但改版後的路徑在目前
+  線上的站尚不存在；若預覽站的 sitemap 被爬蟲取得，會對正式網域發出一批註定 404
+  的請求。預覽站已全頁 noindex，本來就不需要 sitemap。
 
 改動 `BaseLayout.astro` 的 head 或 CI 的環境變數時，請重新確認每頁都還有 noindex：
 
 ```bash
 PREVIEW_DEPLOY=true npm run build
 grep -L 'content="noindex' dist/**/index.html   # 應無輸出
+ls dist/sitemap* 2>/dev/null                    # 應無輸出（預覽站不產生 sitemap）
 ```
 
 ### 正式上線檢查表（未來）
@@ -147,6 +152,8 @@ grep -L 'content="noindex' dist/**/index.html   # 應無輸出
    meta refresh 只是 GitHub Pages 無伺服器轉址下的替代方案。
 3. **清掉 `astro.config.mjs` 的 `redirectStubs` 排除清單**：那份清單只是為了
    讓 sitemap 不收錄 noindex 的轉址頁，改用 301 後就不需要了。
+   （同一支設定檔的 `isPreview` 判斷不必動——移除 CI 的 `PREVIEW_DEPLOY` 後，
+   sitemap 會自動恢復產生。）
 4. **確認 canonical 指向有效網址**：目前各頁 canonical 已指向 ubitaiwan.org
    的新結構，上線後即自動正確；上線前它們指向尚不存在的路徑（因帶 noindex 而無影響）。
 5. 移除 CI 的 `ghpages-postbuild.mjs` 步驟（僅供子路徑預覽使用）。
