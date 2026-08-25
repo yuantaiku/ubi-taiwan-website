@@ -250,7 +250,7 @@ const faqs = [
           <a class="lf-btn lf-btn--light" href="https://juji.tw/juji-ubi-esg" rel="noopener">
             前往 JUJI 活動頁報名
           </a>
-          <a class="lf-btn lf-btn--ghost-light" href="/support/">支持這場實驗</a>
+          <a class="lf-btn lf-btn--donate" href="/support/">捐款支持</a>
         </div>
       </div>
     </section>
@@ -383,6 +383,10 @@ const faqs = [
     color: #FFFFFF;
   }
   .lf-btn--ghost-light:hover { background: rgba(255, 255, 255, 0.12); color: #FFFFFF; }
+  /* 捐款 CTA 全站統一與導覽列一致（warm 底白字、文字「捐款支持」）；
+     本頁其餘按鈕仍走自己的視覺系統 */
+  .lf-btn--donate { background: var(--color-warm-500); color: #FFFFFF; }
+  .lf-btn--donate:hover { background: var(--color-warm-600); color: #FFFFFF; }
 
   /* 關鍵數字 */
   .lf-numbers {
