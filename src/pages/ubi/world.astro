@@ -14,7 +14,7 @@ const groups = [
 ] as const;
 
 const world = ubi.world as Record<string, Array<{
-  title: string; paras: string[]; bullets?: string[]; year: string; place: string;
+  title: string; paras: string[]; bullets?: string[]; year: string; place: string; cc: string;
 }>>;
 
 // 依起始年份排序，供索引軌呈現時間分布
@@ -38,19 +38,33 @@ const sorted = [...all].sort((a, b) => parseInt(a.year) - parseInt(b.year));
         43 年間累積了實施中的制度、推動制度的行動，以及帶對照組的科學實驗。
       </p>
 
-      <!-- 索引軌：13 筆案例的年份分布 -->
+      <!--
+        案例年表。改為左右捲動的軌道：
+        原本 13 筆平分整個版面寬度，越加越擠，行動裝置上更難讀。
+        現在每張卡片固定寬度、軌道橫向捲動，之後新增案例只會加長軌道，
+        不會壓縮既有卡片。年份在線上、圓點落在線上、卡片在線下並上下交錯，
+        交錯是為了讓相鄰卡片即使靠近也不會互相干擾。
+      -->
       <nav class="rail" aria-label="案例年表">
-        <ol class="rail__list">
-          {sorted.map((c) => (
-            <li class={`rail__item rail__item--${c.group}`}>
-              <a href={`#${c.slug}`}>
-                <span class="rail__year">{c.year}</span>
-                <span class="rail__dot" aria-hidden="true"></span>
-                <span class="rail__title">{c.title}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
+        <div class="rail__scroll" tabindex="0" aria-label="案例年表，可左右捲動">
+          <ol class="rail__track">
+            {sorted.map((c, i) => (
+              <li class:list={['stop', `stop--${c.group}`, { 'stop--low': i % 2 === 1 }]}>
+                <a href={`#${c.slug}`}>
+                  <span class="stop__year">{c.year}</span>
+                  <span class="stop__dot" aria-hidden="true"></span>
+                  <span class="stop__card">
+                    <span class="stop__title">{c.title}</span>
+                    <span class="stop__place">
+                      <img class="flag" src={`/images/flags/${c.cc}.svg`} alt="" width="24" height="18" loading="lazy" />{c.place}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <p class="rail__hint" aria-hidden="true">左右滑動看完整年表</p>
       </nav>
       <ul class="legend">
         {groups.map((g) => (
@@ -78,7 +92,9 @@ const sorted = [...all].sort((a, b) => parseInt(a.year) - parseInt(b.year));
               <summary>
                 <span class="case__meta">
                   <span class="case__year">{c.year}</span>
-                  <span class="case__place">{c.place}</span>
+                  <span class="case__place">
+                    <img class="flag" src={`/images/flags/${c.cc}.svg`} alt="" width="26" height="20" loading="lazy" />{c.place}
+                  </span>
                 </span>
                 <span class="case__title">{c.title}</span>
                 <span class="case__chev" aria-hidden="true">
@@ -123,53 +139,167 @@ const sorted = [...all].sort((a, b) => parseInt(a.year) - parseInt(b.year));
     margin-bottom: var(--space-12);
   }
 
-  /* ── 年表索引軌 ── */
-  .rail { overflow-x: auto; padding-bottom: var(--space-3); }
-  .rail__list {
-    list-style: none;
+  /* ── 年表索引軌（左右捲動）── */
+  /*
+    三個分類各一個色相：紫／橘／綠。
+    政策原本用 brand 藍，但這一區的底色是 brand-50（淺藍），藍卡片會糊進背景；
+    實驗原本用 accent 藍，與 brand 藍取樣差不到 2%，肉眼分不出。
+    三色已於 2026-08 正式進 tokens（--color-cat-*），不再借用語意色。
+  */
+  .rail { margin-bottom: var(--space-4); --stagger: 5rem; }
+  .stop--policy      { --cat: var(--color-cat-policy); }
+  .stop--advocacy    { --cat: var(--color-cat-advocacy); }
+  .stop--experiments { --cat: var(--color-cat-experiment); }
+
+  .rail__scroll {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    /* 捲動容器要能被鍵盤聚焦與操作 */
+    scrollbar-width: thin;
+    padding-bottom: var(--space-2);
+  }
+  .rail__scroll:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+  }
+
+  .rail__track {
+    position: relative;
     display: flex;
-    gap: 0;
+    gap: var(--space-4);
+    list-style: none;
     margin: 0;
-    padding: 0;
-    min-width: 46rem;
-    border-bottom: 2px solid var(--color-brand-200);
+    padding: 0 var(--space-2) var(--space-8);
+    width: max-content;
   }
-  .rail__item { flex: 1 1 0; min-width: 0; }
-  .rail__item a {
+  /* 時間軸的線：年份列 28px + 圓點列一半 7px = 35px */
+  .rail__track::before {
+    content: '';
+    position: absolute;
+    top: 35px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-brand-200);
+  }
+
+  .stop { scroll-snap-align: start; }
+  .stop > a {
     display: grid;
+    grid-template-rows: 28px 14px auto;
     justify-items: center;
-    gap: var(--space-2);
-    padding: 0 2px var(--space-3);
+    width: 13.5rem;
     text-decoration: none;
-    color: var(--color-ink-700);
+    color: var(--color-ink-900);
   }
-  .rail__year {
-    font-size: var(--text-xs);
+
+  .stop__year {
+    align-self: end;
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
     font-variant-numeric: tabular-nums;
     color: var(--color-ink-500);
     white-space: nowrap;
+    transition: color var(--duration-base) var(--ease-out);
   }
-  .rail__title {
-    font-size: var(--text-xs);
-    line-height: 1.3;
-    text-align: center;
-    overflow-wrap: anywhere;
-  }
-  .rail__dot {
-    width: 11px;
-    height: 11px;
+
+  .stop__dot {
+    align-self: center;
+    width: 13px;
+    height: 13px;
     border-radius: var(--radius-full);
-    background: var(--color-brand-500);
-    margin-bottom: -1px;
+    background: var(--cat);
+    border: 2px solid var(--color-white);
+    box-shadow: 0 0 0 1px var(--cat);
     transition: transform var(--duration-base) var(--ease-out);
   }
-  .rail__item a:hover .rail__dot,
-  .rail__item a:focus-visible .rail__dot { transform: scale(1.5); }
-  .rail__item a:hover .rail__title { color: var(--color-brand-700); text-decoration: underline; }
 
-  .rail__item--policy .rail__dot { background: var(--color-brand-600); }
-  .rail__item--advocacy .rail__dot { background: var(--color-warm-500); }
-  .rail__item--experiments .rail__dot { background: var(--color-accent-500); }
+  .stop__card {
+    position: relative;
+    display: grid;
+    gap: var(--space-1);
+    width: 100%;
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border-top: 3px solid var(--cat);
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    background: color-mix(in srgb, var(--cat) 13%, var(--color-white));
+    transition: transform var(--duration-base) var(--ease-out),
+                box-shadow var(--duration-base) var(--ease-out);
+  }
+  /* 從圓點垂下的接線，交錯之後仍看得出卡片屬於哪個點 */
+  .stop__card::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: calc(var(--space-4) * -1);
+    width: 1px;
+    height: var(--space-4);
+    background: var(--cat);
+    opacity: .55;
+  }
+  /* 上下交錯：奇數項往下掉一段，相鄰卡片就不會互相干擾 */
+  .stop--low .stop__card { margin-top: var(--stagger); }
+  .stop--low .stop__card::before {
+    top: calc(var(--stagger) * -1);
+    height: var(--stagger);
+  }
+
+  .stop__title {
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    line-height: 1.45;
+    text-wrap: balance;
+  }
+  .stop__place {
+    font-size: var(--text-xs);
+    color: var(--color-ink-500);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  /*
+    國旗改用 SVG 圖檔（public/images/flags/，取自 flag-icons，MIT）。
+    先前用 Unicode 國旗字元，但 Windows 的預設表情字型不支援，會顯示成兩個字母。
+    地點名稱本身就是文字，旗子只是輔助，因此 alt="" 讓讀屏略過，不重複念。
+  */
+  .flag {
+    flex: none;
+    width: 24px;
+    height: 18px;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(26, 36, 48, 0.12);
+  }
+  .case__place .flag { width: 26px; height: 20px; }
+
+  .stop > a:hover .stop__card,
+  .stop > a:focus-visible .stop__card {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .stop > a:hover .stop__dot { transform: scale(1.35); }
+  .stop > a:hover .stop__year { color: var(--color-ink-900); }
+
+  .rail__hint {
+    margin: 0;
+    font-size: var(--text-xs);
+    color: var(--color-ink-500);
+    letter-spacing: 0.04em;
+  }
+  .rail__hint::before { content: '← '; }
+  .rail__hint::after { content: ' →'; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rail__scroll { scroll-snap-type: none; }
+    .stop > a:hover .stop__card,
+    .stop > a:hover .stop__dot { transform: none; }
+  }
+  @media (max-width: 560px) {
+    .stop > a { width: 11rem; }
+  }
 
   .legend {
     list-style: none;
@@ -183,9 +313,9 @@ const sorted = [...all].sort((a, b) => parseInt(a.year) - parseInt(b.year));
   }
   .legend__item { display: flex; align-items: center; gap: var(--space-2); }
   .legend__dot { width: 10px; height: 10px; border-radius: var(--radius-full); }
-  .legend__item--policy .legend__dot { background: var(--color-brand-600); }
-  .legend__item--advocacy .legend__dot { background: var(--color-warm-500); }
-  .legend__item--experiments .legend__dot { background: var(--color-accent-500); }
+  .legend__item--policy .legend__dot { background: var(--color-cat-policy); }
+  .legend__item--advocacy .legend__dot { background: var(--color-cat-advocacy); }
+  .legend__item--experiments .legend__dot { background: var(--color-cat-experiment); }
   .legend b {
     font-variant-numeric: tabular-nums;
     color: var(--color-ink-500);
@@ -194,18 +324,19 @@ const sorted = [...all].sort((a, b) => parseInt(a.year) - parseInt(b.year));
 
   /* ── 分類標頭 ── */
   .grp {
-    border-left: 4px solid var(--color-brand-600);
+    border-left: 4px solid var(--color-cat-policy);
     padding-left: var(--space-4);
     margin-bottom: var(--space-8);
   }
-  .grp--advocacy { border-left-color: var(--color-warm-500); }
-  .grp--experiments { border-left-color: var(--color-accent-500); }
+  .grp--advocacy { border-left-color: var(--color-cat-advocacy); }
+  .grp--experiments { border-left-color: var(--color-cat-experiment); }
   .grp h2 { margin-bottom: var(--space-1); }
   .grp__note { margin: 0; color: var(--color-ink-500); font-size: var(--text-sm); }
 
   /* ── 案例摺疊 ── */
   .cases { display: grid; }
-  .case { border-top: 1px solid var(--color-ink-300); }
+  /* sticky header 約 73px，錨點跳轉需留出空間，否則標題會被蓋住 */
+  .case { border-top: 1px solid var(--color-ink-300); scroll-margin-top: 6rem; }
   .case:last-child { border-bottom: 1px solid var(--color-ink-300); }
 
   .case summary {
@@ -228,7 +359,7 @@ const sorted = [...all].sort((a, b) => parseInt(a.year) - parseInt(b.year));
     font-weight: var(--font-bold);
     color: var(--color-brand-700);
   }
-  .case__place { font-size: var(--text-xs); color: var(--color-ink-500); }
+  .case__place { font-size: var(--text-xs); color: var(--color-ink-500); display: flex; align-items: center; gap: var(--space-2); }
   .case__title { font-size: var(--text-xl); font-weight: var(--font-bold); text-wrap: balance; }
   .case__chev {
     color: var(--color-ink-500);
@@ -236,6 +367,9 @@ const sorted = [...all].sort((a, b) => parseInt(a.year) - parseInt(b.year));
     align-self: center;
   }
   .case[open] .case__chev { transform: rotate(180deg); }
+  /* 從年表跳過來時短暫標示，讓人知道落在哪一筆 */
+  .case.is-target > summary { background: color-mix(in srgb, var(--color-brand-500) 14%, var(--color-white)); }
+  .case > summary { transition: background var(--duration-base) var(--ease-out); }
   .case[open] .case__title { color: var(--color-brand-700); }
 
   .case__body {
@@ -274,3 +408,39 @@ const sorted = [...all].sort((a, b) => parseInt(a.year) - parseInt(b.year));
     .next a { grid-template-columns: 1fr; }
   }
 </style>
+
+<script>
+  // 點年表卡片：捲到下方對應案例並展開它。
+  // 只靠原生 #錨點 會有兩個問題——目標被 sticky header 蓋住（已用 scroll-margin 解決），
+  // 以及摺疊區仍是關的，使用者跳過去只看到標題，沒有「點了有反應」的感覺。
+  const cases = document.querySelectorAll<HTMLDetailsElement>('.case');
+
+  function revealCase(id: string, smooth = true) {
+    const target = document.getElementById(id);
+    if (!(target instanceof HTMLDetailsElement)) return false;
+    target.open = true;
+    target.scrollIntoView({
+      block: 'start',
+      behavior: smooth && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'auto',
+    });
+    // 短暫highlight，讓人知道跳到哪一筆
+    target.classList.add('is-target');
+    window.setTimeout(() => target.classList.remove('is-target'), 1600);
+    return true;
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('.stop > a').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const id = link.getAttribute('href')?.slice(1);
+      if (!id) return;
+      if (revealCase(id)) {
+        e.preventDefault();
+        history.replaceState(null, '', `#${id}`);
+      }
+    });
+  });
+
+  // 直接帶 #錨點進站時也要展開
+  if (location.hash) revealCase(location.hash.slice(1), false);
+  window.addEventListener('hashchange', () => revealCase(location.hash.slice(1)));
+</script>
