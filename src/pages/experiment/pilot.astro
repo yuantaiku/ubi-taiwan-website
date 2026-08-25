@@ -19,11 +19,20 @@ const {
   doc, media, academic, partners, next,
 } = pilot;
 
-// 翻卡正面以紀錄片劇照（于媽媽母子）完整打底，不做分區裁切——
-// 曾試過四卡各取一塊，但會把人臉從眉眼切開，效果嚇人。
-// repo 目前沒有貼近四主題的其他劇照（已逐一盤點），先以同一張完整照過渡；
-// 規格原案是于媽媽「插畫」兩態，插畫或四張主題劇照到位後替換。
-// cover + center 30% 已於兩種斷點模擬驗證：母子臉部皆完整。
+// 翻卡正面：四張各配一張「與主題相關」的照片（2026-08 全庫盤點後選出），
+// 皆為協會既有素材，非另行杜撰；每張經卡片比例裁切模擬驗證不切臉，
+// 遮罩 0.72 下最差對比 5.13:1，全數過 AA。
+//   生活環境 → 居家廚房烘焙聚會（家、食物、餐桌）
+//   生活壓力 → 沙灘紅葉（「心情非常的平靜」；自小說宣傳照裁出無書封的區域）
+//   工作狀態 → 咖啡店筆電工作（「時間彈性高是她最看重的條件」）
+//   社交關係 → 紀錄片劇照：于媽媽母子（「心力轉向自己跟孩子」）
+// 規格原案是于媽媽插畫兩態；插畫或四張紀錄片主題劇照到位後替換。
+const cardArt = [
+  { src: '/images/PXL_20250622_074815695.webp', pos: 'center 0%' },
+  { src: '/images/cards/calm-sand.webp', pos: 'center 50%' },
+  { src: '/images/-scaled-r26bf1iopeb0ml96brhxm1g0y4qjcco3j74el6dghk.webp', pos: 'center 25%' },
+  { src: '/images/紀錄片截圖-4.webp', pos: 'center 30%' },
+];
 
 // 媒體報導依刊名分組：同一媒體多則報導併為一格（BIEN 有三則），
 // 讀者掃的是「誰報導過」，重複的刊名只會拉長清單
@@ -138,11 +147,14 @@ for (const m of media) {
       </div>
 
       <ul class="deck">
-        {cards.map((c) => (
+        {cards.map((c, i) => (
           <li>
             <button type="button" class="flip" aria-pressed="false">
               <span class="flip__inner">
-                <span class="flip__face flip__face--front">
+                <span
+                  class="flip__face flip__face--front"
+                  style={`background-image: linear-gradient(rgba(22,58,84,0.72), rgba(22,58,84,0.72)), url('${cardArt[i].src}'); background-position: center, ${cardArt[i].pos}`}
+                >
                   <span class="flip__title">{c.title}</span>
                   <span class="flip__cue">
                     <svg viewBox="0 0 16 16" width="15" height="15" fill="none"
@@ -409,15 +421,11 @@ for (const m of media) {
     padding: var(--space-8); border-radius: var(--radius-md);
     backface-visibility: hidden; -webkit-backface-visibility: hidden;
   }
-  /* 正面以紀錄片劇照完整打底（cover、center 30%，兩斷點驗證過臉部完整）；
-     遮罩 0.68 經逐像素實測最差對比 4.67:1，白字另加陰影 */
+  /* 正面底圖與遮罩由 cardArt 以 inline style 逐卡指定（四張主題各異）；
+     遮罩 0.72 經逐像素實測最差 5.13:1，白字另加陰影 */
   .flip__face--front {
     justify-content: center; align-items: center; gap: var(--space-5);
-    background-image:
-      linear-gradient(rgba(22, 58, 84, 0.68), rgba(22, 58, 84, 0.68)),
-      url('/images/紀錄片截圖-4.webp');
     background-size: cover, cover;
-    background-position: center, center 30%;
     border: 1px solid var(--color-brand-800);
   }
   .flip__title {
