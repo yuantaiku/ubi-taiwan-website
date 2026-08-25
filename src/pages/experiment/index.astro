@@ -30,7 +30,9 @@ const phases = [
   {
     n: '02',
     status: 'open',
-    statusLabel: '報名中',
+    // 「報名中」標籤已依協會回饋移除（報名 2026/08/31 截止在即）；
+    // 時間軸圓點仍以暖色標示進行中的階段
+    statusLabel: null,
     span: '2026/11 – 2027/10',
     title: '生活自由計畫',
     sub: '台灣首例由企業贊助的基本收入實驗',
@@ -78,7 +80,7 @@ const phases = [
             <div class="ph__body">
               <div class="ph__meta">
                 <span class="ph__n">{p.n}</span>
-                <span class={`ph__status ph__status--${p.status}`}>{p.statusLabel}</span>
+                {p.statusLabel && <span class={`ph__status ph__status--${p.status}`}>{p.statusLabel}</span>}
                 <span class="ph__span">{p.span}</span>
               </div>
 
