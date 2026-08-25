@@ -84,9 +84,9 @@ const partners = [
   <section class="hero" aria-labelledby="hero-title">
     <img
       class="hero__bg"
-      src="/images/2020遊行-2.webp"
-      alt="2020 年台灣第一次基本收入遊行，參與者走在台北街頭，高舉「我主張基本收入」與手寫的「不想再窮忙，好好來做郎」標語"
-      width="1024" height="768" fetchpriority="high" decoding="async"
+      src="/images/2020遊行-3.webp"
+      alt="2020 年台灣第一次基本收入遊行，夕陽下遊行者高舉「我主張基本收入」標語牌，拉著 BASIC INCOME MARCH 布條歡呼吶喊"
+      width="2200" height="1464" fetchpriority="high" decoding="async"
     />
     <div class="hero__veil" aria-hidden="true"></div>
     <div class="container hero__inner">
@@ -381,8 +381,8 @@ const partners = [
 </BaseLayout>
 
 <style>
-  /* 首屏以 2020 年遊行的實拍照打底。照片裡的手寫牌「不想再窮忙，好好來做郎」
-     與下方「已經有人填過了」引用的是同一句話，兩區前後呼應。 */
+  /* 首屏以 2020 年遊行的實拍照打底（UBI Taiwan 團隊指定的高解析原圖，2200px）。
+     focus 30% 經逐像素對比實測：最差 4.93:1，過 AA。 */
   .hero {
     position: relative;
     isolation: isolate;
@@ -397,7 +397,7 @@ const partners = [
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 42%;
+    object-position: center 30%;
     z-index: -2;
   }
   .hero__veil {
