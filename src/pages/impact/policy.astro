@@ -1,0 +1,340 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+
+// 青年基本收入：政策方向
+//
+// 2026-08 新增。這頁存在的理由：協會投入最多的政策工作，
+// 過去只散見於 2025 年度報告的一個段落，等於沒有可見度。
+//
+// 內容範圍（依協會 2026-08 指示）：**只講問題意識與政策方向**。
+// 提案中的給付金額、年度支出估算、財源規劃與稅制調整主張一律不放，
+// 也不連結原始簡報——那部分屬於協會對外正式發表的範疇，
+// 由協會自行決定何時、以什麼形式公開。請不要在這頁加回來。
+//
+// 資料來源：docs/new-input/Youth UBI Policy Proposal Tailor-made for Taiwan_2026 BIEN Congress.pdf
+// 與 Indo-Pacific Basic Income Summit 2027 in Taiwan.pdf
+// （UBI Taiwan 於 2026 BIEN Congress Toronto 發表，2026/08/20）。
+//
+// 註：普發現金領取率在兩份簡報中的年份標示略有出入（一份記 2023/2025、
+// 另一份記 2024/2025），因此本頁只寫「近年兩次、領取率皆超過九成九」，
+// 不指定年份與金額。待團隊確認後再補。
+
+// 三個結構性挑戰。數字皆為政府公開統計，屬於「問題描述」，
+// 不涉及提案的財源主張。
+const challenges = [
+  {
+    key: 'ai',
+    n: '01',
+    title: 'AI 正在抽掉年輕人的第一階',
+    lede: '被自動化取代的不再只是重複性勞動，而是年輕人賴以入行的那一階。',
+    body: [
+      'AI 對就業的衝擊，最先落在入門職缺上。Anthropic 執行長 Dario Amodei 公開警告，AI 可能在五年內取代半數的入門白領工作。對已經有資歷的人來說，那是工具；對剛要進入職場的人來說，那是消失的第一階。',
+      '台灣的位置讓這件事更直接：我們生產全球超過六成的半導體、約九成的先進邏輯與 AI 晶片。台灣站在 AI 革命的正中心——科技業與資本已經為那個未來做好準備，但社會的大多數人呢？',
+    ],
+    stat: { v: '50%', l: '入門白領工作可能在五年內被 AI 取代' },
+  },
+  {
+    key: 'wage',
+    n: '02',
+    title: '經濟成長了，薪水沒有',
+    lede: '四十五年來，台灣的實質 GDP 成長了 8.3 倍，實質經常性薪資只成長 2.6 倍。',
+    body: [
+      '更嚴重的是，這條線在近二十多年幾乎是平的。同一段時間裡，房價翻了四倍、股市漲了六倍——資產有在成長，只是不成長在薪水上。',
+      '這個落差對年輕世代最殘酷。依勞退基金統計，25 歲以下的勞工有 57% 領不到基本工資；30 歲以下是 36.8%，35 歲以下是 30.5%——都高於全年齡的 25%。越年輕，處境越差。',
+      '家庭財富的差距也在拉開：最富有的 20% 與最貧窮的 20%，資產差距從 1991 年的 16.8 倍擴大到 2021 年的 66.9 倍。',
+    ],
+    stat: { v: '57%', l: '25 歲以下勞工領不到基本工資' },
+  },
+  {
+    key: 'birth',
+    n: '03',
+    title: '不是不想生，是不敢想',
+    lede: '2025 年台灣的生育率降到 0.695，是全世界最低，已經低於韓國。',
+    body: [
+      '台灣連續 67 個月死亡人數多於出生人數。新生兒數量從 2018 年到 2025 年減少超過四成，2026 年預計首次跌破十萬人。',
+      '政府不是沒有努力。少子化相關的年度預算在同一段期間成長了將近五倍，但生育率仍然下降了 18%。這說明問題不在補助的多寡，而在年輕人對未來的整體信心——當生活本身沒有餘裕，生養下一代就不會進入選項。',
+    ],
+    stat: { v: '0.695', l: '2025 年生育率，全球最低' },
+  },
+];
+
+// 政策方向：為什麼從青年開始
+const directions = [
+  {
+    t: '職涯轉換的緩衝',
+    d: '當入門職缺正在消失，年輕人需要的不是更多競爭，而是一段能夠轉職、進修、甚至失敗的餘裕。基本收入提供的是承擔風險的本錢。',
+  },
+  {
+    t: '社會流動與世代公平',
+    d: '在資產快速集中的結構下，靠薪水已經很難翻身。無條件的基本給付，是把成長的果實重新分配一部分回到起步階段的人身上。',
+  },
+  {
+    t: '育兒的安全網',
+    d: '直接減輕養育的經濟壓力，也重建年輕世代對未來的信心。願不願意生養下一代，取決於對自己人生的預期，而不只是一次性的生育獎勵。',
+  },
+];
+---
+
+<BaseLayout
+  title="青年基本收入：政策方向｜UBI Taiwan"
+  description="UBI Taiwan 主張以 18–35 歲青年作為基本收入在台灣上路的起點。面對 AI 對入門職缺的衝擊、二十年的薪資停滯與全球最低的生育率，我們認為年輕世代最需要、也最能說服社會。"
+  current="impact-policy"
+  ogImage="/images/LINE_ALBUM_UBI-Taiwan-Panel_260131_41.webp"
+>
+  <PageHero
+    image="/images/LINE_ALBUM_UBI-Taiwan-Panel_260131_41.webp"
+    alt="2025 BIEN 全球大會現場，UBI Taiwan 成員發表台灣青年基本收入政策提案，投影幕顯示 Youth Basic Income Policy Proposal for Taiwan"
+    eyebrow="我們的行動"
+    title="青年基本收入：政策方向"
+    lead="實驗能證明基本收入對一個人有沒有用，但要讓它成為制度，得回答另一個問題——如果台灣要開始，該從哪裡開始？我們的答案是年輕世代。"
+    focus="center 40%"
+    width={1280} heightAttr={964}
+  />
+
+  <!-- ── 為什麼是現在 ─────────────────────────────────── -->
+  <section class="section" aria-labelledby="why-title">
+    <div class="container container--narrow">
+      <h2 id="why-title" class="sec-title">為什麼我們開始談政策</h2>
+      <div class="prose">
+        <p>
+          UBI Taiwan 從 2017 年開始推動基本收入，做過遊行、擺攤、出版、國際串聯，
+          也完成了台灣第一場基本收入實驗。這些工作累積了理解與情感上的支持，
+          但要真正改變什麼，還缺一步——進入政策的對話場域。
+        </p>
+        <p>
+          我們必須有意識地從議題倡議走向政策影響。
+          在生成式 AI 爆發性成長、結構性失業與分配失衡同時發生的此刻，
+          「基本收入是否可行」第一次具備了被認真討論的社會條件。
+        </p>
+        <p class="lede">
+          所以我們決定踏出關鍵一步：為台灣量身打造一套青年基本收入的政策論述，
+          讓基本收入成為一個必須被回應的政策選項，而不只是一個理想。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 問題意識 ─────────────────────────────────────── -->
+  <section class="section section--subtle" aria-labelledby="challenge-title">
+    <div class="container">
+      <h2 id="challenge-title" class="sec-title">我們看見的三個問題</h2>
+      <p class="sec-lead">
+        這三件事各自都被討論過，但它們其實是同一個結構在不同地方的顯影，
+        而承受最重的是同一群人。
+      </p>
+
+      <ol class="challenges">
+        {challenges.map((c) => (
+          <li class={`ch ch--${c.key}`}>
+            <div class="ch__head">
+              <span class="ch__n" aria-hidden="true">{c.n}</span>
+              <div>
+                <h3 class="ch__title">{c.title}</h3>
+                <p class="ch__lede">{c.lede}</p>
+              </div>
+            </div>
+            <div class="ch__body">
+              <div class="ch__prose">
+                {c.body.map((p) => <p>{p}</p>)}
+              </div>
+              <p class="ch__stat">
+                <b>{c.stat.v}</b>
+                <span>{c.stat.l}</span>
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <figure class="chart">
+        <img
+          src="/images/bien-brazil/slide-youth-policy-salary-gap.webp"
+          alt="折線圖：1980 至 2024 年間，台灣名目人均 GDP 成長 12 倍以上、實質人均 GDP 成長 7.5 倍，實質經常性薪資僅成長 2.4 倍，且近 20 年停滯"
+          width="1548" height="782" loading="lazy"
+        />
+        <figcaption>
+          薪資與經濟成長的落差，是青年基本收入提案的起點。
+          <span class="chart__src">圖表出自 UBI Taiwan 於 2025 年 BIEN 全球大會發表的政策提案簡報。</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── 政策方向 ─────────────────────────────────────── -->
+  <section class="section" aria-labelledby="dir-title">
+    <div class="container">
+      <p class="eyebrow">政策方向</p>
+      <h2 id="dir-title" class="sec-title">為什麼從 18 到 35 歲開始</h2>
+
+      <div class="beach">
+        <div class="beach__text">
+          <p>
+            基本收入不可能一步到位。要讓它真的上路，需要一個最有說服力、
+            也最務實的起點——我們認為那個起點是年輕世代。
+          </p>
+          <p>
+            理由不是偏好，而是資料指向同一群人：
+            AI 衝擊最先打掉的是入門職缺，低薪比例最高的是 25 歲以下，
+            而 18 到 35 歲同時是決定要不要成家、生養、承擔風險的年紀。
+            三個問題在同一個年齡層交會。
+          </p>
+          <p class="beach__punch">
+            先從這裡開始，不是因為其他人不重要，
+            而是因為這是最能讓社會看見基本收入為什麼必要的地方。
+          </p>
+        </div>
+        <ul class="dirs">
+          {directions.map((d) => (
+            <li class="dir">
+              <h3 class="dir__t">{d.t}</h3>
+              <p class="dir__d">{d.d}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 台灣其實已經在路上 ───────────────────────────── -->
+  <section class="section section--muted" aria-labelledby="onpath-title">
+    <div class="container container--narrow">
+      <h2 id="onpath-title" class="sec-title">台灣其實已經走在路上</h2>
+      <div class="prose">
+        <p>
+          聽到「無條件發錢」，多數人的第一個反應是「做得到嗎」。
+          但如果看台灣自己做過的事，會發現答案已經寫在那裡了。
+        </p>
+        <p>
+          政府正在推動的 <strong>0 至 18 歲育兒津貼</strong>，
+          是定期、每月、以個人為單位、不審查用途地發放給所有未成年國民——
+          這在制度設計上，已經是一種未成年版的基本收入。
+        </p>
+        <p>
+          而近年兩次全民普發現金，<strong>領取率都超過九成九</strong>。
+          這證明台灣具備大規模、高效率、低門檻的發放能力，
+          而且民眾對這種形式並不陌生。
+        </p>
+        <p class="lede">
+          所以真正的問題不是「做不做得到」，
+          而是「要不要延伸到成年之後、最需要支撐的那段人生」。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 接下來 ───────────────────────────────────────── -->
+  <section class="section section--inverse" aria-labelledby="next-title">
+    <div class="container">
+      <p class="eyebrow eyebrow--light">接下來</p>
+      <h2 id="next-title" class="sec-title sec-title--light">拋磚引玉</h2>
+      <div class="next">
+        <div class="next__text">
+          <p>
+            2027 年，印太基本收入高峰會將在台灣舉辦——這是 UBI Taiwan
+            在 2025 年巴西大會爭取到的主辦權，也是台灣把這場討論帶進國內公共視野的機會。
+          </p>
+          <p>
+            我們把這套政策論述提出來，不是因為它已經完美，
+            而是希望它能成為一塊磚——讓更多人願意把自己的玉拿出來，
+            讓基本收入從「有沒有道理」的爭論，變成「該怎麼設計」的討論。
+          </p>
+        </div>
+        <div class="next__links">
+          <a class="btn btn--warm" href="/support/">捐款支持</a>
+          <a class="btn btn--outline btn--onDark" href="/impact/international/">看國際交流的進展</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .sec-title { font-size: var(--text-2xl); margin-bottom: var(--space-6); }
+  .sec-title--light { color: var(--color-white); }
+  .sec-lead {
+    max-width: 46rem; color: var(--color-ink-700);
+    line-height: var(--leading-loose); margin-bottom: var(--space-12);
+  }
+  .eyebrow--light { color: var(--color-brand-200); }
+
+  .prose p { color: var(--color-ink-700); line-height: var(--leading-loose); margin-bottom: var(--space-4); }
+  .prose .lede {
+    font-size: var(--text-lg); color: var(--color-ink-900);
+    font-weight: var(--font-medium); margin-top: var(--space-6);
+  }
+
+  /* ── 三個問題 ── */
+  .challenges { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-16); }
+  .ch { --cat: var(--color-brand-600); }
+  .ch--ai { --cat: var(--color-cat-policy); }
+  .ch--wage { --cat: var(--color-cat-advocacy); }
+  .ch--birth { --cat: var(--color-cat-experiment); }
+
+  .ch__head {
+    display: grid; grid-template-columns: auto minmax(0,1fr); gap: var(--space-6);
+    align-items: start; padding-bottom: var(--space-6);
+    border-bottom: 2px solid var(--cat);
+  }
+  .ch__n {
+    font-size: var(--text-3xl); font-weight: 900; line-height: 1;
+    color: var(--cat); font-variant-numeric: tabular-nums;
+  }
+  .ch__title { font-size: var(--text-xl); margin: 0 0 var(--space-2); text-wrap: balance; }
+  .ch__lede { margin: 0; color: var(--color-ink-700); line-height: var(--leading-normal); }
+
+  .ch__body {
+    display: grid; grid-template-columns: minmax(0,7fr) minmax(0,4fr);
+    gap: var(--space-8); margin-top: var(--space-6); align-items: start;
+  }
+  .ch__prose p { color: var(--color-ink-700); line-height: var(--leading-loose); margin-bottom: var(--space-4); }
+  .ch__prose p:last-child { margin-bottom: 0; }
+  .ch__stat {
+    margin: 0; padding: var(--space-6);
+    background: color-mix(in srgb, var(--cat) 8%, var(--color-white));
+    border-radius: var(--radius-md);
+    border-top: 3px solid var(--cat);
+    display: grid; gap: var(--space-2);
+  }
+  .ch__stat b {
+    font-size: var(--text-3xl); font-weight: 900; line-height: 1;
+    color: var(--cat); font-variant-numeric: tabular-nums;
+  }
+  .ch__stat span { font-size: var(--text-sm); color: var(--color-ink-700); line-height: 1.6; }
+
+  .chart { margin: var(--space-16) 0 0; }
+  .chart img {
+    width: 100%; height: auto; display: block;
+    border-radius: var(--radius-md); background: var(--color-white);
+  }
+  .chart figcaption {
+    margin-top: var(--space-3); font-size: var(--text-sm);
+    color: var(--color-ink-500); line-height: 1.7;
+  }
+  .chart__src { display: block; margin-top: var(--space-1); }
+
+  /* ── 政策方向 ── */
+  .beach { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,6fr); gap: var(--space-12); align-items: start; }
+  .beach__text p { color: var(--color-ink-700); line-height: var(--leading-loose); margin-bottom: var(--space-4); }
+  .beach__punch {
+    font-size: var(--text-lg); color: var(--color-ink-900);
+    font-weight: var(--font-medium); border-left: 3px solid var(--color-warm-500);
+    padding-left: var(--space-5); margin-top: var(--space-6);
+  }
+  .dirs { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-6); }
+  .dir { padding-left: var(--space-6); border-left: 2px solid var(--color-brand-200); }
+  .dir__t { font-size: var(--text-lg); margin: 0 0 var(--space-2); color: var(--color-brand-800); }
+  .dir__d { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
+
+  /* ── 接下來 ── */
+  .next { display: grid; grid-template-columns: minmax(0,8fr) minmax(0,4fr); gap: var(--space-8); align-items: center; }
+  .next__text p { color: var(--color-brand-100); line-height: var(--leading-loose); margin-bottom: var(--space-4); }
+  .next__links { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  .btn--onDark { border-color: rgba(255,255,255,.7); color: var(--color-white); }
+  .btn--onDark:hover { background: rgba(255,255,255,.12); color: var(--color-white); }
+
+  @media (max-width: 860px) {
+    .ch__head { grid-template-columns: 1fr; gap: var(--space-3); }
+    .ch__body, .beach, .next { grid-template-columns: 1fr; gap: var(--space-6); }
+  }
+</style>
