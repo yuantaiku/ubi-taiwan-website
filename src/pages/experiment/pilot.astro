@@ -19,10 +19,11 @@ const {
   doc, media, academic, partners, next,
 } = pilot;
 
-// 翻卡正面共用同一張紀錄片劇照，各卡取不同裁切區——
-// 四張正面各有表情，素材卻誠實地全部來自這部紀錄片。
-// 遮罩 0.68 經逐像素實測：四個裁切區最差對比 4.67:1，過 AA。
-const cardArt = ['18% 22%', '82% 30%', '20% 78%', '78% 72%'];
+// 翻卡正面以紀錄片劇照（于媽媽母子）完整打底，不做分區裁切——
+// 曾試過四卡各取一塊，但會把人臉從眉眼切開，效果嚇人。
+// repo 目前沒有貼近四主題的其他劇照（已逐一盤點），先以同一張完整照過渡；
+// 規格原案是于媽媽「插畫」兩態，插畫或四張主題劇照到位後替換。
+// cover + center 30% 已於兩種斷點模擬驗證：母子臉部皆完整。
 
 // 媒體報導依刊名分組：同一媒體多則報導併為一格（BIEN 有三則），
 // 讀者掃的是「誰報導過」，重複的刊名只會拉長清單
@@ -137,14 +138,11 @@ for (const m of media) {
       </div>
 
       <ul class="deck">
-        {cards.map((c, i) => (
+        {cards.map((c) => (
           <li>
             <button type="button" class="flip" aria-pressed="false">
               <span class="flip__inner">
-                <span
-                  class="flip__face flip__face--front"
-                  style={`background-position: center, ${cardArt[i]}`}
-                >
+                <span class="flip__face flip__face--front">
                   <span class="flip__title">{c.title}</span>
                   <span class="flip__cue">
                     <svg viewBox="0 0 16 16" width="15" height="15" fill="none"
@@ -225,10 +223,7 @@ for (const m of media) {
           <ul class="reports">
             {mediaByOutlet.map((g) => (
               <li>
-                <span class="reports__outlet">
-                  {g.outlet}
-                  {g.titles.length > 1 && <b class="reports__n">×{g.titles.length}</b>}
-                </span>
+                <span class="reports__outlet">{g.outlet}</span>
                 <span class="reports__list">
                   {g.titles.map((t) => <span class="reports__t">{t}</span>)}
                 </span>
@@ -414,14 +409,15 @@ for (const m of media) {
     padding: var(--space-8); border-radius: var(--radius-md);
     backface-visibility: hidden; -webkit-backface-visibility: hidden;
   }
-  /* 正面以紀錄片劇照打底，各卡取不同裁切區（background-position 由 inline style 指定）；
+  /* 正面以紀錄片劇照完整打底（cover、center 30%，兩斷點驗證過臉部完整）；
      遮罩 0.68 經逐像素實測最差對比 4.67:1，白字另加陰影 */
   .flip__face--front {
     justify-content: center; align-items: center; gap: var(--space-5);
     background-image:
       linear-gradient(rgba(22, 58, 84, 0.68), rgba(22, 58, 84, 0.68)),
       url('/images/紀錄片截圖-4.webp');
-    background-size: cover, 220%;
+    background-size: cover, cover;
+    background-position: center, center 30%;
     border: 1px solid var(--color-brand-800);
   }
   .flip__title {
@@ -524,13 +520,6 @@ for (const m of media) {
     padding: var(--space-4) 0; border-bottom: 1px solid var(--color-ink-100); align-items: start;
   }
   .reports__outlet { font-size: var(--text-sm); font-weight: var(--font-bold); color: var(--color-brand-700); }
-  .reports__n {
-    margin-left: var(--space-2);
-    font-size: var(--text-xs);
-    font-weight: var(--font-bold);
-    color: var(--color-warm-600);
-    font-variant-numeric: tabular-nums;
-  }
   .reports__list { display: grid; gap: var(--space-2); }
   .reports__t { font-size: var(--text-sm); color: var(--color-ink-700); line-height: 1.6; }
 
