@@ -19,19 +19,22 @@ const {
   doc, media, academic, partners, next,
 } = pilot;
 
-// 翻卡正面：四張各配一張「與主題相關」的照片（2026-08 全庫盤點後選出），
-// 皆為協會既有素材，非另行杜撰；每張經卡片比例裁切模擬驗證不切臉，
-// 遮罩 0.72 下最差對比 5.13:1，全數過 AA。
-//   生活環境 → 居家廚房烘焙聚會（家、食物、餐桌）
-//   生活壓力 → 沙灘紅葉（「心情非常的平靜」；自小說宣傳照裁出無書封的區域）
-//   工作狀態 → 咖啡店筆電工作（「時間彈性高是她最看重的條件」）
-//   社交關係 → 紀錄片劇照：于媽媽母子（「心力轉向自己跟孩子」）
-// 規格原案是于媽媽插畫兩態；插畫或四張紀錄片主題劇照到位後替換。
+// 翻卡正面：四張各取自官方紀錄片《生活改寫計畫》(youtube RLU_vB81oQI) 的實際畫面，
+// 主角就是于媽媽本人——這正是規格原案要的東西（2026-08 協會指示可自影片擷取）。
+//   生活環境 00:11 搬家後獨自整理堆滿雜物的住處
+//   生活壓力 00:57 罹癌就醫期間獨自走在街上
+//   工作狀態 01:23 在廚房工作
+//   社交關係 01:08 受邀分享參與計畫的心得，與夥伴交談
+// 每張都避開燒錄字幕（擷取後再裁掉下緣 16%）。
+//
+// 遮罩是上淡下濃的漸層，不是均勻壓黑：照片區平均僅 0.12，文字帶漸濃到 0.96。
+// 逐像素實測四張文字帶最差對比 8.5:1。
+// （前一版用整片 0.72 均勻遮罩，協會回饋「看起來都沒有背景圖」——確實如此。）
 const cardArt = [
-  { src: '/images/PXL_20250622_074815695.webp', pos: 'center 0%' },
-  { src: '/images/cards/calm-sand.webp', pos: 'center 50%' },
-  { src: '/images/-scaled-r26bf1iopeb0ml96brhxm1g0y4qjcco3j74el6dghk.webp', pos: 'center 25%' },
-  { src: '/images/紀錄片截圖-4.webp', pos: 'center 30%' },
+  { src: '/images/pilot-cards/env.webp',    alt: '于媽媽獨自整理搬家後堆滿雜物的住處' },
+  { src: '/images/pilot-cards/stress.webp', alt: '于媽媽就醫期間獨自走在長牆邊的街道上' },
+  { src: '/images/pilot-cards/work.webp',   alt: '于媽媽在廚房工作' },
+  { src: '/images/pilot-cards/social.webp', alt: '于媽媽與兩位夥伴交談，分享參與計畫的心得' },
 ];
 
 // 媒體報導依刊名分組：同一媒體多則報導併為一格（BIEN 有三則），
@@ -153,7 +156,9 @@ for (const m of media) {
               <span class="flip__inner">
                 <span
                   class="flip__face flip__face--front"
-                  style={`background-image: linear-gradient(rgba(22,58,84,0.72), rgba(22,58,84,0.72)), url('${cardArt[i].src}'); background-position: center, ${cardArt[i].pos}`}
+                  role="img"
+                  aria-label={cardArt[i].alt}
+                  style={`background-image: linear-gradient(to bottom, rgba(22,58,84,.06) 0%, rgba(22,58,84,.20) 48%, rgba(22,58,84,.86) 70%, rgba(22,58,84,.96) 100%), url('${cardArt[i].src}')`}
                 >
                   <span class="flip__title">{c.title}</span>
                   <span class="flip__cue">
@@ -425,17 +430,20 @@ for (const m of media) {
     padding: var(--space-8); border-radius: var(--radius-md);
     backface-visibility: hidden; -webkit-backface-visibility: hidden;
   }
-  /* 正面底圖與遮罩由 cardArt 以 inline style 逐卡指定（四張主題各異）；
-     遮罩 0.72 經逐像素實測最差 5.13:1，白字另加陰影 */
+  /* 正面底圖由 cardArt 以 inline style 逐卡指定；漸層上淡下濃，
+     照片區平均遮罩僅 0.12（照片看得清楚），文字帶漸濃到 0.96、實測對比 8.5:1。
+     內容靠下對齊，上半部完整留給畫面。 */
   .flip__face--front {
-    justify-content: center; align-items: center; gap: var(--space-5);
-    background-size: cover, cover;
+    justify-content: flex-end; align-items: flex-start;
+    gap: var(--space-4);
+    background-size: cover;
+    background-position: center;
     border: 1px solid var(--color-brand-800);
   }
   .flip__title {
     font-size: var(--text-2xl); font-weight: var(--font-bold);
-    color: var(--color-white);
-    text-shadow: 0 1px 10px rgba(11, 29, 42, 0.5);
+    color: var(--color-white); text-align: left;
+    text-shadow: 0 2px 12px rgba(11, 29, 42, 0.65);
   }
   /* 翻面提示：白底實心圓角鈕＋翻轉箭頭，取代對比不足的幽靈字樣；
      hover 時箭頭轉半圈，預告「這會翻」 */
@@ -446,8 +454,11 @@ for (const m of media) {
     background: var(--color-white);
     border-radius: var(--radius-full);
     padding: var(--space-2) var(--space-5);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 10px rgba(11, 29, 42, 0.35);
+    transition: background var(--duration-base) var(--ease-out),
+                color var(--duration-base) var(--ease-out);
   }
+  .flip:hover .flip__cue { background: var(--color-warm-500); color: var(--color-white); }
   .flip__cue svg { transition: transform 380ms var(--ease-out); }
   .flip:hover .flip__cue svg,
   .flip:focus-visible .flip__cue svg { transform: rotate(180deg); }

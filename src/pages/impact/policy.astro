@@ -16,46 +16,66 @@ import PageHero from '../../components/PageHero.astro';
 // 與 Indo-Pacific Basic Income Summit 2027 in Taiwan.pdf
 // （UBI Taiwan 於 2026 BIEN Congress Toronto 發表，2026/08/20）。
 //
-// 註：普發現金領取率在兩份簡報中的年份標示略有出入（一份記 2023/2025、
-// 另一份記 2024/2025），因此本頁只寫「近年兩次、領取率皆超過九成九」，
-// 不指定年份與金額。待團隊確認後再補。
+// 普發現金年份經協會 2026-08 確認為 2023 與 2025 兩次，領取率皆超過 99%。
 
 // 三個結構性挑戰。數字皆為政府公開統計，屬於「問題描述」，
 // 不涉及提案的財源主張。
+//
+// 圖表一律引用 2026 BIEN 簡報（協會 2026-08 指正：先前誤用 2025 版）。
+// en 欄位是協會簡報中自創的英文標題，保留作為出處標記。
 const challenges = [
   {
     key: 'ai',
     n: '01',
+    en: 'AI & Robotics',
     title: 'AI 正在抽掉年輕人的第一階',
+    sum: '入門白領職缺跨產業消失，多數年輕人的職涯階梯正在快速不見。',
     lede: '被自動化取代的不再只是重複性勞動，而是年輕人賴以入行的那一階。',
     body: [
       'AI 對就業的衝擊，最先落在入門職缺上。Anthropic 執行長 Dario Amodei 公開警告，AI 可能在五年內取代半數的入門白領工作。對已經有資歷的人來說，那是工具；對剛要進入職場的人來說，那是消失的第一階。',
       '台灣的位置讓這件事更直接：我們生產全球超過六成的半導體、約九成的先進邏輯與 AI 晶片。台灣站在 AI 革命的正中心——科技業與資本已經為那個未來做好準備，但社會的大多數人呢？',
     ],
-    stat: { v: '50%', l: '入門白領工作可能在五年內被 AI 取代' },
+    stat: { v: '50', unit: '%', l: '入門白領工作可能在五年內被 AI 取代' },
+    chart: null,
   },
   {
     key: 'wage',
     n: '02',
+    en: 'Gen-Hopeless',
     title: '經濟成長了，薪水沒有',
+    sum: '實質薪資長期停滯，勞動階級看不到翻轉的希望。',
     lede: '四十五年來，台灣的實質 GDP 成長了 8.3 倍，實質經常性薪資只成長 2.6 倍。',
     body: [
-      '更嚴重的是，這條線在近二十多年幾乎是平的。同一段時間裡，房價翻了四倍、股市漲了六倍——資產有在成長，只是不成長在薪水上。',
+      '更嚴重的是，這條線在近二十多年幾乎是平的。把時間收斂到最近二十年來看，同一段期間裡房價漲了 4.1 倍、股市漲了 6.4 倍、人均實質 GDP 也有 2.3 倍——資產都在成長，只是不成長在薪水上。',
       '這個落差對年輕世代最殘酷。依勞退基金統計，25 歲以下的勞工有 57% 領不到基本工資；30 歲以下是 36.8%，35 歲以下是 30.5%——都高於全年齡的 25%。越年輕，處境越差。',
       '家庭財富的差距也在拉開：最富有的 20% 與最貧窮的 20%，資產差距從 1991 年的 16.8 倍擴大到 2021 年的 66.9 倍。',
     ],
-    stat: { v: '57%', l: '25 歲以下勞工領不到基本工資' },
+    stat: { v: '57', unit: '%', l: '25 歲以下勞工領不到基本工資' },
+    chart: {
+      src: '/images/policy/wealth-gap-20yr.webp',
+      alt: '折線圖：2003 至 2025 年間，台灣股市指數上漲 6.4 倍、房價指數上漲 4.1 倍、實質人均 GDP 成長 2.3 倍，實質經常性薪資幾乎零成長',
+      cap: '收斂到最近二十年：股市 6.4 倍、房價 4.1 倍、人均 GDP 2.3 倍，只有實質薪資是一條平的線。',
+      w: 1600, h: 694,
+    },
   },
   {
     key: 'birth',
     n: '03',
+    en: 'Social Crisis',
     title: '不是不想生，是不敢想',
+    sum: '連續 67 個月死亡多於出生，年輕人正在放棄婚姻與生育。',
     lede: '2025 年台灣的生育率降到 0.695，是全世界最低，已經低於韓國。',
     body: [
       '台灣連續 67 個月死亡人數多於出生人數。新生兒數量從 2018 年到 2025 年減少超過四成，2026 年預計首次跌破十萬人。',
-      '政府不是沒有努力。少子化相關的年度預算在同一段期間成長了將近五倍，但生育率仍然下降了 18%。這說明問題不在補助的多寡，而在年輕人對未來的整體信心——當生活本身沒有餘裕，生養下一代就不會進入選項。',
+      '政府不是沒有努力。少子化相關的年度預算在同一段期間成長了 4.9 倍，從 257 億元增加到超過 1,254 億元，但生育率仍然下降了 18%。這說明問題不在補助的多寡，而在年輕人對未來的整體信心——當生活本身沒有餘裕，生養下一代就不會進入選項。',
     ],
-    stat: { v: '0.695', l: '2025 年生育率，全球最低' },
+    stat: { v: '0.695', unit: '', l: '2025 年生育率，全球最低' },
+    chart: {
+      src: '/images/policy/birthrate-budget.webp',
+      alt: '折線圖：2018 至 2025 年間，政府少子化年度預算從 257 億元增至 1,254 億元、成長 4.9 倍，同期生育率卻從 1.06 降至 0.695、下降 18%',
+      cap: '預算成長 4.9 倍，生育率仍下降 18%——問題不在補助的多寡。',
+      w: 1600, h: 694,
+    },
   },
 ];
 
@@ -115,13 +135,39 @@ const directions = [
     </div>
   </section>
 
-  <!-- ── 問題意識 ─────────────────────────────────────── -->
+  <!-- ── 執行摘要（引用協會 2026 簡報的深色三欄版式）───── -->
+  <section class="summary" aria-labelledby="sum-title">
+    <div class="container">
+      <p class="summary__eyebrow">Problems &amp; Challenges — Executive Summary</p>
+      <h2 id="sum-title" class="summary__q">台灣社會正在面對什麼？為什麼要談基本收入？</h2>
+
+      <ol class="sum3">
+        {challenges.map((c) => (
+          <li class="sum">
+            <p class="sum__en">{c.en}</p>
+            <h3 class="sum__t">{c.title}</h3>
+            <p class="sum__d">{c.sum}</p>
+            <p class="sum__stat">
+              <b>{c.stat.v}</b><i>{c.stat.unit}</i>
+              <span>{c.stat.l}</span>
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <p class="summary__src">
+        資料來源：政府公開統計（勞動部、勞退基金、內政部、衛福部、國家發展委員會）
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 三個問題的詳述 ───────────────────────────────── -->
   <section class="section section--subtle" aria-labelledby="challenge-title">
     <div class="container">
-      <h2 id="challenge-title" class="sec-title">我們看見的三個問題</h2>
+      <h2 id="challenge-title" class="sec-title">這三件事，其實是同一個結構</h2>
       <p class="sec-lead">
-        這三件事各自都被討論過，但它們其實是同一個結構在不同地方的顯影，
-        而承受最重的是同一群人。
+        它們各自都被討論過，但承受最重的是同一群人——
+        剛進入職場、正在決定要不要成家的年輕世代。
       </p>
 
       <ol class="challenges">
@@ -139,25 +185,25 @@ const directions = [
                 {c.body.map((p) => <p>{p}</p>)}
               </div>
               <p class="ch__stat">
-                <b>{c.stat.v}</b>
+                <b>{c.stat.v}{c.stat.unit}</b>
                 <span>{c.stat.l}</span>
               </p>
             </div>
+            {c.chart && (
+              <figure class="chart">
+                <img src={c.chart.src} alt={c.chart.alt}
+                     width={c.chart.w} height={c.chart.h} loading="lazy" />
+                <figcaption>
+                  {c.chart.cap}
+                  <span class="chart__src">
+                    圖表出自 UBI Taiwan 於 2026 年 BIEN 多倫多大會發表的青年基本收入政策提案。
+                  </span>
+                </figcaption>
+              </figure>
+            )}
           </li>
         ))}
       </ol>
-
-      <figure class="chart">
-        <img
-          src="/images/bien-brazil/slide-youth-policy-salary-gap.webp"
-          alt="折線圖：1980 至 2024 年間，台灣名目人均 GDP 成長 12 倍以上、實質人均 GDP 成長 7.5 倍，實質經常性薪資僅成長 2.4 倍，且近 20 年停滯"
-          width="1548" height="782" loading="lazy"
-        />
-        <figcaption>
-          薪資與經濟成長的落差，是青年基本收入提案的起點。
-          <span class="chart__src">圖表出自 UBI Taiwan 於 2025 年 BIEN 全球大會發表的政策提案簡報。</span>
-        </figcaption>
-      </figure>
     </div>
   </section>
 
@@ -211,7 +257,7 @@ const directions = [
           這在制度設計上，已經是一種未成年版的基本收入。
         </p>
         <p>
-          而近年兩次全民普發現金，<strong>領取率都超過九成九</strong>。
+          而 2023 與 2025 兩次全民普發現金，<strong>領取率都超過 99%</strong>。
           這證明台灣具備大規模、高效率、低門檻的發放能力，
           而且民眾對這種形式並不陌生。
         </p>
@@ -264,6 +310,64 @@ const directions = [
     font-weight: var(--font-medium); margin-top: var(--space-6);
   }
 
+  /* ── 執行摘要：刻意引用協會 2026 簡報的深色版式（近黑底＋金黃字）。
+     這是全站唯一使用這組顏色的地方，因為它是「引述那份簡報」，
+     不是新增一套品牌色。 ── */
+  .summary {
+    --deck-ink: #141517;
+    --deck-gold: #F5C93F;
+    --deck-text: #D5D8DC;
+    --deck-dim: #8C9199;
+    background: var(--deck-ink);
+    padding-block: var(--space-16);
+  }
+  .summary__eyebrow {
+    font-size: var(--text-xs); letter-spacing: .14em;
+    color: var(--deck-dim); margin-bottom: var(--space-4);
+  }
+  .summary__q {
+    font-size: clamp(1.4rem, 3.4vw, var(--text-3xl));
+    color: var(--color-white); margin-bottom: var(--space-12);
+    text-wrap: balance; line-height: 1.45;
+  }
+
+  .sum3 {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 0;
+  }
+  .sum { padding: 0 var(--space-8); border-left: 1px solid rgba(255,255,255,.14); }
+  .sum:first-child { padding-left: 0; border-left: 0; }
+  .sum:last-child { padding-right: 0; }
+  .sum__en {
+    font-size: var(--text-xs); letter-spacing: .1em;
+    color: var(--deck-dim); margin-bottom: var(--space-2);
+  }
+  .sum__t {
+    font-size: var(--text-xl); font-weight: var(--font-bold);
+    color: var(--deck-gold); margin: 0 0 var(--space-4); line-height: 1.4;
+  }
+  .sum__d {
+    color: var(--deck-text); line-height: var(--leading-loose);
+    margin: 0 0 var(--space-8); font-size: var(--text-sm);
+  }
+  .sum__stat { margin: 0; display: grid; gap: var(--space-2); }
+  .sum__stat b {
+    font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 900; line-height: 1;
+    color: var(--deck-gold); font-variant-numeric: tabular-nums;
+  }
+  .sum__stat i {
+    font-style: normal; font-size: var(--text-xl); font-weight: 700;
+    color: var(--deck-gold); margin-left: .1em;
+  }
+  .sum__stat b + i { margin-left: -.15em; }
+  .sum__stat span {
+    font-size: var(--text-sm); color: var(--deck-text); line-height: 1.6;
+  }
+  .summary__src {
+    margin: var(--space-12) 0 0; font-size: var(--text-xs); color: var(--deck-dim);
+  }
+
   /* ── 三個問題 ── */
   .challenges { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-16); }
   .ch { --cat: var(--color-brand-600); }
@@ -302,7 +406,7 @@ const directions = [
   }
   .ch__stat span { font-size: var(--text-sm); color: var(--color-ink-700); line-height: 1.6; }
 
-  .chart { margin: var(--space-16) 0 0; }
+  .chart { margin: var(--space-8) 0 0; }
   .chart img {
     width: 100%; height: auto; display: block;
     border-radius: var(--radius-md); background: var(--color-white);
@@ -334,6 +438,12 @@ const directions = [
   .btn--onDark:hover { background: rgba(255,255,255,.12); color: var(--color-white); }
 
   @media (max-width: 860px) {
+    .sum3 { grid-template-columns: 1fr; gap: var(--space-12); }
+    .sum {
+      padding: 0 0 var(--space-12); border-left: 0;
+      border-bottom: 1px solid rgba(255,255,255,.14);
+    }
+    .sum:last-child { padding-bottom: 0; border-bottom: 0; }
     .ch__head { grid-template-columns: 1fr; gap: var(--space-3); }
     .ch__body, .beach, .next { grid-template-columns: 1fr; gap: var(--space-6); }
   }
