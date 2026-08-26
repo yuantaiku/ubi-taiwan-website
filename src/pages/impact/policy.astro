@@ -21,7 +21,15 @@ import PageHero from '../../components/PageHero.astro';
 // 三個結構性挑戰。數字皆為政府公開統計，屬於「問題描述」，
 // 不涉及提案的財源主張。
 //
-// 圖表一律引用 2026 BIEN 簡報（協會 2026-08 指正：先前誤用 2025 版）。
+// 圖表全部改為原生 SVG（協會 2026-08 要求「圖表樣式要像簡報那樣」）。
+// 數值一律取自 2026 BIEN 簡報（協會指正：先前誤用 2025 版），且只畫簡報中
+// 實際標示的數字——沒有逐年資料的部分不重畫曲線，改以倍數長條或
+// 指數化斜線呈現，避免捏造出我沒有的時間序列。
+//
+// 少子化預算與生育率單位不同，刻意不做雙軸，改為同以 2018 年為 100 的指數。
+//
+// 註：簡報第 17 頁把生育率 1.06→0.695 標為「▼18%」，與其自身數據不符
+// （實算 −34.4%），第 16 頁標的「▼35%」才正確。本頁採 35%，已回報協會。
 // en 欄位是協會簡報中自創的英文標題，保留作為出處標記。
 const challenges = [
   {
@@ -51,12 +59,7 @@ const challenges = [
       '家庭財富的差距也在拉開：最富有的 20% 與最貧窮的 20%，資產差距從 1991 年的 16.8 倍擴大到 2021 年的 66.9 倍。',
     ],
     stat: { v: '57', unit: '%', l: '25 歲以下勞工領不到基本工資' },
-    chart: {
-      src: '/images/policy/wealth-gap-20yr.webp',
-      alt: '折線圖：2003 至 2025 年間，台灣股市指數上漲 6.4 倍、房價指數上漲 4.1 倍、實質人均 GDP 成長 2.3 倍，實質經常性薪資幾乎零成長',
-      cap: '收斂到最近二十年：股市 6.4 倍、房價 4.1 倍、人均 GDP 2.3 倍，只有實質薪資是一條平的線。',
-      w: 1600, h: 694,
-    },
+    chart: 'multiple',
   },
   {
     key: 'birth',
@@ -67,15 +70,10 @@ const challenges = [
     lede: '2025 年台灣的生育率降到 0.695，是全世界最低，已經低於韓國。',
     body: [
       '台灣連續 67 個月死亡人數多於出生人數。新生兒數量從 2018 年到 2025 年減少超過四成，2026 年預計首次跌破十萬人。',
-      '政府不是沒有努力。少子化相關的年度預算在同一段期間成長了 4.9 倍，從 257 億元增加到超過 1,254 億元，但生育率仍然下降了 18%。這說明問題不在補助的多寡，而在年輕人對未來的整體信心——當生活本身沒有餘裕，生養下一代就不會進入選項。',
+      '政府不是沒有努力。少子化相關的年度預算在同一段期間成長了 4.9 倍，從 257 億元增加到超過 1,254 億元，但生育率仍然下降了 35%。這說明問題不在補助的多寡，而在年輕人對未來的整體信心——當生活本身沒有餘裕，生養下一代就不會進入選項。',
     ],
     stat: { v: '0.695', unit: '', l: '2025 年生育率，全球最低' },
-    chart: {
-      src: '/images/policy/birthrate-budget.webp',
-      alt: '折線圖：2018 至 2025 年間，政府少子化年度預算從 257 億元增至 1,254 億元、成長 4.9 倍，同期生育率卻從 1.06 降至 0.695、下降 18%',
-      cap: '預算成長 4.9 倍，生育率仍下降 18%——問題不在補助的多寡。',
-      w: 1600, h: 694,
-    },
+    chart: 'budget',
   },
 ];
 
@@ -142,17 +140,83 @@ const directions = [
       <h2 id="sum-title" class="summary__q">台灣社會正在面對什麼？為什麼要談基本收入？</h2>
 
       <ol class="sum3">
-        {challenges.map((c) => (
-          <li class="sum">
-            <p class="sum__en">{c.en}</p>
-            <h3 class="sum__t">{c.title}</h3>
-            <p class="sum__d">{c.sum}</p>
-            <p class="sum__stat">
-              <b>{c.stat.v}</b><i>{c.stat.unit}</i>
-              <span>{c.stat.l}</span>
-            </p>
-          </li>
-        ))}
+        {/* ① AI：環圈圖。單一比例值，用環圈最直接 */}
+        <li class="sum">
+          <p class="sum__en">AI &amp; Robotics</p>
+          <h3 class="sum__t">AI 正在抽掉年輕人的第一階</h3>
+          <p class="sum__d">入門白領職缺跨產業消失，多數年輕人的職涯階梯正在快速不見。</p>
+
+          <figure class="viz viz--donut">
+            <svg viewBox="0 0 150 150" role="img"
+                 aria-label="環圈圖：入門白領工作中，約 50% 可能在五年內被 AI 取代">
+              <circle class="viz__track" cx="75" cy="75" r="58" />
+              <circle class="viz__arc" cx="75" cy="75" r="58"
+                      stroke-dasharray="182.2 364.4" transform="rotate(-90 75 75)">
+                <title>50%</title>
+              </circle>
+              <text class="viz__big" x="75" y="82" text-anchor="middle">50%</text>
+            </svg>
+            <figcaption>入門白領工作可能在五年內被 AI 取代</figcaption>
+          </figure>
+        </li>
+
+        {/* ② 低薪：長條圖。四個年齡層的同一個指標，長條最好比 */}
+        <li class="sum">
+          <p class="sum__en">Gen-Hopeless</p>
+          <h3 class="sum__t">經濟成長了，薪水沒有</h3>
+          <p class="sum__d">實質薪資長期停滯，勞動階級看不到翻轉的希望。</p>
+
+          <figure class="viz">
+            <p class="viz__cap">領不到基本工資的比例</p>
+            <svg viewBox="0 0 260 150" role="img"
+                 aria-label="長條圖：領不到基本工資的勞工比例，25 歲以下 57.0%、30 歲以下 36.8%、35 歲以下 30.5%、全年齡 25.0%">
+              {[
+                { l: '≤25 歲', v: 57.0 },
+                { l: '≤30 歲', v: 36.8 },
+                { l: '≤35 歲', v: 30.5 },
+                { l: '全年齡', v: 25.0 },
+              ].map((d, i) => {
+                const x = 8 + i * 63;
+                const h = (d.v / 60) * 96;
+                return (
+                  <>
+                    <rect class="viz__bar" x={x} y={120 - h} width="34" height={h} rx="4">
+                      <title>{d.l}：{d.v}%</title>
+                    </rect>
+                    <text class="viz__val" x={x + 17} y={120 - h - 7} text-anchor="middle">{d.v}%</text>
+                    <text class="viz__lab" x={x + 17} y="138" text-anchor="middle">{d.l}</text>
+                  </>
+                );
+              })}
+              <line class="viz__base" x1="4" y1="120" x2="256" y2="120" />
+            </svg>
+            <figcaption>越年輕，領不到基本工資的比例越高</figcaption>
+          </figure>
+        </li>
+
+        {/* ③ 少子化：斜線圖。只有頭尾兩個實際數字，就只畫兩點 */}
+        <li class="sum">
+          <p class="sum__en">Social Crisis</p>
+          <h3 class="sum__t">不是不想生，是不敢想</h3>
+          <p class="sum__d">連續 67 個月死亡多於出生，年輕人正在放棄婚姻與生育。</p>
+
+          <figure class="viz">
+            <p class="viz__cap">新生兒數（千人）</p>
+            <svg viewBox="0 0 260 150" role="img"
+                 aria-label="斜線圖：新生兒數從 2018 年的 18 萬 1,600 人降至 2025 年的 10 萬 7,800 人，減少四成">
+              <line class="viz__base" x1="30" y1="122" x2="240" y2="122" />
+              <line class="viz__slope" x1="52" y1="30" x2="216" y2="98" />
+              <circle class="viz__dot" cx="52" cy="30" r="6"><title>2018 年 181.6 千人</title></circle>
+              <circle class="viz__dot" cx="216" cy="98" r="6"><title>2025 年 107.8 千人</title></circle>
+              <text class="viz__val" x="52" y="18" text-anchor="middle">181.6</text>
+              <text class="viz__val" x="216" y="88" text-anchor="middle">107.8</text>
+              <text class="viz__lab" x="52" y="140" text-anchor="middle">2018</text>
+              <text class="viz__lab" x="216" y="140" text-anchor="middle">2025</text>
+              <text class="viz__delta" x="134" y="76" text-anchor="middle">▼ 四成</text>
+            </svg>
+            <figcaption>2026 年預計首次跌破十萬人</figcaption>
+          </figure>
+        </li>
       </ol>
 
       <p class="summary__src">
@@ -189,14 +253,66 @@ const directions = [
                 <span>{c.stat.l}</span>
               </p>
             </div>
-            {c.chart && (
-              <figure class="chart">
-                <img src={c.chart.src} alt={c.chart.alt}
-                     width={c.chart.w} height={c.chart.h} loading="lazy" />
+            {c.chart === 'multiple' && (
+              <figure class="bigviz">
+                <p class="bigviz__cap">近二十年（2003–2025）的成長倍數</p>
+                <svg viewBox="0 0 640 210" role="img"
+                     aria-label="長條圖：2003 至 2025 年間，台灣股市指數成長 6.4 倍、房價指數 4.1 倍、實質人均 GDP 2.3 倍，實質經常性薪資僅 1.02 倍、幾乎沒有成長">
+                  {[
+                    { l: '台灣股市指數', v: 6.4, alert: false },
+                    { l: '房價指數', v: 4.1, alert: false },
+                    { l: '實質人均 GDP', v: 2.3, alert: false },
+                    { l: '實質經常性薪資', v: 1.02, alert: true },
+                  ].map((d, i) => {
+                    const y = 14 + i * 48;
+                    const w = (d.v / 7) * 390;
+                    return (
+                      <>
+                        <text class="bigviz__lab" x="0" y={y + 21}>{d.l}</text>
+                        <rect class={`bigviz__bar${d.alert ? ' is-alert' : ''}`}
+                              x="152" y={y} width={w} height="30" rx="4">
+                          <title>{d.l}：{d.v} 倍</title>
+                        </rect>
+                        <text class={`bigviz__val${d.alert ? ' is-alert' : ''}`}
+                              x={152 + w + 12} y={y + 21}>{d.v} 倍</text>
+                      </>
+                    );
+                  })}
+                </svg>
                 <figcaption>
-                  {c.chart.cap}
+                  股市、房價、人均產值都在成長，只有薪水停在原地——二十年間僅成長 2.3%。
                   <span class="chart__src">
-                    圖表出自 UBI Taiwan 於 2026 年 BIEN 多倫多大會發表的青年基本收入政策提案。
+                    數據出自 UBI Taiwan 於 2026 年 BIEN 多倫多大會發表的青年基本收入政策提案。
+                  </span>
+                </figcaption>
+              </figure>
+            )}
+            {c.chart === 'budget' && (
+              <figure class="bigviz">
+                <p class="bigviz__cap">以 2018 年為 100 的指數變化</p>
+                <svg viewBox="0 0 640 232" role="img"
+                     aria-label="斜線圖：以 2018 年為基準 100，少子化年度預算到 2025 年上升到 488，同期生育率下降到 66">
+                  <line class="bigviz__base" x1="118" y1="198" x2="470" y2="198" />
+                  <text class="bigviz__lab" x="118" y="220" text-anchor="middle">2018</text>
+                  <text class="bigviz__lab" x="470" y="220" text-anchor="middle">2025</text>
+                  <text class="bigviz__lab" x="110" y="166" text-anchor="end">100</text>
+
+                  <line class="bigviz__line is-budget" x1="118" y1="162" x2="470" y2="28" />
+                  <circle class="bigviz__dot is-budget" cx="118" cy="162" r="7"><title>2018 年 指數 100</title></circle>
+                  <circle class="bigviz__dot is-budget" cx="470" cy="28" r="7"><title>2025 年 指數 488</title></circle>
+                  <text class="bigviz__series is-budget" x="484" y="26">少子化預算 488</text>
+                  <text class="bigviz__note" x="484" y="44">257 億 → 1,254 億元</text>
+
+                  <line class="bigviz__line is-birth" x1="118" y1="162" x2="470" y2="184" />
+                  <circle class="bigviz__dot is-birth" cx="470" cy="184" r="7"><title>2025 年 指數 66</title></circle>
+                  <text class="bigviz__series is-birth" x="484" y="182">生育率 66</text>
+                  <text class="bigviz__note" x="484" y="200">1.06 → 0.695</text>
+                </svg>
+                <figcaption>
+                  預算成長到將近五倍，生育率仍然下降三成五——問題不在補助的多寡。
+                  <span class="chart__src">
+                    兩個指標單位不同，因此同以 2018 年為 100 換算成指數並列，避免雙軸造成誤讀。
+                    數據出自 UBI Taiwan 2026 年 BIEN 大會提案簡報。
                   </span>
                 </figcaption>
               </figure>
@@ -364,6 +480,79 @@ const directions = [
   .sum__stat span {
     font-size: var(--text-sm); color: var(--deck-text); line-height: 1.6;
   }
+  /* ── 摘要區的圖：深藍底上的琥珀，單一系列所以不涉分類色衝突。
+     琥珀 #F2B44C 對 #12293C 對比 8.1:1；每個值都直接標在圖上，
+     不依賴顏色傳達資訊。 ── */
+  .viz { margin: var(--space-8) 0 0; }
+  .viz svg { width: 100%; height: auto; overflow: visible; }
+  .viz__cap {
+    font-size: var(--text-xs); color: var(--deck-dim);
+    margin: 0 0 var(--space-3); letter-spacing: .04em;
+  }
+  .viz figcaption {
+    margin-top: var(--space-3); font-size: var(--text-sm);
+    color: var(--deck-text); line-height: 1.6;
+  }
+  .viz--donut svg { max-width: 11rem; }
+
+  .viz__track { fill: none; stroke: rgba(255,255,255,.16); stroke-width: 15; }
+  .viz__arc {
+    fill: none; stroke: var(--deck-gold); stroke-width: 15; stroke-linecap: round;
+  }
+  .viz__big {
+    fill: var(--deck-gold); font-size: 2.6rem; font-weight: 900;
+    font-variant-numeric: tabular-nums;
+  }
+  /* 同一個系列的四根長條用同一個顏色。先前把後三根做半透明，
+     結果變成偏橄欖的「另一種顏色」，對單一系列是誤導。
+     最高的那根本來就最長，不需要再加顏色強調。 */
+  .viz__bar { fill: var(--deck-gold); }
+  .viz__base { stroke: rgba(255,255,255,.28); stroke-width: 1.5; }
+  .viz__slope { stroke: var(--deck-gold); stroke-width: 3; stroke-linecap: round; }
+  .viz__dot { fill: var(--deck-gold); }
+  .viz__val {
+    fill: var(--color-white); font-size: .82rem; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .viz__lab { fill: var(--deck-dim); font-size: .78rem; }
+  .viz__delta { fill: var(--deck-gold); font-size: .95rem; font-weight: 700; }
+
+  /* ── 詳述區的大圖：淺底，用站內品牌色。
+     藍 #2B72A4 與紅 #C4322F 經 validate_palette 全項通過
+     （CVD ΔE 18.1、一般視覺 ΔE 27.5），且每根長條都直接標值。 ── */
+  .bigviz {
+    margin: var(--space-8) 0 0; padding: var(--space-8);
+    background: var(--color-white); border-radius: var(--radius-md);
+    border: 1px solid var(--color-ink-100);
+  }
+  .bigviz svg { width: 100%; height: auto; overflow: visible; }
+  .bigviz__cap {
+    font-size: var(--text-sm); font-weight: var(--font-bold);
+    color: var(--color-ink-900); margin: 0 0 var(--space-5);
+  }
+  .bigviz figcaption {
+    margin-top: var(--space-5); font-size: var(--text-sm);
+    color: var(--color-ink-700); line-height: 1.7;
+  }
+  .bigviz__bar { fill: #2B72A4; }
+  .bigviz__bar.is-alert { fill: #C4322F; }
+  .bigviz__lab { fill: var(--color-ink-700); font-size: .84rem; }
+  .bigviz__val {
+    fill: #2B72A4; font-size: .95rem; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .bigviz__val.is-alert { fill: #C4322F; }
+  .bigviz__base { stroke: var(--color-ink-300); stroke-width: 1.5; }
+  .bigviz__line { stroke-width: 3; stroke-linecap: round; fill: none; }
+  .bigviz__line.is-budget { stroke: #2B72A4; }
+  .bigviz__line.is-birth { stroke: #CF6A31; }
+  .bigviz__dot.is-budget { fill: #2B72A4; }
+  .bigviz__dot.is-birth { fill: #CF6A31; }
+  .bigviz__series { font-size: .88rem; font-weight: 700; }
+  .bigviz__series.is-budget { fill: #2B72A4; }
+  .bigviz__series.is-birth { fill: #CF6A31; }
+  .bigviz__note { fill: var(--color-ink-500); font-size: .76rem; }
+
   .summary__src {
     margin: var(--space-12) 0 0; font-size: var(--text-xs); color: var(--deck-dim);
   }
