@@ -259,22 +259,23 @@ const directions = [
                 <svg viewBox="0 0 640 210" role="img"
                      aria-label="長條圖：2003 至 2025 年間，台灣股市指數成長 6.4 倍、房價指數 4.1 倍、實質人均 GDP 2.3 倍，實質經常性薪資僅 1.02 倍、幾乎沒有成長">
                   {[
-                    { l: '台灣股市指數', v: 6.4, alert: false },
-                    { l: '房價指數', v: 4.1, alert: false },
-                    { l: '實質人均 GDP', v: 2.3, alert: false },
-                    { l: '實質經常性薪資', v: 1.02, alert: true },
+                    { l: '台灣股市指數', v: 6.4, note: null },
+                    { l: '房價指數', v: 4.1, note: null },
+                    { l: '實質人均 GDP', v: 2.3, note: null },
+                    { l: '實質經常性薪資', v: 1.02, note: '幾乎沒有成長' },
                   ].map((d, i) => {
                     const y = 14 + i * 48;
                     const w = (d.v / 7) * 390;
                     return (
                       <>
                         <text class="bigviz__lab" x="0" y={y + 21}>{d.l}</text>
-                        <rect class={`bigviz__bar${d.alert ? ' is-alert' : ''}`}
-                              x="152" y={y} width={w} height="30" rx="4">
+                        <rect class="bigviz__bar" x="152" y={y} width={w} height="30" rx="4">
                           <title>{d.l}：{d.v} 倍</title>
                         </rect>
-                        <text class={`bigviz__val${d.alert ? ' is-alert' : ''}`}
-                              x={152 + w + 12} y={y + 21}>{d.v} 倍</text>
+                        <text class="bigviz__val" x={152 + w + 12} y={y + 21}>{d.v} 倍</text>
+                        {d.note && (
+                          <text class="bigviz__note" x={152 + w + 84} y={y + 21}>{d.note}</text>
+                        )}
                       </>
                     );
                   })}
@@ -533,41 +534,49 @@ const directions = [
   .viz__lab { fill: var(--deck-dim); font-size: .78rem; }
   .viz__delta { fill: var(--deck-gold); font-size: .95rem; font-weight: 700; }
 
-  /* ── 詳述區的大圖：淺底，用站內品牌色。
-     藍 #2B72A4 與紅 #C4322F 經 validate_palette 全項通過
-     （CVD ΔE 18.1、一般視覺 ΔE 27.5），且每根長條都直接標值。 ── */
+  /* ── 詳述區的大圖：與摘要區同一套深色系（依協會回饋，不加底圖）。
+     倍數圖是單一指標的四個項目，因此四根同色——薪資那根「短」本身就是
+     訊息，再用顏色區分等於重複編碼。改以文字註記標出。
+     斜線圖是唯一需要分類色的地方：琥珀 #F2B44C ＋ 藍 #4B93CE
+     經 validate_palette 檢查，CVD ΔE 25.2、一般視覺 ΔE 30.2（門檻 15）。
+     註：琥珀的 OKLCH L 為 0.809，超出深色模式建議帶（0.48–0.67）。
+     這是刻意的——全頁沿用同一支金色的一致性優先，且兩色的分離度是
+     門檻的兩倍，另有直接標籤作為次要編碼。 ── */
   .bigviz {
+    --viz-ink: #0A0C0F;
+    --viz-gold: #F2B44C;
+    --viz-blue: #4B93CE;
+    --viz-text: #D6DEE5;
+    --viz-dim: #8A949E;
     margin: var(--space-8) 0 0; padding: var(--space-8);
-    background: var(--color-white); border-radius: var(--radius-md);
-    border: 1px solid var(--color-ink-100);
+    background: var(--viz-ink); border-radius: var(--radius-md);
   }
   .bigviz svg { width: 100%; height: auto; overflow: visible; }
   .bigviz__cap {
     font-size: var(--text-sm); font-weight: var(--font-bold);
-    color: var(--color-ink-900); margin: 0 0 var(--space-5);
+    color: var(--color-white); margin: 0 0 var(--space-6);
   }
   .bigviz figcaption {
-    margin-top: var(--space-5); font-size: var(--text-sm);
-    color: var(--color-ink-700); line-height: 1.7;
+    margin-top: var(--space-6); font-size: var(--text-sm);
+    color: var(--viz-text); line-height: 1.7;
   }
-  .bigviz__bar { fill: #2B72A4; }
-  .bigviz__bar.is-alert { fill: #C4322F; }
-  .bigviz__lab { fill: var(--color-ink-700); font-size: .84rem; }
+  .bigviz .chart__src { color: var(--viz-dim); }
+  .bigviz__bar { fill: var(--viz-gold); }
+  .bigviz__lab { fill: var(--viz-text); font-size: .84rem; }
   .bigviz__val {
-    fill: #2B72A4; font-size: .95rem; font-weight: 700;
+    fill: var(--viz-gold); font-size: .95rem; font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
-  .bigviz__val.is-alert { fill: #C4322F; }
-  .bigviz__base { stroke: var(--color-ink-300); stroke-width: 1.5; }
+  .bigviz__base { stroke: rgba(255,255,255,.26); stroke-width: 1.5; }
   .bigviz__line { stroke-width: 3; stroke-linecap: round; fill: none; }
-  .bigviz__line.is-budget { stroke: #2B72A4; }
-  .bigviz__line.is-birth { stroke: #CF6A31; }
-  .bigviz__dot.is-budget { fill: #2B72A4; }
-  .bigviz__dot.is-birth { fill: #CF6A31; }
+  .bigviz__line.is-budget { stroke: var(--viz-gold); }
+  .bigviz__line.is-birth { stroke: var(--viz-blue); }
+  .bigviz__dot.is-budget { fill: var(--viz-gold); }
+  .bigviz__dot.is-birth { fill: var(--viz-blue); }
   .bigviz__series { font-size: .88rem; font-weight: 700; }
-  .bigviz__series.is-budget { fill: #2B72A4; }
-  .bigviz__series.is-birth { fill: #CF6A31; }
-  .bigviz__note { fill: var(--color-ink-500); font-size: .76rem; }
+  .bigviz__series.is-budget { fill: var(--viz-gold); }
+  .bigviz__series.is-birth { fill: var(--viz-blue); }
+  .bigviz__note { fill: var(--viz-dim); font-size: .78rem; }
 
   .summary__src {
     margin: var(--space-12) 0 0; font-size: var(--text-xs); color: var(--deck-dim);
