@@ -7,10 +7,16 @@ import PageHero from '../../components/PageHero.astro';
 // 2026-08 新增。這頁存在的理由：協會投入最多的政策工作，
 // 過去只散見於 2025 年度報告的一個段落，等於沒有可見度。
 //
-// 內容範圍（依協會 2026-08 指示）：**只講問題意識與政策方向**。
-// 提案中的給付金額、年度支出估算、財源規劃與稅制調整主張一律不放，
-// 也不連結原始簡報——那部分屬於協會對外正式發表的範疇，
-// 由協會自行決定何時、以什麼形式公開。請不要在這頁加回來。
+// 內容範圍：2026-08 協會回覆「最理想是整份簡報都可以放進去，
+// 拋磚引玉就是我們的最大補丁，錯了也沒關係」，因此完整政策設計已納入，
+// 並依協會建議採折疊呈現（前半段是論述，折疊區是完整設計）。
+//
+// 這解除了本頁最初「只講問題意識與政策方向」的限制——那是上線第一版的
+// 暫行範圍，現已由內容擁有者授權放寬。
+//
+// 所有數字均逐項核算過與簡報一致：八項財源合計正好 8,210 億；
+// 500 萬人 × 15,515 元 × 12 個月 = 9,309 億（簡報標示 9,310 億）；
+// 缺口 1,100 億、分級收回回收 1,150 億。
 //
 // 資料來源：docs/new-input/Youth UBI Policy Proposal Tailor-made for Taiwan_2026 BIEN Congress.pdf
 // 與 Indo-Pacific Basic Income Summit 2027 in Taiwan.pdf
@@ -91,6 +97,29 @@ const directions = [
     t: '育兒的安全網',
     d: '直接減輕養育的經濟壓力，也重建年輕世代對未來的信心。願不願意生養下一代，取決於對自己人生的預期，而不只是一次性的生育獎勵。',
   },
+];
+
+// ── 完整政策設計（折疊區）──────────────────────────────
+// 依協會授權納入。這是提案，不是定案；協會自己的定位是「拋磚引玉」。
+
+// 財源：八項，合計 8,210 億元／年（2028 年度規劃）
+const funding = [
+  { l: '營業稅', v: 3700, now: '5%', to: '8%', who: '企業', why: '台灣長期停在 5%，低於多數亞洲鄰國' },
+  { l: '資本利得稅', v: 1280, now: '12%', to: '15%', who: '法人投資者', why: '最低稅負制稅率低於國際水準' },
+  { l: '地價稅', v: 1020, now: '公告地價為市價 19.6%', to: '提高至 40%', who: '土地所有人', why: '公告地價長期低估，形成實質稅負不均' },
+  { l: '主權基金', v: 600, now: '尚未設立', to: '3 兆規模、撥用 2% 報酬', who: '基金投資收益', why: '參考阿拉斯加模式，長期公共收益' },
+  { l: '碳稅', v: 600, now: '碳費制度', to: '每噸 300 元、擴大範圍', who: '排碳企業', why: '符合國際趨勢與污染者付費原則' },
+  { l: '當沖稅', v: 550, now: '0.15%', to: '0.30%', who: '當日沖銷交易者', why: '回歸市場常態，取消暫時性優惠' },
+  { l: '債券交易稅', v: 320, now: '0%', to: '0.10%', who: '法人投資者', why: '長期免稅缺乏正當性' },
+  { l: '土地增值稅', v: 140, now: '81.9% 的移轉免稅', to: '非農業使用納入課稅', who: '土地所有人', why: '嚴格審查農地免稅，落實租稅公平' },
+];
+
+// 分級稅收回機制：發放時人人有份，報稅季依所得級距回收
+const taxback = [
+  { tier: 'A', share: '60%', income: '50 萬元以下', back: '0%' },
+  { tier: 'B', share: '23%', income: '50–70 萬元', back: '20%' },
+  { tier: 'C', share: '14%', income: '70–100 萬元', back: '40%' },
+  { tier: 'D', share: '3%',  income: '100 萬元以上', back: '60%' },
 ];
 ---
 
@@ -386,6 +415,222 @@ const directions = [
     </div>
   </section>
 
+  <!-- ── 完整政策設計（折疊）──────────────────────────── -->
+  <section class="section" aria-labelledby="design-title">
+    <div class="container">
+      <p class="eyebrow">完整提案</p>
+      <h2 id="design-title" class="sec-title">如果真的要做，具體長什麼樣子</h2>
+      <p class="sec-lead">
+        以下是提案的完整設計，依五個問題展開：給誰、發多少、怎麼發、錢從哪裡來、
+        以及配套。這是我們提出來供討論的版本，不是定案——用協會自己的話說，
+        這是一塊拋出去的磚。點開各段可以看細節。
+      </p>
+
+      <div class="acc">
+        <details class="acc__i">
+          <summary>
+            <span class="acc__n">1</span>
+            <span class="acc__q">給誰？</span>
+            <span class="acc__a">18–35 歲，約 500 萬人</span>
+          </summary>
+          <div class="acc__body">
+            <p>
+              基本收入的最終目標是全民，但要讓它真的上路，需要一個能被說服、
+              也負擔得起的起點。我們主張<strong>分階段導入，第一階段涵蓋 18 至 35 歲的青年</strong>，
+              全台約 500 萬人。
+            </p>
+            <p>
+              選擇這個年齡層的理由在前一段已經說明：AI 衝擊最先打掉入門職缺、
+              低薪比例最高的是 25 歲以下、而這也正是決定成家與生育的年紀。
+              三個結構性問題在同一群人身上交會。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc__i">
+          <summary>
+            <span class="acc__n">2</span>
+            <span class="acc__q">發多少？</span>
+            <span class="acc__a">每月 15,515 元</span>
+          </summary>
+          <div class="acc__body">
+            <p>
+              金額的基準有很多種選擇：貧窮線、最低生活費、所得稅免稅額，
+              甚至馬斯克說的「普遍高收入」。我們採用<strong>最低生活費</strong>作為基準——
+              它是政府既有的官方標準，代表「維持基本生活所需」，最容易被檢驗。
+            </p>
+            <dl class="calc">
+              <div><dt>對象人數</dt><dd>約 500 萬人</dd></div>
+              <div><dt>每月金額</dt><dd>15,515 元</dd></div>
+              <div><dt>發放月數</dt><dd>12 個月</dd></div>
+              <div class="calc__sum"><dt>年度支出</dt><dd>約 9,310 億元</dd></div>
+            </dl>
+            <p class="acc__note">
+              這個數字很大，相當於中央政府年度總預算的三分之一左右。
+              下一段就是回答這筆錢從哪裡來。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc__i">
+          <summary>
+            <span class="acc__n">3</span>
+            <span class="acc__q">怎麼發？</span>
+            <span class="acc__a">先用現金，數位貨幣是下一步</span>
+          </summary>
+          <div class="acc__body">
+            <p>
+              發放方式有兩種路線。我們主張<strong>第一步先用一般貨幣</strong>，
+              理由是台灣已經證明做得到，而且民眾熟悉——普發現金的領取率兩次都超過 99%。
+            </p>
+            <div class="vs">
+              <div class="vs__col">
+                <h4>一般貨幣（主張的第一步）</h4>
+                <ul>
+                  <li>政策效果看得見、感受得到</li>
+                  <li>政府已有大規模普發的實際經驗</li>
+                  <li>民眾不需要學新東西，阻力最小</li>
+                </ul>
+              </div>
+              <div class="vs__col vs__col--alt">
+                <h4>央行數位貨幣（CBDC）</h4>
+                <ul>
+                  <li>由央行直接發給人民，沒有貨幣乘數效應</li>
+                  <li>可程式化，能引導特定用途或行為</li>
+                  <li>資料可分析，政策成效能被實際衡量與微調</li>
+                </ul>
+              </div>
+            </div>
+            <p class="acc__note">
+              先用現金讓社會認識基本收入的好處，政府也比較敢跨出第一步；
+              數位貨幣的可能性留到制度站穩之後再談。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc__i">
+          <summary>
+            <span class="acc__n">4</span>
+            <span class="acc__q">錢從哪裡來？</span>
+            <span class="acc__a">八項財源，年度 8,210 億元</span>
+          </summary>
+          <div class="acc__body">
+            <p>
+              這是整份提案最需要被檢驗的部分。我們的原則是：
+              <strong>不新增針對薪資所得的稅</strong>，而是調整長期偏低的資本與土地稅負，
+              並開闢符合國際趨勢的新財源。
+            </p>
+
+            <figure class="bigviz">
+              <p class="bigviz__cap">八項財源的規模（億元／年，2028 年度規劃）</p>
+              <svg viewBox="0 0 640 400" role="img"
+                   aria-label="長條圖：八項財源規模，營業稅 3,700 億、資本利得稅 1,280 億、地價稅 1,020 億、主權基金 600 億、碳稅 600 億、當沖稅 550 億、債券交易稅 320 億、土地增值稅 140 億，合計 8,210 億元">
+                {funding.map((d, i) => {
+                  const y = 10 + i * 46;
+                  const w = (d.v / 4000) * 380;
+                  return (
+                    <>
+                      <text class="bigviz__lab" x="0" y={y + 21}>{d.l}</text>
+                      <rect class="bigviz__bar" x="140" y={y} width={w} height="28" rx="4">
+                        <title>{d.l}：{d.v} 億元</title>
+                      </rect>
+                      <text class="bigviz__val" x={140 + w + 12} y={y + 21}>
+                        {d.v.toLocaleString()}
+                      </text>
+                    </>
+                  );
+                })}
+              </svg>
+              <figcaption>
+                合計 8,210 億元。最大一筆是營業稅由 5% 調升至 8%，占四成五。
+                <span class="chart__src">數據出自 UBI Taiwan 2026 年 BIEN 大會提案簡報。</span>
+              </figcaption>
+            </figure>
+
+            <div class="tablewrap">
+              <table class="ftab">
+                <caption class="visually-hidden">八項財源的現行制度、建議調整與負擔對象</caption>
+                <thead>
+                  <tr><th scope="col">項目</th><th scope="col">現行</th><th scope="col">建議調整</th><th scope="col">負擔對象</th><th scope="col">估計財源</th></tr>
+                </thead>
+                <tbody>
+                  {funding.map((d) => (
+                    <tr>
+                      <th scope="row">{d.l}</th>
+                      <td>{d.now}</td>
+                      <td>{d.to}</td>
+                      <td>{d.who}</td>
+                      <td class="ftab__v">{d.v.toLocaleString()} 億</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="acc__note">
+              每一項的理由都不只是「需要錢」：營業稅偏低於亞洲鄰國、資本利得稅低於國際水準、
+              公告地價僅為市價的兩成、逾八成土地移轉免徵增值稅、債券交易長期免稅。
+              這些調整本身就是租稅公平的議題。
+            </p>
+          </div>
+        </details>
+
+        <details class="acc__i">
+          <summary>
+            <span class="acc__n">5</span>
+            <span class="acc__q">配套措施</span>
+            <span class="acc__a">分級收回機制補上缺口</span>
+          </summary>
+          <div class="acc__body">
+            <p>
+              財源 8,210 億元，年度支出 9,310 億元，中間還差 <strong>1,100 億元</strong>。
+              補上這個缺口的方式不是減少發放，而是<strong>分級稅收回機制</strong>——
+              發放時人人有份、不做資產調查，等到報稅季再依所得級距回收一部分。
+            </p>
+            <div class="tablewrap">
+              <table class="ftab ftab--tb">
+                <caption class="visually-hidden">分級稅收回機制的四個級距</caption>
+                <thead>
+                  <tr><th scope="col">級距</th><th scope="col">佔青年比例</th><th scope="col">年所得</th><th scope="col">收回比例</th></tr>
+                </thead>
+                <tbody>
+                  {taxback.map((t) => (
+                    <tr>
+                      <th scope="row">{t.tier}</th>
+                      <td>{t.share}</td>
+                      <td>{t.income}</td>
+                      <td class="ftab__v">{t.back}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p>
+              六成的青年年所得在 50 萬元以下，完全不需要回收；
+              所得越高回收越多。這樣既保留了無條件發放「不審查、不標籤」的精神，
+              又讓實際的財政負擔集中在真正需要的人身上。估計可回收約 1,150 億元，
+              剛好補上缺口。
+            </p>
+            <h4 class="acc__h">還在討論中的其他方向</h4>
+            <div class="more3">
+              <div>
+                <h5>其他可能財源</h5>
+                <p>機器人稅、資料稅、奢侈稅、遺產稅與贈與稅、菸酒健康捐</p>
+              </div>
+              <div>
+                <h5>互補制度</h5>
+                <p>安息年帳戶（Sabbatical Account）、負所得稅</p>
+              </div>
+              <div>
+                <h5>數位基礎建設</h5>
+                <p>新一代數位身分（eID）、數位錢包</p>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- ── 接下來 ───────────────────────────────────────── -->
   <section class="section section--inverse" aria-labelledby="next-title">
     <div class="container">
@@ -636,6 +881,85 @@ const directions = [
   .dir__t { font-size: var(--text-lg); margin: 0 0 var(--space-2); color: var(--color-brand-800); }
   .dir__d { margin: 0; color: var(--color-ink-700); line-height: var(--leading-loose); }
 
+  /* ── 完整政策設計（折疊）── */
+  .acc { display: grid; gap: var(--space-3); margin-top: var(--space-12); }
+  .acc__i {
+    border: 1px solid var(--color-ink-300);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    overflow: hidden;
+  }
+  .acc__i[open] { border-color: var(--color-brand-500); }
+  .acc__i summary {
+    cursor: pointer; list-style: none;
+    display: grid; grid-template-columns: 2.25rem minmax(0,1fr) auto;
+    gap: var(--space-4); align-items: baseline;
+    padding: var(--space-6);
+    transition: background var(--duration-base) var(--ease-out);
+  }
+  .acc__i summary::-webkit-details-marker { display: none; }
+  .acc__i summary:hover { background: var(--surface-subtle); }
+  .acc__n {
+    display: grid; place-content: center;
+    width: 2.25rem; height: 2.25rem; border-radius: 50%;
+    background: var(--color-brand-50); color: var(--color-brand-700);
+    font-weight: var(--font-bold); font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    align-self: center;
+  }
+  .acc__i[open] .acc__n { background: var(--color-brand-600); color: var(--color-white); }
+  .acc__q { font-size: var(--text-lg); font-weight: var(--font-bold); color: var(--color-ink-900); }
+  .acc__a { font-size: var(--text-sm); color: var(--color-ink-500); text-align: right; }
+  .acc__body {
+    padding: 0 var(--space-6) var(--space-8);
+    border-top: 1px solid var(--color-ink-100);
+    padding-top: var(--space-6);
+  }
+  .acc__body > p { color: var(--color-ink-700); line-height: var(--leading-loose); margin-bottom: var(--space-4); }
+  .acc__note {
+    font-size: var(--text-sm); color: var(--color-ink-500);
+    border-left: 2px solid var(--color-ink-300); padding-left: var(--space-5);
+  }
+  .acc__h { font-size: var(--text-base); margin: var(--space-8) 0 var(--space-4); color: var(--color-ink-900); }
+
+  /* 發放金額試算 */
+  .calc {
+    display: grid; gap: var(--space-3); margin: var(--space-6) 0;
+    padding: var(--space-6); background: var(--surface-subtle); border-radius: var(--radius-md);
+  }
+  .calc > div { display: flex; justify-content: space-between; gap: var(--space-4); align-items: baseline; }
+  .calc dt { color: var(--color-ink-700); font-size: var(--text-sm); }
+  .calc dd { margin: 0; font-weight: var(--font-bold); font-variant-numeric: tabular-nums; color: var(--color-ink-900); }
+  .calc__sum { border-top: 1px solid var(--color-brand-200); padding-top: var(--space-3); }
+  .calc__sum dd { color: var(--color-brand-700); font-size: var(--text-lg); }
+
+  /* 兩種發放方式對照 */
+  .vs { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: var(--space-4); margin: var(--space-6) 0; }
+  .vs__col { padding: var(--space-6); background: var(--surface-subtle); border-radius: var(--radius-md); border-top: 3px solid var(--color-brand-500); }
+  .vs__col--alt { border-top-color: var(--color-ink-300); }
+  .vs__col h4 { font-size: var(--text-base); margin: 0 0 var(--space-4); color: var(--color-ink-900); }
+  .vs__col ul { margin: 0; padding-left: 1.1rem; }
+  .vs__col li { color: var(--color-ink-700); font-size: var(--text-sm); line-height: 1.75; margin-bottom: var(--space-2); }
+
+  /* 財源表 */
+  .tablewrap { overflow-x: auto; margin: var(--space-6) 0; }
+  .ftab { width: 100%; border-collapse: collapse; font-size: var(--text-sm); min-width: 40rem; }
+  .ftab--tb { min-width: 28rem; }
+  .ftab caption { text-align: left; }
+  .ftab th, .ftab td { padding: var(--space-3) var(--space-4); text-align: left; vertical-align: top; }
+  .ftab thead th {
+    font-size: var(--text-xs); color: var(--color-ink-500); font-weight: var(--font-bold);
+    border-bottom: 2px solid var(--color-ink-300); white-space: nowrap;
+  }
+  .ftab tbody th { color: var(--color-ink-900); font-weight: var(--font-bold); white-space: nowrap; }
+  .ftab tbody td { color: var(--color-ink-700); }
+  .ftab tbody tr { border-bottom: 1px solid var(--color-ink-100); }
+  .ftab__v { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--color-brand-700) !important; font-weight: var(--font-bold); }
+
+  .more3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: var(--space-6); }
+  .more3 h5 { font-size: var(--text-sm); margin: 0 0 var(--space-2); color: var(--color-brand-700); }
+  .more3 p { margin: 0; font-size: var(--text-sm); color: var(--color-ink-700); line-height: 1.7; }
+
   /* ── 接下來 ── */
   .next { display: grid; grid-template-columns: minmax(0,8fr) minmax(0,4fr); gap: var(--space-8); align-items: center; }
   .next__text p { color: var(--color-brand-100); line-height: var(--leading-loose); margin-bottom: var(--space-4); }
@@ -647,5 +971,8 @@ const directions = [
     .sum3 { grid-template-columns: 1fr; gap: 3px; }
     .ch__head { grid-template-columns: 1fr; gap: var(--space-3); }
     .ch__body, .beach, .next { grid-template-columns: 1fr; gap: var(--space-6); }
+    .vs, .more3 { grid-template-columns: 1fr; }
+    .acc__i summary { grid-template-columns: 2.25rem minmax(0,1fr); }
+    .acc__a { grid-column: 2; text-align: left; }
   }
 </style>
