@@ -84,7 +84,10 @@ a:hover { color: var(--color-brand-700); }
   background: var(--surface-inverse);
   color: var(--color-white);
 }
-.section--inverse a { color: var(--color-brand-200); }
+/* 深色區塊的內文連結色。刻意排除按鈕——這條規則的特異性（0,1,1）
+   高於 .btn--warm（0,1,0），先前會把深色區塊裡所有按鈕的文字染成淡藍，
+   在橘底上只有 1.84:1，等於看不清楚。 */
+.section--inverse a:not(.btn) { color: var(--color-brand-200); }
 
 /* 小標籤（區塊眉標） */
 .eyebrow {
