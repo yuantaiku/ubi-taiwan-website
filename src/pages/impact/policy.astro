@@ -731,10 +731,17 @@ const taxback = [
   if (figs.length && !reduce) {
     const visible = new Set<HTMLElement>();
 
+    // 重播一次。分成兩個影格：先在「過渡已關閉」的狀態下瞬間歸零，
+    // 下一個影格才把過渡打開並設回終點，瀏覽器才會真的重跑動畫。
     const play = (el: HTMLElement) => {
+      el.classList.add('is-reset');
       el.classList.remove('is-in');
-      void el.offsetWidth;          // 強制重排，下次加上 class 才會重新過渡
-      el.classList.add('is-in');
+      void el.getBoundingClientRect();        // 讓歸零立即生效
+      requestAnimationFrame(() => {
+        el.classList.remove('is-reset');
+        void el.getBoundingClientRect();      // 過渡恢復後再讀一次
+        el.classList.add('is-in');
+      });
     };
 
     figs.forEach((f) => f.classList.add('is-armed'));
@@ -1048,6 +1055,11 @@ const taxback = [
     opacity: 0; transition: opacity .4s var(--ease-out) var(--d, 0ms);
   }
   .mini.is-armed.is-in .mini__dot { opacity: 1; }
+
+  /* 重播時先把過渡整個關掉、瞬間歸零，隔一個影格再開回來。
+     只靠移除／加回 class 加一次 reflow 並不可靠——瀏覽器可能把兩次
+     變更合併成「沒有變化」，動畫就不會重跑（實機確認過）。 */
+  .mini.is-reset * { transition: none !important; }
 
   @media (prefers-reduced-motion: reduce) {
     .mini.is-armed * { transition: none !important; }
