@@ -714,31 +714,61 @@ const taxback = [
 </BaseLayout>
 
 <script>
-  // 詳述區小圖：捲動進入視窗時逐步繪出。
+  // 詳述區小圖：進入視窗時繪出，之後每 10 秒重播一次。
   //
   // 漸進增強：隱藏狀態（.is-armed）只由這段程式碼加上，所以 JS 失效時
-  // 圖表本來就是完成狀態，不會消失。尊重 prefers-reduced-motion——
-  // 使用者若要求減少動態，就完全不武裝，直接顯示。
+  // 圖表本來就是完成狀態，只是不會動——不影響閱讀。
+  // prefers-reduced-motion 時完全不武裝：直接顯示，也不重播。
+  //
+  // 用單一全域計時器輪播「目前在視窗內」的圖，而不是每張圖各自計時。
+  // 這樣即使 IntersectionObserver 沒有如期回報（headless、極端捲動時序），
+  // 保險機制也能把圖標記為可見並讓重播照常運作——先前把迴圈綁在 IO 的
+  // 回呼裡，IO 一旦沒觸發，圖雖然會顯示但永遠不會動。
+  const REPLAY_MS = 10000;
   const figs = Array.from(document.querySelectorAll<HTMLElement>('.mini[data-anim]'));
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (figs.length && !reduce && 'IntersectionObserver' in window) {
+  if (figs.length && !reduce) {
+    const visible = new Set<HTMLElement>();
+
+    const play = (el: HTMLElement) => {
+      el.classList.remove('is-in');
+      void el.offsetWidth;          // 強制重排，下次加上 class 才會重新過渡
+      el.classList.add('is-in');
+    };
+
     figs.forEach((f) => f.classList.add('is-armed'));
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (!e.isIntersecting) return;
-          e.target.classList.add('is-in');
-          io.unobserve(e.target);        // 只播一次
-        });
-      },
-      { threshold: 0.35 }
-    );
-    figs.forEach((f) => io.observe(f));
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            const el = e.target as HTMLElement;
+            if (e.isIntersecting) {
+              if (!visible.has(el)) { visible.add(el); play(el); }
+            } else {
+              visible.delete(el);
+            }
+          });
+        },
+        { threshold: 0.35 }
+      );
+      figs.forEach((f) => io.observe(f));
+    }
 
-    // 保險：萬一 observer 因故沒觸發，2 秒後一律顯示，不留下空白的圖
-    window.setTimeout(() => figs.forEach((f) => f.classList.add('is-in')), 2000);
+    // 保險：2 秒後仍未被標記為可見的圖，一律顯示並納入重播，
+    // 不留下空白的圖，也不留下永遠不動的圖。
+    window.setTimeout(() => {
+      figs.forEach((f) => {
+        if (!visible.has(f)) { visible.add(f); f.classList.add('is-in'); }
+      });
+    }, 2000);
+
+    // 單一計時器：只重播看得到的圖；分頁在背景時整輪跳過。
+    window.setInterval(() => {
+      if (document.hidden) return;
+      visible.forEach((el) => play(el));
+    }, REPLAY_MS);
   }
 </script>
 
@@ -945,19 +975,23 @@ const taxback = [
     --deck-gold: #F2B44C;
     --deck-text: #D6DEE5;
     --deck-dim: #8A949E;
-    margin: 0; padding: var(--space-6);
+    margin: 0; padding: var(--space-6) var(--space-5);
     background: #0A0C0F; border-radius: var(--radius-md);
   }
-  .mini svg { width: 100%; height: auto; overflow: visible; display: block; }
-  /* 環圈是正方形，拉滿欄寬會過大並讓左右嚴重失衡 */
-  .mini--ai svg { max-width: 13rem; margin-inline: auto; }
+  /* 圖表尺寸刻意小於摘要區：這裡是配在文字旁的插圖，不是海報。
+     太大會讓 01 段（左欄文字較短）左右失衡。 */
+  .mini svg {
+    width: 100%; height: auto; overflow: visible; display: block;
+    max-width: 15rem; margin-inline: auto;
+  }
+  .mini--ai svg { max-width: 9.5rem; }
   .mini__cap {
-    margin-top: var(--space-5); padding-top: var(--space-4);
+    margin-top: var(--space-4); padding-top: var(--space-4);
     border-top: 1px solid rgba(255,255,255,.14);
     display: grid; gap: var(--space-1);
   }
   .mini__cap b {
-    font-size: var(--text-3xl); font-weight: 900; line-height: 1;
+    font-size: var(--text-2xl); font-weight: 900; line-height: 1;
     color: var(--deck-gold); font-variant-numeric: tabular-nums;
   }
   .mini__cap span { font-size: var(--text-sm); color: var(--deck-text); line-height: 1.6; }
@@ -965,7 +999,7 @@ const taxback = [
   .mini__track { fill: none; stroke: rgba(255,255,255,.16); stroke-width: 15; }
   .mini__arc { fill: none; stroke: var(--deck-gold); stroke-width: 15; stroke-linecap: round; }
   .mini__big {
-    fill: var(--deck-gold); font-size: 2.4rem; font-weight: 900;
+    fill: var(--deck-gold); font-size: 2.2rem; font-weight: 900;
     font-variant-numeric: tabular-nums;
   }
   .mini__bar { fill: var(--deck-gold); }
