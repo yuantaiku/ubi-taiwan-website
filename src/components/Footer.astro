@@ -6,11 +6,14 @@
   <div class="container">
     <div class="site-footer__grid">
       <div>
+        <!-- 頁尾底色為深藍，原 logo 的深灰文字對比只有 1.11:1（等於隱形）。
+             改用白字版本：白 11.9:1、標誌 8.1:1。 -->
         <img
-          src="/images/UBI-LOGO-03-1-1-1024x559.webp"
+          class="site-footer__logo"
+          src="/images/UBI-LOGO-footer.webp"
           alt="UBI Taiwan"
-          width="160"
-          height="87"
+          width="220"
+          height="120"
           loading="lazy"
         />
       </div>
@@ -62,6 +65,8 @@
 </footer>
 
 <style>
+  .site-footer__logo { width: 220px; max-width: 100%; height: auto; }
+
   .site-footer {
     background: var(--surface-inverse);
     color: var(--color-brand-100);
