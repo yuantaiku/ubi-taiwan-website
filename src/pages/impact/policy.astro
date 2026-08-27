@@ -277,10 +277,66 @@ const taxback = [
               <div class="ch__prose">
                 {c.body.map((p) => <p>{p}</p>)}
               </div>
-              <p class="ch__stat">
-                <b>{c.stat.v}{c.stat.unit}</b>
-                <span>{c.stat.l}</span>
-              </p>
+              <figure class={`mini mini--${c.key}`} data-anim>
+                {c.key === 'ai' && (
+                  <svg viewBox="0 0 150 150" role="img"
+                       aria-label="環圈圖：入門白領工作中，約 50% 可能在五年內被 AI 取代">
+                    <circle class="mini__track" cx="75" cy="75" r="58" />
+                    <circle class="mini__arc" cx="75" cy="75" r="58"
+                            stroke-dasharray="182.2 364.4" transform="rotate(-90 75 75)">
+                      <title>50%</title>
+                    </circle>
+                    <text class="mini__big" x="75" y="83" text-anchor="middle">50%</text>
+                  </svg>
+                )}
+
+                {c.key === 'wage' && (
+                  <svg viewBox="0 0 260 150" role="img"
+                       aria-label="長條圖：領不到基本工資的勞工比例，25 歲以下 57.0%、30 歲以下 36.8%、35 歲以下 30.5%、全年齡 25.0%">
+                    {[
+                      { l: '≤25 歲', v: 57.0 },
+                      { l: '≤30 歲', v: 36.8 },
+                      { l: '≤35 歲', v: 30.5 },
+                      { l: '全年齡', v: 25.0 },
+                    ].map((d, i) => {
+                      const x = 8 + i * 63;
+                      const h = (d.v / 60) * 96;
+                      return (
+                        <>
+                          <rect class="mini__bar" x={x} y={120 - h} width="34" height={h} rx="4"
+                                style={`--d:${i * 110}ms`}>
+                            <title>{d.l}：{d.v}%</title>
+                          </rect>
+                          <text class="mini__val" x={x + 17} y={120 - h - 7} text-anchor="middle"
+                                style={`--d:${i * 110 + 260}ms`}>{d.v}%</text>
+                          <text class="mini__lab" x={x + 17} y="138" text-anchor="middle">{d.l}</text>
+                        </>
+                      );
+                    })}
+                    <line class="mini__base" x1="4" y1="120" x2="256" y2="120" />
+                  </svg>
+                )}
+
+                {c.key === 'birth' && (
+                  <svg viewBox="0 0 260 150" role="img"
+                       aria-label="斜線圖：新生兒數從 2018 年的 18 萬 1,600 人降至 2025 年的 10 萬 7,800 人，減少四成">
+                    <line class="mini__base" x1="30" y1="122" x2="240" y2="122" />
+                    <line class="mini__slope" x1="52" y1="30" x2="216" y2="98" />
+                    <circle class="mini__dot" cx="52" cy="30" r="6" style="--d:0ms"><title>2018 年 181.6 千人</title></circle>
+                    <circle class="mini__dot" cx="216" cy="98" r="6" style="--d:700ms"><title>2025 年 107.8 千人</title></circle>
+                    <text class="mini__val" x="52" y="18" text-anchor="middle" style="--d:200ms">181.6</text>
+                    <text class="mini__val" x="216" y="88" text-anchor="middle" style="--d:820ms">107.8</text>
+                    <text class="mini__lab" x="52" y="140" text-anchor="middle">2018</text>
+                    <text class="mini__lab" x="216" y="140" text-anchor="middle">2025</text>
+                    <text class="mini__delta" x="134" y="76" text-anchor="middle" style="--d:980ms">▼ 四成</text>
+                  </svg>
+                )}
+
+                <figcaption class="mini__cap">
+                  <b>{c.stat.v}{c.stat.unit}</b>
+                  <span>{c.stat.l}</span>
+                </figcaption>
+              </figure>
             </div>
             {c.chart === 'multiple' && (
               <figure class="bigviz">
@@ -657,6 +713,35 @@ const taxback = [
   </section>
 </BaseLayout>
 
+<script>
+  // 詳述區小圖：捲動進入視窗時逐步繪出。
+  //
+  // 漸進增強：隱藏狀態（.is-armed）只由這段程式碼加上，所以 JS 失效時
+  // 圖表本來就是完成狀態，不會消失。尊重 prefers-reduced-motion——
+  // 使用者若要求減少動態，就完全不武裝，直接顯示。
+  const figs = Array.from(document.querySelectorAll<HTMLElement>('.mini[data-anim]'));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (figs.length && !reduce && 'IntersectionObserver' in window) {
+    figs.forEach((f) => f.classList.add('is-armed'));
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);        // 只播一次
+        });
+      },
+      { threshold: 0.35 }
+    );
+    figs.forEach((f) => io.observe(f));
+
+    // 保險：萬一 observer 因故沒觸發，2 秒後一律顯示，不留下空白的圖
+    window.setTimeout(() => figs.forEach((f) => f.classList.add('is-in')), 2000);
+  }
+</script>
+
 <style>
   .sec-title { font-size: var(--text-2xl); margin-bottom: var(--space-6); }
   .sec-title--light { color: var(--color-white); }
@@ -852,18 +937,87 @@ const taxback = [
   }
   .ch__prose p { color: var(--color-ink-700); line-height: var(--leading-loose); margin-bottom: var(--space-4); }
   .ch__prose p:last-child { margin-bottom: 0; }
-  .ch__stat {
+  /* ── 詳述區右欄的小圖 ──
+     原本這裡只是重複上方摘要已出現過的數字，資訊量是零。
+     改為同一組圖表，並在捲動進入視窗時逐步繪出。
+     深色卡片，與 .bigviz 同一套視覺。 */
+  .mini {
+    --deck-gold: #F2B44C;
+    --deck-text: #D6DEE5;
+    --deck-dim: #8A949E;
     margin: 0; padding: var(--space-6);
-    background: color-mix(in srgb, var(--cat) 8%, var(--color-white));
-    border-radius: var(--radius-md);
-    border-top: 3px solid var(--cat);
-    display: grid; gap: var(--space-2);
+    background: #0A0C0F; border-radius: var(--radius-md);
   }
-  .ch__stat b {
+  .mini svg { width: 100%; height: auto; overflow: visible; display: block; }
+  /* 環圈是正方形，拉滿欄寬會過大並讓左右嚴重失衡 */
+  .mini--ai svg { max-width: 13rem; margin-inline: auto; }
+  .mini__cap {
+    margin-top: var(--space-5); padding-top: var(--space-4);
+    border-top: 1px solid rgba(255,255,255,.14);
+    display: grid; gap: var(--space-1);
+  }
+  .mini__cap b {
     font-size: var(--text-3xl); font-weight: 900; line-height: 1;
-    color: var(--cat); font-variant-numeric: tabular-nums;
+    color: var(--deck-gold); font-variant-numeric: tabular-nums;
   }
-  .ch__stat span { font-size: var(--text-sm); color: var(--color-ink-700); line-height: 1.6; }
+  .mini__cap span { font-size: var(--text-sm); color: var(--deck-text); line-height: 1.6; }
+
+  .mini__track { fill: none; stroke: rgba(255,255,255,.16); stroke-width: 15; }
+  .mini__arc { fill: none; stroke: var(--deck-gold); stroke-width: 15; stroke-linecap: round; }
+  .mini__big {
+    fill: var(--deck-gold); font-size: 2.4rem; font-weight: 900;
+    font-variant-numeric: tabular-nums;
+  }
+  .mini__bar { fill: var(--deck-gold); }
+  .mini__base { stroke: rgba(255,255,255,.28); stroke-width: 1.5; }
+  .mini__slope { stroke: var(--deck-gold); stroke-width: 3; stroke-linecap: round; }
+  .mini__dot { fill: var(--deck-gold); }
+  .mini__val {
+    fill: var(--color-white); font-size: .82rem; font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .mini__lab { fill: var(--deck-dim); font-size: .78rem; }
+  .mini__delta { fill: var(--deck-gold); font-size: .95rem; font-weight: 700; }
+
+  /* ── 動畫 ──
+     隱藏狀態只由 JS 加上 .is-armed 才生效，因此沒有 JS 時圖表直接是完成狀態。
+     .is-in 由 IntersectionObserver 加上，觸發繪製。 */
+  .mini.is-armed .mini__arc {
+    stroke-dashoffset: 182.2;
+    transition: stroke-dashoffset 1.15s var(--ease-out) .1s;
+  }
+  .mini.is-armed.is-in .mini__arc { stroke-dashoffset: 0; }
+
+  .mini.is-armed .mini__big,
+  .mini.is-armed .mini__val,
+  .mini.is-armed .mini__delta {
+    opacity: 0;
+    transition: opacity .5s var(--ease-out) var(--d, 0ms);
+  }
+  .mini.is-armed.is-in .mini__big,
+  .mini.is-armed.is-in .mini__val,
+  .mini.is-armed.is-in .mini__delta { opacity: 1; }
+
+  .mini.is-armed .mini__bar {
+    transform: scaleY(0); transform-box: fill-box; transform-origin: bottom;
+    transition: transform .8s var(--ease-out) var(--d, 0ms);
+  }
+  .mini.is-armed.is-in .mini__bar { transform: scaleY(1); }
+
+  .mini.is-armed .mini__slope {
+    stroke-dasharray: 200; stroke-dashoffset: 200;
+    transition: stroke-dashoffset 1s var(--ease-out) .1s;
+  }
+  .mini.is-armed.is-in .mini__slope { stroke-dashoffset: 0; }
+
+  .mini.is-armed .mini__dot {
+    opacity: 0; transition: opacity .4s var(--ease-out) var(--d, 0ms);
+  }
+  .mini.is-armed.is-in .mini__dot { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mini.is-armed * { transition: none !important; }
+  }
 
   /* 圖表出處註記（.chart 系列的其餘規則隨圖片式圖表一起移除） */
   .chart__src { display: block; margin-top: var(--space-1); }
