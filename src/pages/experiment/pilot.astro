@@ -37,6 +37,16 @@ const cardArt = [
   { src: '/images/pilot-cards/social.webp', alt: '于媽媽與兩位夥伴交談，分享參與計畫的心得' },
 ];
 
+// 見證者頭像（2026-09 協會提供）。順序與 pilot-content.json 的 voices 一致，
+// 以索引對應；原檔為 16:9 訪談定格，已裁成 1:1，詳見 public/images/voices/README.txt。
+const voiceFaces = [
+  '/images/voices/ykk.webp',    // 超級歪
+  '/images/voices/wu.webp',     // 巫彥德
+  '/images/voices/chang.webp',  // 張祐綾
+  '/images/voices/ko.webp',     // 葛如鈞
+  '/images/voices/tyler.webp',  // 羅泰 Tyler
+];
+
 // 合作夥伴 logo（2026-09 協會提供）。名稱順序與 pilot-content.json 一致，
 // 以索引對應；三組原檔有 v1/v2，選用理由見 public/images/partners/README.txt。
 const partnerLogos = [
@@ -208,17 +218,24 @@ for (const m of media) {
     <div class="container">
       <h2 id="voices-title" class="sec-title sec-title--light">專家與公眾人物怎麼看？</h2>
       <ul class="voices">
-        {voices.map((v) => (
+        {voices.map((v, i) => (
           <li class="voice">
             <p class="voice__q">{v.quote}</p>
-            <p class="voice__who">
-              <span class="voice__name">{v.name}</span>
-              <span class="voice__role">{v.role}</span>
-            </p>
+            <div class="voice__who">
+              <img
+                class="voice__face"
+                src={voiceFaces[i]}
+                alt={`紀錄片中受訪的${v.name}`}
+                width="520" height="520" loading="lazy"
+              />
+              <span>
+                <span class="voice__name">{v.name}</span>
+                <span class="voice__role">{v.role}</span>
+              </span>
+            </div>
           </li>
         ))}
       </ul>
-      <!-- 見證者照片（紀錄片截圖-5/-9/-11、葛如鈞.png）尚未進 repo，到位後加入 .voice 內圖片欄 -->
     </div>
   </section>
 
@@ -526,7 +543,7 @@ for (const m of media) {
   .voices { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-8); }
   .voice {
     display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-    gap: var(--space-6); align-items: baseline;
+    gap: var(--space-6); align-items: center;
     padding-bottom: var(--space-8); border-bottom: 1px solid var(--color-brand-800);
   }
   .voice:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -536,9 +553,17 @@ for (const m of media) {
   }
   .voice__q::before { content: '「'; }
   .voice__q::after { content: '」'; }
-  .voice__who { display: grid; gap: var(--space-1); margin: 0; }
-  .voice__name { font-weight: var(--font-bold); color: var(--color-brand-100); }
-  .voice__role { font-size: var(--text-sm); color: var(--color-brand-300); }
+  /* 頭像放在名字旁而非引言旁：引言仍是主角，臉只是把說話的人補上 */
+  .voice__who {
+    display: flex; align-items: center; gap: var(--space-4); margin: 0;
+  }
+  .voice__face {
+    width: 4rem; height: 4rem; border-radius: 50%;
+    object-fit: cover; flex: none;
+    border: 2px solid var(--color-brand-700);
+  }
+  .voice__name { display: block; font-weight: var(--font-bold); color: var(--color-brand-100); }
+  .voice__role { display: block; margin-top: 2px; font-size: var(--text-sm); color: var(--color-brand-300); }
 
   /* ── 5. 紀錄片 ── */
   .doc { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: var(--space-12); align-items: start; }
