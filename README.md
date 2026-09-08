@@ -2,6 +2,14 @@
 
 以 [Astro](https://astro.build) 打造的 UBI Taiwan 官網：純靜態輸出、零前端框架依賴，維護門檻最低，適合 NGO 團隊接手。
 
+## 先讀哪一份
+
+| 你是 | 讀這份 |
+|---|---|
+| 接手維護的協會成員 | [交接手冊.md](交接手冊.md) —— 不需要會寫程式 |
+| AI agent | [AGENTS.md](AGENTS.md) —— 專案規則、不可更動的決定、已知陷阱 |
+| 工程人員 | 本文件 ＋ [design-system/DESIGN-SYSTEM.md](design-system/DESIGN-SYSTEM.md) |
+
 ## 快速開始
 
 ```bash
