@@ -372,28 +372,58 @@
           "label": "導讀好物",
           "desc": "想認識基本收入卻不知從何開始嗎？這幾部影片用平易近人的觀點，幫您快速建立基礎的知識。透過深入簡出的介紹與生動又全面的分析，讓您輕鬆認識基本收入如何運作，以及為什麼這份給予每個人的基本保障能成為改變社會的關鍵第一步。",
           "items": [
-            "【 志祺七七 】社會福利不一定只給弱勢？給全民的基本收入！",
-            "【 志祺七七 】不勞而獲有錯嗎？給全民的基本收入！（二）",
-            "【Kurzgesagt – In a Nutshell】Universal Basic Income Explained – Free Money for Everybody? UBI",
-            "【TED】The instrument of freedom | Philippe Van Parijs | TEDxGhent"
+            {
+              "t": "【 志祺七七 】社會福利不一定只給弱勢？給全民的基本收入！",
+              "url": "https://youtu.be/xXZvDhpZX5U"
+            },
+            {
+              "t": "【 志祺七七 】不勞而獲有錯嗎？給全民的基本收入！（二）",
+              "url": "https://youtu.be/ZtiGiKcZWRg"
+            },
+            {
+              "t": "【Kurzgesagt – In a Nutshell】Universal Basic Income Explained – Free Money for Everybody? UBI",
+              "url": "https://youtu.be/kl39KHS07Xc?si=iCyubnFMwXGSsVnH"
+            },
+            {
+              "t": "【TED】The instrument of freedom | Philippe Van Parijs | TEDxGhent",
+              "url": "https://www.youtube.com/watch?v=GP4sBGbeF8w"
+            }
           ]
         },
         {
           "label": "短篇論述",
           "desc": "貧窮真的是因為不努力嗎？在這個，多位國際學者將分享第一線的觀察，告訴你缺乏現金才是貧窮的核心。透過這些發人深省的短篇演講，我們將一起探討基本收入如何賦予每個人選擇生活的尊嚴，並重新定義勞動與保障的關係。",
           "items": [
-            "【TED】為何要給予每個人基本收入 | 羅格‧布雷格曼 | TEDxMaastricht",
-            "【TED】Poverty isn't a lack of character; it's a lack of cash | Rutger Bregman",
-            "【TED】Why everyone should have a basic income | Guy Standing | TEDxKlagenfurt"
+            {
+              "t": "【TED】為何要給予每個人基本收入 | 羅格‧布雷格曼 | TEDxMaastricht",
+              "url": "https://youtu.be/aIL_Y9g7Tg0?si=v1MHjsfu8ydrXAjG"
+            },
+            {
+              "t": "【TED】Poverty isn't a lack of character; it's a lack of cash | Rutger Bregman",
+              "url": "https://www.youtube.com/watch?v=ydKcaIE6O1k"
+            },
+            {
+              "t": "【TED】Why everyone should have a basic income | Guy Standing | TEDxKlagenfurt",
+              "url": "https://www.youtube.com/watch?v=NNHAgXy5dxQ"
+            }
           ]
         },
         {
           "label": "入門書籍",
           "desc": "如果您想更完整地了解無條件基本收入的影響，這幾本書是最好的起點。從美國前總統參選人楊安澤對科技加劇失業的憂慮，到對烏托邦社會的具體實踐建議，這些著作將帶您深入淺出地思考，當基本生存不再是恐懼，我們的社會與生活將會變得多麼不同。",
           "items": [
-            "無條件基本收入｜安妮．勞瑞（Annie Lowrey）",
-            "為一般人而戰: 破解美國大失業潮真相, 以人為本, 讓全民擁有基本收入才是我們的未來｜楊安澤（Andrew Yang）",
-            "改變每個人的3個狂熱夢想: 如果沒有人落在貧窮線以下、如果每個人一週工作15小時、如果可以扔掉護照與簽證。這些夢想為什麼是問題的解方, 以及如何實踐。｜羅格．布雷格曼（Rutger Bregman）"
+            {
+              "t": "無條件基本收入｜安妮．勞瑞（Annie Lowrey）",
+              "url": "https://www.books.com.tw/products/0010794817"
+            },
+            {
+              "t": "為一般人而戰: 破解美國大失業潮真相, 以人為本, 讓全民擁有基本收入才是我們的未來｜楊安澤（Andrew Yang）",
+              "url": "https://www.books.com.tw/products/E050051578"
+            },
+            {
+              "t": "改變每個人的3個狂熱夢想: 如果沒有人落在貧窮線以下、如果每個人一週工作15小時、如果可以扔掉護照與簽證。這些夢想為什麼是問題的解方, 以及如何實踐。｜羅格．布雷格曼（Rutger Bregman）",
+              "url": "https://www.eslite.com/product/1001128182671200"
+            }
           ]
         }
       ]
@@ -405,21 +435,48 @@
           "label": "全球視野與勞動體制變革",
           "desc": "當 AI 取代人力、零工經濟成為新常態，傳統的工作模式正面臨結構轉型的挑戰。我們透過的不同面向的深度訪談與著作，帶您探討基本收入如何成為科技浪潮下的安全網，讓工作不再只是為了生存，而是為了追求更有意義的人生。",
           "items": [
-            "【街頭有派對】無條件基本收入是大灑幣？還是讓年輕人追求理想？ ft. UBI Taiwan 台灣無條件基本收入協會:嘉冠、立軒｜街頭有派對",
-            "【寶博朋友說】未來不用工作？UBI 給你「自動收入」是趨勢還是空想？AI 時代的人類生存保障！ft. UBI Taiwan | 寶博朋友說",
-            "【志祺七七】人人有錢拿！無條件普發基本收入，會鼓勵不勞而獲、造成通膨嗎？實驗結果怎麼說？ ft. UBI Taiwan 台灣無條件基本收入協會《強者我朋友》 EP 082｜志祺七七",
-            "40%的工作沒意義，為什麼還搶著做？論狗屁工作的出現與勞動價值的再思｜大衛．格雷伯（David Graeber）",
-            "你不知道的線上零工經濟: 揭露人工智慧中的工人智慧, 以及網路眾包人力低薪、無保障的真相, 新型態的雇傭關係將如何改變我們的未來?｜ 瑪莉．葛雷（Mary Gray）、西達爾特．蘇利（Siddharth Suri）",
-            "不穩定無產階級: 一個因全球化而生的當代新危險階級, 他們為何產生, 造成什麼問題, 社會又該如何因應?｜ 蓋伊．史坦丁（Guy Standing）"
+            {
+              "t": "【街頭有派對】無條件基本收入是大灑幣？還是讓年輕人追求理想？ ft. UBI Taiwan 台灣無條件基本收入協會:嘉冠、立軒｜街頭有派對",
+              "url": "https://youtu.be/c6uZGTYBcYI?si=n1rLFdMQFPp4G2-l"
+            },
+            {
+              "t": "【寶博朋友說】未來不用工作？UBI 給你「自動收入」是趨勢還是空想？AI 時代的人類生存保障！ft. UBI Taiwan | 寶博朋友說",
+              "url": "https://youtu.be/yayNSPF_McE?si=KU0zK05riqPT8ET1"
+            },
+            {
+              "t": "【志祺七七】人人有錢拿！無條件普發基本收入，會鼓勵不勞而獲、造成通膨嗎？實驗結果怎麼說？ ft. UBI Taiwan 台灣無條件基本收入協會《強者我朋友》 EP 082｜志祺七七",
+              "url": "https://youtu.be/jLfbUGYkqZ4?si=ioLldrmZhYtW9duZ"
+            },
+            {
+              "t": "40%的工作沒意義，為什麼還搶著做？論狗屁工作的出現與勞動價值的再思｜大衛．格雷伯（David Graeber）",
+              "url": "https://www.books.com.tw/products/0010964851"
+            },
+            {
+              "t": "你不知道的線上零工經濟: 揭露人工智慧中的工人智慧, 以及網路眾包人力低薪、無保障的真相, 新型態的雇傭關係將如何改變我們的未來?｜ 瑪莉．葛雷（Mary Gray）、西達爾特．蘇利（Siddharth Suri）",
+              "url": "https://www.eslite.com/product/1001130572846665"
+            },
+            {
+              "t": "不穩定無產階級: 一個因全球化而生的當代新危險階級, 他們為何產生, 造成什麼問題, 社會又該如何因應?｜ 蓋伊．史坦丁（Guy Standing）",
+              "url": "https://www.eslite.com/product/1001130572761899"
+            }
           ]
         },
         {
           "label": "在地觀點",
           "desc": "基本收入適合台灣嗎？這不只是來自國外的理論，更是我們可以深入的未來。這裡 UBI Taiwan 成員與您的分享，從本土哲學、憲法與社會福利制度出發，與您一同勾勒屬於台灣的新日常藍圖。",
           "items": [
-            "島嶼新日常：無條件基本收入制的台灣想像｜加拉巴哥8（20255）",
-            "【民視台灣學堂】哲學談，淺淺地: 無條件基本收入 UBI(一) 2018.4.20—沈清楷、葉浩、吳豐維 \\ 來賓:羅泰、吳東晏",
-            "【憲法未來派】無條件基本收入的理念與實踐 feat 賴君怡&蘇嘉冠 _ 憲法未來派#47"
+            {
+              "t": "島嶼新日常：無條件基本收入制的台灣想像｜加拉巴哥8（20255）",
+              "url": "https://indiepublisher.tw/zh-hant/book/2156"
+            },
+            {
+              "t": "【民視台灣學堂】哲學談，淺淺地: 無條件基本收入 UBI(一) 2018.4.20—沈清楷、葉浩、吳豐維 \\ 來賓:羅泰、吳東晏",
+              "url": "https://www.youtube.com/watch?v=Mq6XDt_gPnE"
+            },
+            {
+              "t": "【憲法未來派】無條件基本收入的理念與實踐 feat 賴君怡&蘇嘉冠 _ 憲法未來派#47",
+              "url": "https://www.youtube.com/watch?v=7UfXXf4OmHY"
+            }
           ]
         }
       ]
@@ -431,17 +488,32 @@
           "label": "經典著作",
           "desc": "為什麼每個人都該享有基本收入？這不只是經濟問題，更是關於實質正義如何落實的基進問題。透過蓋伊．史坦丁（Guy Standing）與 菲利普．范．帕雷斯（Philippe Van Parijs）等大師的論點，我們將深入探討如何建立一個更健全的社會體制，讓每個人在面對變動的未來時，都能擁有真正的選擇自由與生存安全感。",
           "items": [
-            "寫給每個人的基本收入讀本: 從基本收入出發, 反思個人工作與生活的意義, 以及如何讓社會邁向擁有實質正義、自由與安全感的未來｜ 蓋伊．史坦丁（Guy Standing）",
-            "基本收入: 建設自由社會與健全經濟的基進方案｜菲利普．范．帕雷斯（Philippe Van Parijs）"
+            {
+              "t": "寫給每個人的基本收入讀本: 從基本收入出發, 反思個人工作與生活的意義, 以及如何讓社會邁向擁有實質正義、自由與安全感的未來｜ 蓋伊．史坦丁（Guy Standing）",
+              "url": "https://www.eslite.com/product/1001130572665507"
+            },
+            {
+              "t": "基本收入: 建設自由社會與健全經濟的基進方案｜菲利普．范．帕雷斯（Philippe Van Parijs）",
+              "url": "https://www.eslite.com/product/1001260912641946"
+            }
           ]
         },
         {
           "label": "深度討論",
           "desc": "",
           "items": [
-            "【志祺七七】人人有錢拿！全民無條件普發基本收入，會鼓勵不勞而獲嗎？實驗結果怎麼說？ ft. ‪@ubitaiwan759‬ 台灣無條件基本收入協會｜強者我朋友 EP 097｜志祺七七 Podcast",
-            "【名家觀點】2020.09.09｜無條件全民基本收入，能改善人民生活｜名家觀點",
-            "全民基本收入：理念與實踐（思想34）｜思想編輯委員會"
+            {
+              "t": "【志祺七七】人人有錢拿！全民無條件普發基本收入，會鼓勵不勞而獲嗎？實驗結果怎麼說？ ft. ‪@ubitaiwan759‬ 台灣無條件基本收入協會｜強者我朋友 EP 097｜志祺七七 Podcast",
+              "url": "https://youtu.be/TrKYU7bZt_o?si=ysJLC1mhqhKgJh7-"
+            },
+            {
+              "t": "【名家觀點】2020.09.09｜無條件全民基本收入，能改善人民生活｜名家觀點",
+              "url": "https://www.youtube.com/watch?v=jn_ePa_Abho"
+            },
+            {
+              "t": "全民基本收入：理念與實踐（思想34）｜思想編輯委員會",
+              "url": "https://www.books.com.tw/products/0010772848"
+            }
           ]
         }
       ]
@@ -453,21 +525,48 @@
           "label": "國際實驗追蹤",
           "desc": "無條件基本收入不再只是烏托邦的幻想！從芬蘭的實驗結果到世界各地的試辦計畫，這裡有最即時的數據與發展地圖。透過這些真實案例，我們可以更為客觀的深入基本收入對就業意願、身心健康的實際影響，證明全民保障是具備可行性的未來提案。",
           "items": [
-            "【 志祺七七 】不工作就有錢拿，不好嗎？芬蘭的全民基本收入實驗結果終於出爐！",
-            "全球基本收入推動現況維基百科",
-            "全球基本收入數據庫",
-            "正在進行中的全球 UBI 試辦計畫",
-            "史丹佛大學：全球基本收入實驗地圖",
-            "經濟保障：美國各地保證收入計畫總覽"
+            {
+              "t": "【 志祺七七 】不工作就有錢拿，不好嗎？芬蘭的全民基本收入實驗結果終於出爐！",
+              "url": "https://www.youtube.com/watch?v=ulqpUA8Ydq0&t=78s"
+            },
+            {
+              "t": "全球基本收入推動現況維基百科",
+              "url": "https://en.wikipedia.org/wiki/Universal_basic_income_by_country"
+            },
+            {
+              "t": "全球基本收入數據庫",
+              "url": "https://ubidata.io/"
+            },
+            {
+              "t": "正在進行中的全球 UBI 試辦計畫",
+              "url": "https://basicincomepilots.com/"
+            },
+            {
+              "t": "史丹佛大學：全球基本收入實驗地圖",
+              "url": "https://basicincome.stanford.edu/experiments-map/"
+            },
+            {
+              "t": "經濟保障：美國各地保證收入計畫總覽",
+              "url": "https://guaranteedincome.us/"
+            }
           ]
         },
         {
           "label": "新興議題報導",
           "desc": "",
           "items": [
-            "【 志祺七七 】不用工作就有錢領！西班牙即將推出「無條件基本收入」政策！",
-            "【荒野保護協會】可以年年普發現金嗎？談談碳稅與 UBI",
-            "【荒野保護協會】可以年年普發現金嗎？談談碳稅與 UBI（精華版）"
+            {
+              "t": "【 志祺七七 】不用工作就有錢領！西班牙即將推出「無條件基本收入」政策！",
+              "url": "https://www.youtube.com/watch?v=_CGWOeHSVW4&t=107s"
+            },
+            {
+              "t": "【荒野保護協會】可以年年普發現金嗎？談談碳稅與 UBI",
+              "url": "https://www.youtube.com/watch?v=Yi1LoN7KVTg"
+            },
+            {
+              "t": "【荒野保護協會】可以年年普發現金嗎？談談碳稅與 UBI（精華版）",
+              "url": "https://www.youtube.com/watch?v=X4c5qDggyNg"
+            }
           ]
         }
       ]

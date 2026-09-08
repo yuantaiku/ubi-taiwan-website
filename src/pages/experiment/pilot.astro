@@ -37,6 +37,18 @@ const cardArt = [
   { src: '/images/pilot-cards/social.webp', alt: '于媽媽與兩位夥伴交談，分享參與計畫的心得' },
 ];
 
+// 合作夥伴 logo（2026-09 協會提供）。名稱順序與 pilot-content.json 一致，
+// 以索引對應；三組原檔有 v1/v2，選用理由見 public/images/partners/README.txt。
+const partnerLogos = [
+  { src: '/images/partners/lucky-light.webp', w: 246 },
+  { src: '/images/partners/ascent.webp',      w: 863 },
+  { src: '/images/partners/amorfati.webp',    w: 240 },
+  { src: '/images/partners/peitou.webp',      w: 318 },
+  { src: '/images/partners/ark.webp',         w: 240 },
+  { src: '/images/partners/adventist.webp',   w: 240 },
+  { src: '/images/partners/bien.webp',        w: 633 },
+];
+
 // 媒體報導依刊名分組：同一媒體多則報導併為一格（BIEN 有三則），
 // 讀者掃的是「誰報導過」，重複的刊名只會拉長清單
 const mediaByOutlet: { outlet: string; titles: string[] }[] = [];
@@ -260,9 +272,18 @@ for (const m of media) {
 
       <h3 class="cols__h cols__h--wide">合作夥伴</h3>
       <ul class="partners">
-        {partners.map((p) => <li>{p}</li>)}
+        {partners.map((p, i) => (
+          <li class="partner">
+            <img
+              src={partnerLogos[i].src}
+              alt={p}
+              width={partnerLogos[i].w}
+              height="240"
+              loading="lazy"
+            />
+          </li>
+        ))}
       </ul>
-      <!-- 夥伴 logo 尚未進 repo；好吉光與北投婦女支持培力中心的 logo 無文字／過長，需另行處理 -->
     </div>
   </section>
 
@@ -549,19 +570,26 @@ for (const m of media) {
   .acad { margin: 0; padding-left: var(--space-6); display: grid; gap: var(--space-4); }
   .acad li { color: var(--color-ink-700); font-size: var(--text-sm); line-height: var(--leading-normal); }
 
-  .partners { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-3); }
-  .partners li {
-    padding: var(--space-3) var(--space-6);
-    background: var(--color-brand-50);
-    border: 1px solid var(--color-brand-300);
-    border-radius: var(--radius-full);
-    font-size: var(--text-base);
-    font-weight: var(--font-medium);
-    color: var(--color-brand-800);
-    transition: transform var(--duration-base) var(--ease-out),
-                box-shadow var(--duration-base) var(--ease-out);
+  /* Logo 列：七組 logo 的長寬比差異很大（從 1:1 到 3.6:1），
+     因此固定高度、寬度自適應，用 gap 而非等寬格線來排。
+     名稱放在 alt，視覺上不重複標示。 */
+  .partners {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: var(--space-8) var(--space-12);
   }
-  .partners li:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .partner img {
+    height: 3.25rem; width: auto; display: block;
+    filter: grayscale(1); opacity: .72;
+    transition: filter var(--duration-base) var(--ease-out),
+                opacity var(--duration-base) var(--ease-out);
+  }
+  .partner img:hover { filter: none; opacity: 1; }
+
+  @media (max-width: 560px) {
+    .partners { gap: var(--space-6) var(--space-8); }
+    .partner img { height: 2.75rem; }
+  }
 
   /* ── 7. 下一步 ── */
   .nextblock { max-width: var(--container-narrow); color: var(--color-ink-700); line-height: var(--leading-loose); }

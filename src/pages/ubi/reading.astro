@@ -3,13 +3,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ubi from '../../data/ubi-content.json';
 
 // 延伸閱讀：四個主題的影片、書籍、Podcast 與資料庫。
-// 規格希望「一張縮圖＋粗體標題＋一小段介紹」，但縮圖素材與各項目的實際網址
-// 團隊都尚未提供。這裡改以來源類型（影片／書籍／Podcast／資料庫）作為辨識標記，
-// 資訊密度相當但不需要素材；縮圖與連結到位後可直接替換 .item 內層。
+// 網址於 2026-09 由協會提供（官網內容改進：什麼是 UBI.docx），33 項全數到齊。
+// 規格原本希望「一張縮圖＋粗體標題＋一小段介紹」，縮圖素材仍未提供，
+// 因此維持以來源類型（影片／書籍／Podcast／資料庫）作為辨識標記。
 
 const reading = ubi.reading as Array<{
   title: string;
-  groups: Array<{ label: string; desc: string; items: string[] }>;
+  groups: Array<{ label: string; desc: string; items: Array<{ t: string; url?: string }> }>;
 }>;
 
 /** 由項目標題推斷來源類型，供讀者快速辨識媒材 */
@@ -77,11 +77,22 @@ const total = reading.reduce(
             </div>
             <ul class="items">
               {g.items.map((item) => {
-                const { kind } = kindOf(item);
+                const { kind } = kindOf(item.t);
                 return (
                   <li class="item">
                     <span class={`item__kind item__kind--${kind}`}>{kind}</span>
-                    <span class="item__t">{item}</span>
+                    {item.url ? (
+                      <a class="item__t item__t--link" href={item.url} rel="noopener">
+                        {item.t}
+                        <svg class="item__go" viewBox="0 0 12 12" width="11" height="11"
+                             aria-hidden="true" fill="none" stroke="currentColor"
+                             stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M3.5 8.5 8.5 3.5" /><path d="M4.5 3.5h4v4" />
+                        </svg>
+                      </a>
+                    ) : (
+                      <span class="item__t">{item.t}</span>
+                    )}
                   </li>
                 );
               })}
@@ -95,8 +106,8 @@ const total = reading.reduce(
   <section class="section section--muted">
     <div class="container">
       <p class="note">
-        以上項目的連結網址仍在整理中。若你需要特定資源，
-        歡迎來信 <a href="mailto:contact@ubitaiwan.org">contact@ubitaiwan.org</a>，我們直接提供給你。
+        以上皆為站外資源，連結會開啟原始出處。若有失效或想推薦其他資源，
+        歡迎來信 <a href="mailto:contact@ubitaiwan.org">contact@ubitaiwan.org</a>。
       </p>
     </div>
   </section>
@@ -207,6 +218,21 @@ const total = reading.reduce(
   .item__kind--書籍 { background: #E4EDFB; color: var(--color-accent-700); }
   .item__kind--資料庫 { background: var(--color-ink-100); color: var(--color-ink-700); }
   .item__t { font-size: var(--text-sm); line-height: 1.6; overflow-wrap: anywhere; }
+  .item__t--link {
+    color: var(--color-ink-900); text-decoration: none;
+    border-bottom: 1px solid var(--color-brand-200);
+    transition: color var(--duration-base) var(--ease-out),
+                border-color var(--duration-base) var(--ease-out);
+  }
+  .item__t--link:hover {
+    color: var(--color-brand-700); border-bottom-color: var(--color-brand-600);
+  }
+  /* 外連箭頭：全部都是站外資源，標示出來讀者才知道會離站 */
+  .item__go {
+    margin-left: .3em; vertical-align: -1px; color: var(--color-ink-500);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .item__t--link:hover .item__go { color: var(--color-brand-600); transform: translate(1px, -1px); }
 
   .note {
     margin: 0;
